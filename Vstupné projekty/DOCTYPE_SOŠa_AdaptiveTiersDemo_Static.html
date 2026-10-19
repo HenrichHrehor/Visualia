@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<title>Demo: SOŠ automobilová - 3 Tiers</title>
+<style>
+/* =========================================================================
+   VRSTVA 1 — ENGINE (NEMENNÉ A4 LANDSCAPE)
+   ========================================================================= */
+@page { size: A4 landscape; margin: 0; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 0; background: #e2e8f0; font-family: 'Inter', 'Segoe UI', sans-serif; display: block; }
+
+.deck-container { width: 100%; height: auto; background-color: transparent; display: block; }
+
+.slide {
+    width: 297mm; height: 210mm; margin: 0 auto; padding: 20mm;
+    display: flex; flex-direction: column; background: var(--bg);
+    page-break-after: always; break-after: page; position: relative; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+@media print {
+    body { background: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .slide { box-shadow: none; border: none; margin: 0; }
+}
+
+.header { flex-shrink: 0; border-bottom: 3px solid var(--secondary); padding-bottom: 10px; margin-bottom: 22px; }
+.header-tag { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--secondary); margin-bottom: 4px; }
+.title { font-size: 28px; font-weight: 800; margin: 0; color: var(--primary); text-transform: var(--title-transform, none); }
+
+.content { flex: 1; min-height: 0; }
+.footer { position: absolute; bottom: 15px; left: 20mm; right: 20mm; padding-top: 8px; border-top: 1px solid #cbd5e1; text-align: center; font-size: 13px; font-weight: 600; color: #64748b; }
+
+strong { color: var(--gold-color); }
+.law-ref { color: #000; font-weight: 800; }
+.box-title { display: block; font-weight: 800; color: var(--primary); margin-bottom: 12px; font-size: 22px; line-height: 1.3;}
+.text-content { font-size: 18px; line-height: 1.6; color: var(--text); margin: 0; text-align: justify;}
+
+/* =========================================================================
+   VRSTVA 2 — ŠABLÓNY OBSAHU
+   ========================================================================= */
+.content.grid-cards-4 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 18px; }
+.content.grid-cards-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr; gap: 18px; }
+.content.grid-cards-2 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 40px; align-content: stretch;}
+.content.grid-cards-1 { display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr; gap: 40px; padding: 20px 60px; }
+.content.single-block { display: flex; align-items: center; justify-content: center; padding: 20px; }
+.content.list-block { display: flex; flex-direction: column; gap: 14px; justify-content: center;}
+
+.card { background: var(--card); padding: 25px; border-radius: var(--radius); border-left: var(--accent-w) solid var(--secondary); box-shadow: 0 4px 8px rgba(0,0,0,.05); display: flex; flex-direction: column; justify-content: center; }
+.grid-cards-2 .card { padding: 40px; }
+.grid-cards-1 .card { padding: 50px; }
+.grid-cards-1 .text-content { font-size: 22px; line-height: 1.6; }
+.grid-cards-1 .box-title { font-size: 28px; margin-bottom: 20px;}
+
+.single-card { width: 100%; padding: 50px 90px; text-align: center; background: var(--card); border-radius: var(--radius); box-shadow: 0 4px 8px rgba(0,0,0,.05); }
+.single-card .box-title { font-size: 30px; margin-bottom: 22px; color: var(--primary);}
+.single-card .text-content { font-size: 22px; line-height: 1.7; text-align: center;}
+
+.list-item { flex: 1; display: flex; align-items: center; gap: 22px; background: var(--card); border-radius: var(--radius); padding: 18px 30px; box-shadow: 0 4px 8px rgba(0,0,0,.05); border-left: var(--accent-w) solid var(--secondary); }
+.list-marker { flex-shrink: 0; width: 45px; height: 45px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; }
+.list-body { flex: 1; }
+
+.hero { justify-content: center; align-items: center; text-align: center; color: #fff; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); }
+.hero-title { font-size: 46px; color: white; margin: 0; font-weight: 800; line-height: 1.2; padding: 0 40px;}
+.hero-subtitle { font-size: 26px; margin-top: 20px; color: #f1f5f9; font-weight: 400; }
+.hero-author { margin-top: 50px; font-size: 20px; line-height: 1.5; color: #cbd5e1;}
+
+/* =========================================================================
+   VRSTVA 3 — TÉMY (Inštitúcia: SOŠ automobilová | 3 Tiers)
+   ========================================================================= */
+
+/* TIER 1: Vedenie/Rada (Antracit + Výstražná oranžová) - Prísne, ofíciálne */
+.theme-sos-tier1 { 
+    --primary: #1c1917; 
+    --primary-dark: #0a0908; 
+    --secondary: #ea580c; 
+    --bg: #f5f5f4; 
+    --card: #ffffff; 
+    --text: #292524; 
+    --radius: 4px; 
+    --accent-w: 6px; 
+    --gold-color: #c2410c; 
+    --title-transform: uppercase; 
+}
+
+/* TIER 2: Kolegovia/Komisia (Antracit + Tlmená oranžová) - Pracovné, kolegiálne */
+.theme-sos-tier2 { 
+    --primary: #292524; 
+    --primary-dark: #1c1917; 
+    --secondary: #fb923c; 
+    --bg: #fafaf9; 
+    --card: #ffffff; 
+    --text: #44403c; 
+    --radius: 8px; 
+    --accent-w: 8px; 
+    --gold-color: #ea580c; 
+    --title-transform: none; 
+}
+
+/* TIER 3: Žiaci/Študenti (Modrosivá + Sýta žltooranžová) - Vzdušné, motivujúce */
+.theme-sos-tier3 { 
+    --primary: #1e293b; 
+    --primary-dark: #0f172a; 
+    --secondary: #fbbf24; 
+    --bg: #f8fafc; 
+    --card: #ffffff; 
+    --text: #334155; 
+    --radius: 14px; 
+    --accent-w: 10px; 
+    --gold-color: #d97706; 
+    --title-transform: none; 
+}
+
+</style>
+</head>
+<body>
+
+<div class="deck-container" id="slides"></div>
+
+<script>
+const FOOTER_DEFAULT = "Mgr. Henrich Hrehor, PhD. | SOŠ automobilová Košice";
+
+const data = [
+    // ================= BLOK 1: ÚVOD (HERO) =================
+    {
+        theme: "sos-tier1", template: "hero",
+        title: "Legislatívny a kontrolný rámec",
+        subtitle: "Aplikácia novely Školského zákona v riadení našej SOŠ",
+        author: "Mgr. Henrich Hrehor, PhD.",
+        org: "SOŠ automobilová Košice"
+    },
+    {
+        theme: "sos-tier2", template: "hero",
+        title: "Zmeny vo výchovno-vzdelávacom procese",
+        subtitle: "Ako sa novela Školského zákona premietne do našej praxe",
+        author: "Mgr. Henrich Hrehor, PhD.",
+        org: "SOŠ automobilová Košice"
+    },
+    {
+        theme: "sos-tier3", template: "hero",
+        title: "Nové pravidlá na našej škole",
+        subtitle: "Všetko, čo potrebuješ vedieť o svojom štúdiu a praxi",
+        author: "Mgr. Henrich Hrehor, PhD.",
+        org: "SOŠ automobilová Košice"
+    },
+
+    // ================= BLOK 2: HODNOTENIE A KLASIFIKÁCIA (GRID-2) =================
+    {
+        theme: "sos-tier1", template: "grid-2-airy", tag: "Administratíva a compliance",
+        title: "Mechanizmy hodnotenia",
+        boxes: [
+            { t: "Zákonné limity klasifikácie", d: "Riaditeľstvo je podľa <span class='law-ref'>§ 55</span> povinné zabezpečiť, aby hodnotenie striktne reflektovalo štátne vzdelávacie programy. Zákon zakazuje subjektivitu a vyžaduje <strong>komplexné a preukázateľné posúdenie</strong> kompetencií žiaka pri prípadnej inšpekcii." },
+            { t: "Komisionálne preskúšanie", d: "V zmysle <span class='law-ref'>§ 57</span> má plnoletý žiak právo podať formálnu žiadosť o preskúmanie známky do troch dní. Zložená <strong>skúšobná komisia musí byť trojčlenná</strong>, čím sa garantuje absolútna nespochybniteľnosť výsledku." }
+        ]
+    },
+    {
+        theme: "sos-tier2", template: "grid-2-airy", tag: "Pedagogická prax",
+        title: "Pravidlá pre náš zbor",
+        boxes: [
+            { t: "Priebežné hodnotenie", d: "Ako vyučujúci musíme hodnotiť žiakov podľa <span class='law-ref'>§ 55</span> priebežne. Odporúča sa kombinovať známku so <strong>slovným formatívnym hodnotením</strong>, aby žiak presne vedel, v akej konkrétnej zručnosti musí ešte pridať." },
+            { t: "Riešenie neprospievania", d: "Ak študent neprospeje, podľa <span class='law-ref'>§ 55a</span> musíme hľadať nápravu. Je dôležité okamžite kontaktovať výchovného poradcu a rodiča. Cieľom nie je žiaka potopiť, ale včas aktivovať <strong>školský podporný tím</strong> pre doučovanie." }
+        ]
+    },
+    {
+        theme: "sos-tier3", template: "grid-2-airy", tag: "Tvoje štúdium",
+        title: "Známky a tvoje možnosti",
+        boxes: [
+            { t: "Spravodlivé známkovanie", d: "Učitelia ťa hodnotia priebežne. Nejde len o testy, ale aj o tvoju snahu, prístup a <strong>praktické zručnosti na dielňach</strong>. Cieľom je, aby si presne vedel, v čom si dobrý a kde musíš zabrať." },
+            { t: "Čo ak nesúhlasíš so známkou?", d: "Ak máš pocit, že hodnotenie na polroku nebolo spravodlivé, máš podľa zákona plné právo do troch dní požiadať o <strong>komisionálne preskúšanie</strong>, kde ťa preskúša komisia viacerých učiteľov." }
+        ]
+    },
+
+    // ================= BLOK 3: DUÁLNE VZDELÁVANIE (GRID-4) =================
+    {
+        theme: "sos-tier1", template: "grid-4", tag: "Strategické partnerstvá",
+        title: "Systém duálneho vzdelávania",
+        boxes: [
+            { t: "Aplikácia § 42", d: "Zákon explicitne definuje, že teoretické vyučovanie a odborná prax tvoria <strong>neoddeliteľný celok</strong>. Riaditeľ zodpovedá za súlad interných osnov s firemným prostredím." },
+            { t: "Zmluvné vzťahy", d: "Organizácia praxe sa realizuje na základe prísnych zmlúv s regionálnymi zamestnávateľmi. Tieto dokumenty presne definujú <strong>práva, povinnosti a zodpovednosť</strong> zúčastnených strán." },
+            { t: "Absolventský profil", d: "Konečným cieľom školy je podľa vzdelávacích štandardov produkcia študentov, ktorých kvalifikácia okamžite spĺňa <strong>náročné požiadavky priemyslu</strong> a moderného trhu práce." },
+            { t: "Záverečné skúšky", d: "Pri systéme duálneho vzdelávania sa praktická časť záverečnej skúšky vykonáva <strong>priamo u zamestnávateľa</strong>, kde predseda komisie dôsledne overuje reálne získané kompetencie." }
+        ]
+    },
+    {
+        theme: "sos-tier2", template: "grid-4", tag: "Metodika a výučba",
+        title: "Prepájanie teórie a odbornej praxe",
+        boxes: [
+            { t: "Nadväznosť osnov", d: "My ako teoretici musíme úzko komunikovať s majstrami odbornej výchovy. Učebná látka na našich hodinách musí priamo predchádzať tomu, čo žiaci <strong>reálne aplikujú v dielňach</strong>." },
+            { t: "Monitorovanie výkonu", d: "Počas odbornej praxe aktívne sledujeme, či žiak zvláda predpísané normy. Ak študent zaostáva, okamžite navrhujeme <strong>prípadné podporné opatrenia</strong> v súčinnosti s inštruktormi." },
+            { t: "Bezpečnosť práce", d: "Je absolútne neprípustné pustiť žiaka k strojom bez dokonalého teoretického poučenia. V zmysle <span class='law-ref'>§ 152</span> sme osobne zodpovední za ich <strong>poučenie o ochrane zdravia</strong>." },
+            { t: "Odborná spôsobilosť", d: "Aby sme udržali krok s dobou, zákon aj od nás vyžaduje neustále vzdelávanie. Musíme ovládať <strong>nové technológie a prístupy</strong>, s ktorými sa žiaci stretávajú vo firmách." }
+        ]
+    },
+    {
+        theme: "sos-tier3", template: "grid-4", tag: "Prax vo firmách",
+        title: "Tvoja príprava na skutočné povolanie",
+        boxes: [
+            { t: "Prečo máme duál?", d: "Škola ťa nepripravuje len do lavice, ale pre život. Vďaka duálnemu systému si osvojíš prácu s <strong>najnovšími technológiami</strong> priamo u tvojho budúceho zamestnávateľa." },
+            { t: "Zodpovedný prístup", d: "Firma na teba spolieha. Vyžaduje sa stopercentná dochádzka a sústredenosť. Majstri hodnotia tvoju <strong>pracovnú morálku a snahu</strong> rovnako prísne ako učitelia v škole." },
+            { t: "Ochrana a bezpečnosť", d: "Pred vstupom do dielne musíš absolvovať školenie BOZP. Je to tvoja povinnosť a tvoje zdravie. Akékoľvek <strong>porušenie bezpečnostných noriem</strong> môže znamenať koniec tvojej praxe." },
+            { t: "Ukončenie štúdia", d: "Svoje zručnosti nakoniec preukážeš pred komisiou priamo vo firme. Úspešná praktická maturitná skúška je tvojou <strong>vstupenkou k stabilnému zamestnaniu</strong> ihneď po škole." }
+        ]
+    },
+
+    // ================= BLOK 4: ZHRNUTIE (LIST) =================
+    {
+        theme: "sos-tier1", template: "list", tag: "Manažérske výzvy",
+        title: "Kľúčové úlohy pre vedenie",
+        items: [
+            { t: "Legislatívny súlad", d: "Nevyhnutnosť bezodkladnej aktualizácie vnútorného školského poriadku a smerníc tak, aby boli v absolútnom súlade so všetkými <strong>novými ustanoveniami zákona</strong> platnými pre ďalšie obdobie." },
+            { t: "Hygiena osobných údajov", d: "Strikné plnenie termínov a povinností v rámci <strong>zadávania dát do centrálnych registrov</strong> pre zamedzenie finančných postihov a prípadného pozastavenia štátnych dotácií pre našu SOŠ." },
+            { t: "Kvalita vzdelávania", d: "Zabezpečenie personálnej stability a implementácia strategických krokov pre podporu <strong>odborného vzdelávania a duálneho systému</strong>, čím sa posilní konkurencieschopnosť inštitúcie na trhu." }
+        ]
+    },
+    {
+        theme: "sos-tier2", template: "list", tag: "Pracovné závery",
+        title: "Úlohy pre pedagogický zbor",
+        items: [
+            { t: "Disciplína a dokumentácia", d: "Musíme maximálne dôsledne evidovať a zapisovať dochádzku či zmeny správania. Bezchybná evidencia nás <strong>právne chráni</strong> pri riešení akýchkoľvek konfliktov so zákonnými zástupcami." },
+            { t: "Inklúzia v triede", d: "Je našou povinnosťou vytvárať zdravú klímu. Rázne odmietame <strong>akékoľvek formy šikany a segregácie</strong> a okamžite kooperujeme so školským podporným tímom pri riešení problémov." },
+            { t: "Prepojenie s praxou", d: "Naším poslaním je vychovať adaptabilného absolventa. Teoretické osnovy musíme neustále <strong>modernizovať a aktualizovať</strong> podľa reálnych požiadaviek automobilového priemyslu a firiem." }
+        ]
+    },
+    {
+        theme: "sos-tier3", template: "list", tag: "Čo si odniesť",
+        title: "Tvoje povinnosti v kocke",
+        items: [
+            { t: "Pravidelná dochádzka", d: "Tvojou prvoradou úlohou je chodiť do školy a na prax na čas. Akékoľvek <strong>vymeškané hodiny musíš včas ospravedlniť</strong> potvrdením od rodiča alebo priamo od lekára." },
+            { t: "Bezpečnosť na prvom mieste", d: "V škole aj vo firmách platia prísne pravidlá. Musíš sa riadiť školským poriadkom a dbať na <strong>bezpečnosť seba aj svojich spolužiakov</strong>." },
+            { t: "Pýtaj sa a žiadaj pomoc", d: "Ak niečomu nerozumieš alebo sa ocitneš v problémoch, nezatajuj to. Tvoj triedny učiteľ aj školský psychológ sú tu pre to, <strong>aby ti pomohli a poradili</strong>." }
+        ]
+    },
+
+    // ================= BLOK 5: ZÁVER (HERO) =================
+    {
+        theme: "sos-tier1", template: "hero",
+        title: "Ďakujem za pozornosť",
+        subtitle: "Otváram priestor pre formálnu diskusiu a doplňujúce otázky členov rady.",
+        author: "Mgr. Henrich Hrehor, PhD.",
+        org: "SOŠ automobilová Košice"
+    },
+    {
+        theme: "sos-tier2", template: "hero",
+        title: "Ďakujem za spoluprácu",
+        subtitle: "Rád zodpoviem na vaše otázky a podnety z našej spoločnej praxe.",
+        author: "Mgr. Henrich Hrehor, PhD.",
+        org: "SOŠ automobilová Košice"
+    },
+    {
+        theme: "sos-tier3", template: "hero",
+        title: "Ďakujem za pozornosť",
+        subtitle: "Ak máte k pravidlám akékoľvek otázky, kedykoľvek sa na mňa obráťte.",
+        author: "Mgr. Henrich Hrehor, PhD.",
+        org: "SOŠ automobilová Košice"
+    }
+];
+
+/* =========================================================================
+   RENDER LOGIKA (Nemeniť)
+   ========================================================================= */
+function card(b) { return `<div class="card"><span class="box-title">${b.t}</span><div class="text-content">${b.d}</div></div>`; }
+function listItem(it, i) { return `<div class="list-item"><div class="list-marker">${i + 1}</div><div class="list-body"><span class="box-title">${it.t}</span><div class="text-content">${it.d}</div></div></div>`; }
+
+const renderers = {
+    "grid-4": s => `<div class="content grid-cards-4">${s.boxes.map(card).join('')}</div>`,
+    "grid-3": s => `<div class="content grid-cards-3">${s.boxes.map(card).join('')}</div>`,
+    "grid-2-airy": s => `<div class="content grid-cards-2">${s.boxes.map(card).join('')}</div>`,
+    "grid-1": s => `<div class="content grid-cards-1">${s.boxes.map(card).join('')}</div>`,
+    "single-block": s => `<div class="content single-block"><div class="single-card"><span class="box-title">${s.heading}</span><div class="text-content">${s.body}</div></div></div>`,
+    "list": s => `<div class="content list-block">${s.items.map(listItem).join('')}</div>`
+};
+
+function buildSlide(s) {
+    const themeClass = `theme-${s.theme}`;
+    if (s.template === "hero") {
+        return `<div class="slide ${themeClass} hero">
+            <h1 class="hero-title">${s.title}</h1>
+            ${s.subtitle ? `<p class="hero-subtitle">${s.subtitle}</p>` : ''}
+            <div class="hero-author"><strong>${s.author}</strong><br>${s.org}</div>
+        </div>`;
+    }
+    const headerHtml = `<div class="header">${s.tag ? `<div class="header-tag">${s.tag}</div>` : ''}<h1 class="title">${s.title}</h1></div>`;
+    const contentHtml = renderers[s.template](s);
+    const footerHtml = `<div class="footer">${s.footer || FOOTER_DEFAULT}</div>`;
+    return `<div class="slide ${themeClass}">${headerHtml}${contentHtml}${footerHtml}</div>`;
+}
+
+document.getElementById('slides').innerHTML = data.map(buildSlide).join('');
+</script>
+</body>
+</html>

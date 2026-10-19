@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adaptívna prezentácia — Dynamic Interactive v4.4</title>
+<style>
+/* =========================================================================
+   VRSTVA 1 — ENGINE (DYNAMIC INTERACTIVE SCREEN LAYOUT)
+   ========================================================================= */
+* { box-sizing: border-box; }
+body { margin: 0; padding: 0; overflow: hidden; background: #020617; font-family: 'Inter', 'Segoe UI', sans-serif; }
+
+#slides-container { position: relative; width: 100vw; height: 100vh; }
+
+.slide {
+    display: none; width: 100vw; height: 100vh; padding: 35px 70px 75px 70px;
+    flex-direction: column; background: var(--bg); position: absolute; top: 0; left: 0;
+    animation: fadeIn 0.35s ease-out;
+}
+.slide.active { display: flex; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(16px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.header { flex-shrink: 0; border-bottom: 3px solid var(--secondary); padding-bottom: 10px; margin-bottom: 20px; }
+.header-tag { font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--secondary); margin-bottom: 4px; }
+.title { font-size: 32px; font-weight: 800; margin: 0; color: var(--primary); text-transform: var(--title-transform, none); }
+
+.content { flex: 1; min-height: 0; }
+
+strong { color: var(--gold-color); }
+.law-ref { color: #000; font-weight: 800; }
+.formula { font-family: 'Cambria Math', 'Times New Roman', serif; font-style: italic; font-weight: 700; color: var(--primary); }
+.highlight-red { color: #dc2626; font-weight: 900; }
+
+.box-title { display: block; font-weight: 800; color: var(--primary); margin-bottom: 0; font-size: 23px; line-height: 1.3; }
+.text-content { font-size: 19px; line-height: 1.6; color: var(--text); margin: 0; text-align: justify; }
+
+table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 16px; }
+th, td { border: 1px solid #cbd5e1; padding: 10px 14px; text-align: center; }
+th { background-color: var(--primary); color: white; font-weight: 700; }
+tr:nth-child(even) { background-color: #f1f5f9; }
+
+/* =========================================================================
+   VRSTVA 2 — ŠABLÓNY OBSAHU & GRAFICKÁ PODPORA
+   ========================================================================= */
+.card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.card-icon { width: 34px; height: 34px; flex-shrink: 0; color: var(--secondary); display: flex; align-items: center; }
+.card-icon svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.graph-box { width: 100%; height: 135px; margin-top: 12px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0; }
+.graph-box.fig { height: auto; margin-top: 22px; padding: 10px 18px; }
+
+.content.grid-cards-4 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 20px; height: 100%; }
+.content.grid-cards-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr; gap: 20px; height: 100%; }
+.content.grid-cards-2 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 36px; height: 100%; }
+.content.grid-cards-1 { display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr; gap: 36px; padding: 20px 70px; height: 100%; }
+.content.single-block { display: flex; align-items: center; justify-content: center; padding: 20px; height: 100%; }
+.content.list-block { display: flex; flex-direction: column; gap: 16px; justify-content: center; height: 100%; }
+
+.card { background: var(--card); padding: 30px; border-radius: var(--radius); border-left: var(--accent-w) solid var(--secondary); box-shadow: 0 6px 16px rgba(0,0,0,.06); display: flex; flex-direction: column; justify-content: space-between; }
+.grid-cards-2 .card { padding: 40px; }
+.grid-cards-1 .card { padding: 50px 70px; justify-content: center; align-items: center; text-align: center; }
+
+.single-card { width: 100%; max-width: 1200px; margin: auto; padding: 45px 65px; text-align: center; background: var(--card); border-radius: var(--radius); box-shadow: 0 6px 20px rgba(0,0,0,.07); border-top: var(--accent-w) solid var(--secondary); }
+.single-card .box-title { font-size: 30px; margin-bottom: 16px; color: var(--primary); }
+.single-card .text-content { font-size: 22px; line-height: 1.65; text-align: center; }
+
+.hero { justify-content: center; align-items: center; text-align: center; color: #fff; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); padding: 50px; }
+.hero-title { font-size: 50px; color: white; margin: 0; font-weight: 800; line-height: 1.2; padding: 0 40px; }
+.hero-subtitle { font-size: 26px; margin-top: 20px; color: #f1f5f9; font-weight: 400; max-width: 950px; line-height: 1.4; }
+.hero-author { margin-top: 45px; font-size: 21px; line-height: 1.6; color: #cbd5e1; }
+
+/* =========================================================================
+   VRSTVA 3 — MATICA 10 TÉM
+   ========================================================================= */
+.theme-ksk-formal { --primary:#0f172a; --primary-dark:#020617; --secondary:#c5a059; --bg:#f8fafc; --card:#ffffff; --text:#334155; --radius:8px; --accent-w:6px; --gold-color:#c5a059; --title-transform:uppercase; }
+.theme-ksk-internal { --primary:#0f172a; --primary-dark:#020617; --secondary:#94a3b8; --bg:#f8fafc; --card:#ffffff; --text:#334155; --radius:8px; --accent-w:6px; --gold-color:#64748b; --title-transform:none; }
+.theme-ksk-public { --primary:#1e3a5f; --primary-dark:#0f172a; --secondary:#f59e0b; --bg:#f8fafc; --card:#ffffff; --text:#334155; --radius:12px; --accent-w:6px; --gold-color:#d97706; --title-transform:none; }
+
+.theme-sosa-formal { --primary:#1c1917; --primary-dark:#0c0a09; --secondary:#ea580c; --bg:#fafaf9; --card:#ffffff; --text:#292524; --radius:8px; --accent-w:6px; --gold-color:#ea580c; --title-transform:uppercase; }
+.theme-sosa-internal { --primary:#292524; --primary-dark:#1c1917; --secondary:#fb923c; --bg:#fafaf9; --card:#ffffff; --text:#292524; --radius:10px; --accent-w:6px; --gold-color:#ea580c; --title-transform:none; }
+.theme-sosa-public { --primary:#1e293b; --primary-dark:#0f172a; --secondary:#fbbf24; --bg:#f8fafc; --card:#ffffff; --text:#334155; --radius:14px; --accent-w:6px; --gold-color:#d97706; --title-transform:none; }
+
+.theme-hviezdica-formal { --primary:#7c2d12; --primary-dark:#431407; --secondary:#1c1917; --bg:#fcf8f6; --card:#ffffff; --text:#292524; --radius:6px; --accent-w:6px; --gold-color:#9a3412; --title-transform:uppercase; }
+.theme-hviezdica-internal { --primary:#9a3412; --primary-dark:#7c2d12; --secondary:#57534e; --bg:#fafaf9; --card:#ffffff; --text:#292524; --radius:8px; --accent-w:6px; --gold-color:#9a3412; --title-transform:none; }
+.theme-hviezdica-public { --primary:#c2410c; --primary-dark:#9a3412; --secondary:#fef3e2; --bg:#fffaf5; --card:#ffffff; --text:#431407; --radius:12px; --accent-w:6px; --gold-color:#c2410c; --title-transform:none; }
+
+.theme-neutral { --primary:#0f172a; --primary-dark:#020617; --secondary:#0284c7; --bg:#f8fafc; --card:#ffffff; --text:#334155; --radius:12px; --accent-w:6px; --gold-color:#0284c7; --title-transform:none; }
+
+/* =========================================================================
+   VRSTVA 4 — INTERAKTIVITA (Ovládací panel, Menu, Klávesnica)
+   ========================================================================= */
+.footer { position: fixed; bottom: 0; left: 0; width: 100%; height: 45px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; font-weight: 600; font-size: 14px; z-index: 998; border-top: 1px solid rgba(255,255,255,0.1); }
+
+.nav { 
+    position: fixed; bottom: 60px; right: 40px; display: flex; gap: 8px; z-index: 999; 
+    background: rgba(15, 23, 42, 0.9); padding: 8px 14px; border-radius: 50px; 
+    backdrop-filter: blur(10px); box-shadow: 0 6px 25px rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.15);
+}
+.nav button { 
+    background: transparent; color: #f8fafc; border: none; padding: 10px 18px; 
+    cursor: pointer; border-radius: 30px; font-weight: 700; font-size: 13px; transition: 0.25s ease; 
+    text-transform: uppercase; letter-spacing: 1px;
+}
+.nav button:hover { background: var(--secondary); color: #0f172a; }
+
+#toc { 
+    position: fixed; top: 0; left: -460px; width: 420px; height: 100%; 
+    background: #0f172a; color: white; z-index: 1000; transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1); 
+    padding: 35px 25px; box-sizing: border-box; overflow-y: auto; box-shadow: 6px 0 25px rgba(0,0,0,0.5); 
+}
+#toc h2 { color: var(--secondary); margin-top: 0; font-size: 22px; border-bottom: 2px solid var(--secondary); padding-bottom: 12px; }
+.toc-item { padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); cursor: pointer; font-size: 15px; transition: 0.2s; line-height: 1.4; border-radius: 6px; }
+.toc-item:hover { background: rgba(2, 132, 199, 0.15); color: var(--secondary); padding-left: 16px; }
+.toc-close { width: 100%; margin-top: 25px; background: transparent; border: 2px solid var(--secondary); color: var(--secondary); padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+.toc-close:hover { background: var(--secondary); color: #0f172a; }
+</style>
+</head>
+<body>
+
+<div id="toc">
+    <h2>Obsah prezentácie</h2>
+    <div id="toc-list"></div>
+    <button class="toc-close" onclick="toggleToc()">ZATVORIŤ OBSAH</button>
+</div>
+
+<div id="slides-container"></div>
+
+<div class="nav">
+    <button onclick="toggleToc()">Obsah</button>
+    <button onclick="prev()">◄ Späť</button>
+    <button onclick="next()">Ďalej ►</button>
+</div>
+
+<div class="footer">
+    <span id="footer-author">Autor prezentácie</span>
+    <span id="footer-counter">Snímka 1 / 1</span>
+</div>
+
+<script>
+/* =========================================================================
+   DÁTA PREZENTÁCIE (Generované AI)
+   ========================================================================= */
+const data = [
+    // Sem vkladá model pole objektov pre jednotlivé slajdy
+];
+
+function card(b) { 
+    const iconHtml = b.icon ? `<div class="card-icon">${b.icon}</div>` : '';
+    const chartHtml = b.chart ? `<div class="graph-box">${b.chart}</div>` : '';
+    return `<div class="card">
+        <div>
+            <div class="card-header">${iconHtml}<span class="box-title">${b.t}</span></div>
+            <div class="text-content">${b.d}</div>
+        </div>
+        ${chartHtml}
+    </div>`; 
+}
+
+function listItem(it, i) { 
+    return `<div class="list-item"><div class="list-marker">${i + 1}</div><div class="list-body"><span class="box-title">${it.t}</span><div class="text-content">${it.d}</div></div></div>`; 
+}
+
+const renderers = {
+    "grid-4": s => `<div class="content grid-cards-4">${s.boxes.map(card).join('')}</div>`,
+    "grid-3": s => `<div class="content grid-cards-3" style="${s.extraStyle || ''}">${s.boxes.map(card).join('')}</div>`,
+    "grid-2-airy": s => `<div class="content grid-cards-2">${s.boxes.map(card).join('')}</div>`,
+    "grid-1": s => `<div class="content grid-cards-1">${s.boxes.map(card).join('')}</div>`,
+    "single-block": s => `<div class="content single-block"><div class="single-card"><span class="box-title">${s.heading}</span><div class="text-content">${s.body}</div>${s.figure ? `<div class="graph-box fig">${s.figure}</div>` : ''}</div></div>`,
+    "list": s => `<div class="content list-block">${s.items.map(listItem).join('')}</div>`
+};
+
+const slideContainer = document.getElementById('slides-container');
+const tocList = document.getElementById('toc-list');
+const total = data.length;
+
+data.forEach((s, i) => {
+    let html = '';
+    const themeClass = `theme-${s.theme}`;
+    
+    if (s.template === "hero") {
+        html = `<div class="slide ${themeClass} hero" id="s${i}">
+            <h1 class="hero-title">${s.title}</h1>
+            ${s.subtitle ? `<p class="hero-subtitle">${s.subtitle}</p>` : ''}
+            <div class="hero-author"><strong>${s.author}</strong></div>
+        </div>`;
+    } else {
+        const headerHtml = `<div class="header">${s.tag ? `<div class="header-tag">${s.tag}</div>` : ''}<h1 class="title">${s.title || ''}</h1></div>`;
+        const contentHtml = renderers[s.template](s);
+        html = `<div class="slide ${themeClass}" id="s${i}">${headerHtml}${contentHtml}</div>`;
+    }
+    slideContainer.innerHTML += html;
+
+    let tocTitle = s.title || s.heading;
+    if(i === 0) tocTitle = "Úvodná obrazovka";
+    if(i === data.length - 1) tocTitle = "Záver a poďakovanie";
+    tocList.innerHTML += `<div class="toc-item" onclick="to(${i})">${i + 1}. ${tocTitle}</div>`;
+});
+
+let current = 0;
+
+function update() { 
+    document.querySelectorAll('.slide').forEach((el, i) => {
+        el.classList.toggle('active', i === current);
+    });
+    document.getElementById('footer-counter').textContent = `Snímka ${current + 1} / ${total}`;
+    if (data[current] && data[current].author) {
+        document.getElementById('footer-author').innerHTML = data[current].author.replace('<br>', ' | ');
+    }
+}
+
+function next() { if(current < total - 1) { current++; update(); } }
+function prev() { if(current > 0) { current--; update(); } }
+function to(n) { current = n; update(); toggleToc(); }
+
+function toggleToc() { 
+    const toc = document.getElementById('toc'); 
+    toc.style.left = (toc.style.left === '0px') ? '-460px' : '0px'; 
+}
+
+document.addEventListener('keydown', (e) => { 
+    if(e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); next(); }
+    if(e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+    if(e.key === 'Escape') { 
+        const toc = document.getElementById('toc');
+        if(toc.style.left === '0px') toggleToc();
+    }
+});
+
+update();
+</script>
+</body>
+</html>

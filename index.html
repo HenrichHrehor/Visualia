@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visualia — katalóg prezentácií</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14181f;
+    --ink-soft: #3c433c;
+    --paper: #f3efe6;
+    --sheet: #faf7f2;
+    --line: #ddd4c6;
+    --gold: #b5893f;
+    --muted: #6f675e;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1200px 420px at 80% -10%, rgba(181, 137, 63, 0.16), transparent 60%),
+      var(--paper);
+    color: var(--ink);
+    font-family: Outfit, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.45;
+  }
+  a { color: inherit; }
+  .mast {
+    background: var(--ink);
+    color: #f6f1e7;
+    padding: 28px 7vw 32px;
+  }
+  .mast-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: baseline;
+    border-bottom: 1px solid rgba(181, 137, 63, 0.55);
+    padding-bottom: 14px;
+  }
+  .word {
+    margin: 0;
+    font-family: Fraunces, Georgia, serif;
+    font-size: 15px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-weight: 560;
+  }
+  .word span { color: var(--gold); }
+  .mast-note { margin: 0; color: #c8c0b2; font-size: 13px; letter-spacing: 0.04em; }
+  h1 {
+    margin: 22px 0 8px;
+    font-family: Fraunces, Georgia, serif;
+    font-weight: 560;
+    font-size: clamp(40px, 5vw, 68px);
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+  }
+  .lede { max-width: 640px; margin: 0; color: #ddd6c8; font-size: 18px; }
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+  }
+  .fact {
+    border: 1px solid rgba(246, 241, 231, 0.22);
+    padding: 8px 12px;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+  .fact strong { color: #f3d7a1; font-weight: 600; }
+  nav.jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    padding: 16px 7vw;
+    border-bottom: 1px solid var(--line);
+    background: rgba(250, 247, 242, 0.72);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    backdrop-filter: blur(8px);
+  }
+  nav.jump a {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid transparent;
+  }
+  nav.jump a:hover { border-bottom-color: var(--gold); }
+  main { padding: 28px 7vw 72px; max-width: 1280px; }
+  .legend {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .legend article {
+    background: var(--sheet);
+    border: 1px solid var(--line);
+    padding: 14px 16px 16px;
+  }
+  .legend .k { margin: 0 0 4px; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .legend h2 { margin: 0 0 6px; font-family: Fraunces, Georgia, serif; font-size: 22px; font-weight: 560; }
+  .legend p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+  .project {
+    background: var(--sheet);
+    border: 1px solid var(--line);
+    margin-bottom: 18px;
+    overflow: hidden;
+    scroll-margin-top: 72px;
+  }
+  .stripe { height: 8px; }
+  .body { padding: 22px 24px 20px; }
+  .kicker {
+    margin: 0 0 6px;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .project h2 {
+    margin: 0 0 8px;
+    font-family: Fraunces, Georgia, serif;
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 560;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+  .desc { margin: 0 0 18px; max-width: 68ch; color: var(--ink-soft); }
+  .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .tier {
+    border: 1px solid var(--line);
+    padding: 14px;
+    min-height: 168px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #fff;
+  }
+  .tier.off { background: repeating-linear-gradient(-45deg, #faf7f2, #faf7f2 8px, #f3efe6 8px, #f3efe6 16px); }
+  .tier .who { margin: 0; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .tier h3 { margin: 0; font-size: 18px; font-weight: 600; }
+  .tier p { margin: 0; color: var(--ink-soft); font-size: 14px; flex: 1; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    border: 1px solid var(--ink);
+    padding: 7px 11px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    background: var(--ink);
+    color: #f6f1e7;
+  }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn:hover { background: #2a313c; color: #fff; }
+  .btn.ghost:hover { background: var(--ink); }
+  .versions { margin-top: 14px; border-top: 1px solid var(--line); }
+  .ver {
+    display: grid;
+    grid-template-columns: 1.4fr 0.8fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .ver:last-child { border-bottom: 0; }
+  .ver strong { display: block; font-weight: 600; }
+  .ver span { color: var(--muted); font-size: 13px; }
+  .note {
+    margin: 14px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  footer {
+    padding: 8px 7vw 40px;
+    color: var(--muted);
+    font-size: 13px;
+    max-width: 1280px;
+  }
+  @media (max-width: 860px) {
+    .legend, .tiers { grid-template-columns: 1fr; }
+    .ver { grid-template-columns: 1fr; }
+    .mast, nav.jump, main, footer { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+<header class="mast">
+  <div class="mast-top">
+    <p class="word" aria-label="Visualia">Visu<span>alia</span></p>
+    <p class="mast-note">Vstupné projekty</p>
+  </div>
+  <h1>Katalóg prezentácií</h1>
+  <p class="lede">Podklady, ktoré už sú hotové ako HTML. Tlačová verzia ide na papier A4 na šírku. Premietacia verzia beží v prehliadači. Ku každej tlačovej verzii je PDF a PPTX v tom istom vzhľade.</p>
+  <div class="facts">
+    <div class="fact"><strong>Static</strong> tlač a PDF</div>
+    <div class="fact"><strong>Dynamic</strong> premietanie</div>
+    <div class="fact"><strong>PPTX</strong> strana ako obrázok, farby ostávajú</div>
+  </div>
+</header>
+
+<nav class="jump" aria-label="Projekty">
+  <a href="#reforma">Reforma sociálnych služieb</a>
+  <a href="#sosa">Školský zákon</a>
+  <a href="#vuc">Pôsobnosť VÚC</a>
+  <a href="#pohyb">Rovnomerný pohyb</a>
+  <a href="#prvky">Vizuálne prvky</a>
+</nav>
+
+<main>
+  <section class="legend" aria-label="Úrovne publika">
+    <article>
+      <p class="k">Tier 1</p>
+      <h2>Formálna</h2>
+      <p>Komisia, vedenie, hlasovanie. Úradný tón, najvyšší kontrast.</p>
+    </article>
+    <article>
+      <p class="k">Tier 2</p>
+      <h2>Interná</h2>
+      <p>Kolegovia a pedagogický zbor. Vecný tón, zameraný na prax.</p>
+    </article>
+    <article>
+      <p class="k">Tier 3</p>
+      <h2>Verejná</h2>
+      <p>Žiaci, klienti, obyvatelia. Priamy tón, menej úradného jazyka.</p>
+    </article>
+  </section>
+
+  <article class="project" id="reforma">
+    <div class="stripe" style="background: linear-gradient(90deg, #0f172a 0 72%, #c5a059 72%)"></div>
+    <div class="body">
+      <p class="kicker">Košický samosprávny kraj · odbor sociálnych vecí</p>
+      <h2>Reforma sociálnych služieb</h2>
+      <p class="desc">Informácia k legislatíve účinnej od 1. júla 2026, pripravená pre zasadnutie sociálnej komisie. V podkladoch je len formálna úroveň. Štyri súbory sú štyri spracovania toho istého výkladu.</p>
+      <div class="tiers">
+        <section class="tier">
+          <p class="who" style="color:#8a6a2f">Tier 1 · formálna</p>
+          <h3>Odborná komisia</h3>
+          <p>Tmavomodrá a zlatá. Všetky štyri verzie nižšie patria sem.</p>
+        </section>
+        <section class="tier off">
+          <p class="who">Tier 2 · interná</p>
+          <h3>Nie je v podklade</h3>
+          <p>Samostatný výklad pre kolegov odboru tu nie je.</p>
+        </section>
+        <section class="tier off">
+          <p class="who">Tier 3 · verejná</p>
+          <h3>Nie je v podklade</h3>
+          <p>Samostatný výklad pre prijímateľov služieb tu nie je.</p>
+        </section>
+      </div>
+      <div class="versions">
+        <div class="ver">
+          <div><strong>SVG Static</strong><span>Ikony, harmonogram a diagramy. Odporúčaná tlačová verzia.</span></div>
+          <span>22 strán</span>
+          <div class="actions">
+            <a class="btn" href="Vstupné projekty/DOCTYPE_SVG_Static.html">Otvoriť</a>
+            <a class="btn ghost" href="export/ksk-reforma-svg.pdf" download>PDF</a>
+            <a class="btn ghost" href="export/ksk-reforma-svg.pptx" download>PPTX</a>
+          </div>
+        </div>
+        <div class="ver">
+          <div><strong>Verzia C</strong><span>Rovnaký obsah v tlačovom engine, bez samostatnej sady diagramov.</span></div>
+          <span>22 strán</span>
+          <div class="actions">
+            <a class="btn" href="Vstupné projekty/DOCTYPE_JUDr_07082026_c.html">Otvoriť</a>
+            <a class="btn ghost" href="export/ksk-reforma-c.pdf" download>PDF</a>
+            <a class="btn ghost" href="export/ksk-reforma-c.pptx" download>PPTX</a>
+          </div>
+        </div>
+        <div class="ver">
+          <div><strong>Pôvodná</strong><span>Prvé spracovanie pre sociálnu komisiu.</span></div>
+          <span>22 strán</span>
+          <div class="actions">
+            <a class="btn" href="Vstupné projekty/DOCTYPE_JUDr_07082026.html">Otvoriť</a>
+            <a class="btn ghost" href="export/ksk-reforma-original.pdf" download>PDF</a>
+            <a class="btn ghost" href="export/ksk-reforma-original.pptx" download>PPTX</a>
+          </div>
+        </div>
+        <div class="ver">
+          <div><strong>Airy</strong><span>Rovnaký text, redšie karty a viac vzduchu.</span></div>
+          <span>22 strán</span>
+          <div class="actions">
+            <a class="btn" href="Vstupné projekty/DOCTYPE_JUDr_07082026_b.html">Otvoriť</a>
+            <a class="btn ghost" href="export/ksk-reforma-airy.pdf" download>PDF</a>
+            <a class="btn ghost" href="export/ksk-reforma-airy.pptx" download>PPTX</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="project" id="sosa">
+    <div class="stripe" style="background: linear-gradient(90deg, #1c1917 0 18%, #ea580c 18% 36%, #fb923c 36% 68%, #fbbf24 68%)"></div>
+    <div class="body">
+      <p class="kicker">SOŠ automobilová Košice · Mgr. Henrich Hrehor, PhD.</p>
+      <h2>Školský zákon</h2>
+      <p class="desc">Jediný podklad, v ktorom sú všetky tri úrovne. V HTML idú za sebou. Samostatné PDF a PPTX sú už rozdelené: päť strán na jednu úroveň, od úvodu po poďakovanie.</p>
+      <div class="tiers">
+        <section class="tier" style="border-top: 4px solid #ea580c">
+          <p class="who" style="color:#c2410c">Tier 1 · formálna</p>
+          <h3>Vedenie školy</h3>
+          <p>Antracit a výstražná oranžová. Legislatíva, komisie, zmluvy.</p>
+          <div class="actions">
+            <a class="btn ghost" href="export/sosa-tier1.pdf" download>PDF</a>
+            <a class="btn ghost" href="export/sosa-tier1.pptx" download>PPTX</a>
+          </div>
+        </section>
+        <section class="tier" style="border-top: 4px solid #fb923c">
+          <p class="who" style="color:#ea580c">Tier 2 · interná</p>
+          <h3>Pedagogický zbor</h3>
+          <p>Tlmená oranžová. Hodnotenie, dielne, evidencia.</p>
+          <div class="actions">
+            <a class="btn ghost" href="export/sosa-tier2.pdf" download>PDF</a>
+            <a class="btn ghost" href="export/sosa-tier2.pptx" download>PPTX</a>
+          </div>
+        </section>
+        <section class="tier" style="border-top: 4px solid #fbbf24">
+          <p class="who" style="color:#b45309">Tier 3 · verejná</p>
+          <h3>Žiaci</h3>
+          <p>Žltooranžová. Známky, prax vo firme, povinnosti.</p>
+          <div class="actions">
+            <a class="btn ghost" href="export/sosa-tier3.pdf" download>PDF</a>
+            <a class="btn ghost" href="export/sosa-tier3.pptx" download>PPTX</a>
+          </div>
+        </section>
+      </div>
+      <div class="versions">
+        <div class="ver">
+          <div><strong>Celý súbor, Static</strong><span>Všetky tri úrovne v jednom tlačovom dokumente, 15 strán.</span></div>
+          <span>porovnanie</span>
+          <div class="actions">
+            <a class="btn" href="Vstupné projekty/DOCTYPE_SOŠa_AdaptiveTiersDemo_Static.html">Otvoriť</a>
+            <a class="btn ghost" href="export/sosa-skolsky-zakon.pdf" download>PDF</a>
+            <a class="btn ghost" href="export/sosa-skolsky-zakon.pptx" download>PPTX</a>
+          </div>
+        </div>
+        <div class="ver">
+          <div><strong>Dynamic</strong><span>Premietanie. Šípky alebo klávesnica, tie isté tri úrovne.</span></div>
+          <span>15 snímok</span>
+          <div class="actions">
+            <a class="btn" href="Vstupné projekty/DOCTYPE_SOŠa_AdaptiveTiersDemo_Dynamic.html">Premietnuť</a>
+          </div>
+        </div>
+        <div class="ver">
+          <div><strong>Dynamic, skrátená</strong><span>Päť snímok, vyladená na premietanie.</span></div>
+          <span>5 snímok</span>
+          <div class="actions">
+            <a class="btn" href="Vstupné projekty/DOCTYPE_SOŠa_AdaptiveTiersDemo_Dynamic_Optimalized.html">Premietnuť</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="project" id="vuc">
+    <div class="stripe" style="background: linear-gradient(90deg, #0b3c5d 0 70%, #328cc1 70%)"></div>
+    <div class="body">
+      <p class="kicker">Vyšší územný celok · lightblue airy</p>
+      <h2>Pôsobnosť vyššieho územného celku</h2>
+      <p class="desc">Výklad zákona č. 448/2008 Z. z. od stratégie po prax. Jedna vizuálna úroveň, svetlá modrá a zlatý akcent. Nie je rozdelená na tri publikum.</p>
+      <div class="tiers">
+        <section class="tier" style="border-top: 4px solid #328cc1">
+          <p class="who" style="color:#0b3c5d">Jedna úroveň</p>
+          <h3>Formálny výklad</h3>
+          <p>JUDr. Katarína Hrehorová Kaňuchová, odbor sociálnych vecí KSK.</p>
+          <div class="actions">
+            <a class="btn" href="Vstupné projekty/DOCTYPE_Lightblue_AIRy_Static.html">Static</a>
+            <a class="btn" href="Vstupné projekty/DOCTYPE_Lightblue_AIRy_Dynamic.html">Dynamic</a>
+            <a class="btn ghost" href="export/vuc-lightblue.pdf" download>PDF</a>
+            <a class="btn ghost" href="export/vuc-lightblue.pptx" download>PPTX</a>
+          </div>
+        </section>
+        <section class="tier off">
+          <p class="who">Tier 2</p>
+          <h3>Nie je v podklade</h3>
+          <p>Interná verzia pre kolegov v tomto súbore nie je.</p>
+        </section>
+        <section class="tier off">
+          <p class="who">Tier 3</p>
+          <h3>Nie je v podklade</h3>
+          <p>Verzia pre verejnosť v tomto súbore nie je.</p>
+        </section>
+      </div>
+    </div>
+  </article>
+
+  <article class="project" id="pohyb">
+    <div class="stripe" style="background: linear-gradient(90deg, #0f172a 0 70%, #0284c7 70%)"></div>
+    <div class="body">
+      <p class="kicker">SOŠ informačných technológií · fyzikálny seminár</p>
+      <h2>Rovnomerný a nerovnomerný pohyb</h2>
+      <p class="desc">Učebná pomôcka s meraním, grafmi a rozkladom síl. Jedna technická úroveň pre žiakov. Hugo Hrehor, IV. B.</p>
+      <div class="tiers">
+        <section class="tier off">
+          <p class="who">Tier 1</p>
+          <h3>Nie je v podklade</h3>
+          <p>Formálna verzia pre vedenie tu nie je. Ide o hodinu, nie o rokovanie.</p>
+        </section>
+        <section class="tier off">
+          <p class="who">Tier 2</p>
+          <h3>Nie je v podklade</h3>
+          <p>Verzia pre učiteľský zbor tu nie je.</p>
+        </section>
+        <section class="tier" style="border-top: 4px solid #0284c7">
+          <p class="who" style="color:#0369a1">Tier 3 · žiaci</p>
+          <h3>Technická hodina</h3>
+          <p>Hlboká modrá a azúrová. Sedemnásť tlačových strán.</p>
+          <div class="actions">
+            <a class="btn" href="Vstupné projekty/Demonštrácia rovnomerného pohybu_IV_Hrehor.html">Otvoriť</a>
+            <a class="btn ghost" href="export/pohyb-rovnomerny.pdf" download>PDF</a>
+            <a class="btn ghost" href="export/pohyb-rovnomerny.pptx" download>PPTX</a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </article>
+
+  <article class="project" id="prvky">
+    <div class="stripe" style="background: linear-gradient(90deg, #1e1b4b 0 70%, #7c3aed 70%)"></div>
+    <div class="body">
+      <p class="kicker">Vzorkovník · nie je prezentácia pre publikum</p>
+      <h2>Vizuálne prvky</h2>
+      <p class="desc">Desať doplnkových komponentov: veľké čísla, donut, gauge, citácia, prekrývajúce sa karty. Slúži ako ukážka, čo engine vie naviac. Úrovne publika sa tu neriešia.</p>
+      <div class="actions">
+        <a class="btn" href="Vstupné projekty/Ukážka vizuálnych prvkov_Claude.html">Otvoriť</a>
+        <a class="btn ghost" href="export/vizualne-prvky.pdf" download>PDF</a>
+        <a class="btn ghost" href="export/vizualne-prvky.pptx" download>PPTX</a>
+      </div>
+      <p class="note">Súbor PPTX drží vzhľad strany ako obrázok, aby sa farby a rozloženie v PowerPointe neposunuli. Text v ňom nie je rozdelený na samostatné textové polia. PDF je tlačový originál, z neho sa dá urobiť aj vlastný prevod.</p>
+    </div>
+  </article>
+</main>
+<footer>Visualia · katalóg zostavený z priečinka Vstupné projekty. Premietacie súbory ostávajú v HTML, lebo snímky sa skladajú až v prehliadači.</footer>
+</body>
+</html>

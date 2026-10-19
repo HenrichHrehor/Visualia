@@ -1,0 +1,27 @@
+presgen-engine/
+├── README.md                          ← vstupný bod, ako celok funguje
+├── docs/
+│   ├── ARCHITECTURE.md                ← 3-vrstvový model (Engine/Šablóny/Témy)
+│   ├── THEME-MATRIX.md                ← 10 matíc, presné hex kódy
+│   ├── TEMPLATE-LIBRARY.md            ← 8 šablón, tvar dát pre každú
+│   ├── DATA-SCHEMA.md                 ← formálna JSON schéma jedného slide-u
+│   ├── CONTENT-GUIDELINES.md          ← tón podľa tier, pravidlá zvýrazňovania
+│   └── ICON-LIBRARY.md                ← 16 bázových ikon + pravidlá výberu
+├── prompts/
+│   └── system_instructions.json       ← v4.3 (už hotové)
+├── engine/
+│   └── STATIC_master_template.html    ← v4.3 (už hotové)
+└── examples/
+    └── (sem pribudnú reálne vygenerované decky)
+::::::::
+The user wants manual template selection per slide with a wider set of templates including grid layouts, single-block, list/timeline, and hero options, plus three themes for styling. Now I'm ready to build the code and checking whether my skills cover HTML file creation—frontend-design seems relevant for ensuring the design quality is solid.
+
+I'll skip the skill check to save time since the user's existing work already establishes a visual style I can follow (gold accents, blue tones), so I don't need to invent a new design language. I'm planning to build a static, print-ready demonstration file that showcases the new template and theme architecture with sample content distributed across different template types.
+
+Now I'm structuring the system with CSS custom properties at the root level for engine specs like page size and spacing, then layering in three theme classes that define color and typography variables, followed by template classes for each layout type. The JavaScript will use a data array where each slide object specifies its theme and template, then dispatch to renderer functions that generate consistent markup for that combination.
+
+I'm planning to build this as a working starter kit with around 8-10 demo slides rather than a full deck, mixing realistic placeholder content from the Reforma SoS examples with plausible hero, single-block, and list examples so the user can see how everything functions together before adapting it to their actual content.
+
+I'll focus on delivering a static, print-ready demonstration file since that was the original priority, and I'll embed clear instructions directly in the file itself explaining how to add new slides by specifying the template and theme for each data object.
+
+Now I'm setting up the CSS foundation with the page fixed at A4 landscape dimensions, then defining multiple theme variations—formal with dark navy and gold accents using uppercase headers, airy with a lighter blue palette and more generous spacing, and…

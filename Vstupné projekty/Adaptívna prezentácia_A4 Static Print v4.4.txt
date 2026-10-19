@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<title>Adaptívna prezentácia — A4 Static Print v4.4</title>
+<style>
+/* =========================================================================
+   VRSTVA 1 — ENGINE (NEMENNÉ A4 LANDSCAPE)
+   ========================================================================= */
+@page { size: A4 landscape; margin: 0; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 0; background: #e2e8f0; font-family: 'Inter', 'Segoe UI', sans-serif; display: block; }
+
+.deck-container { width: 100%; height: auto; background-color: transparent; display: block; }
+
+.slide {
+    width: 297mm; height: 210mm; margin: 0 auto; padding: 18mm 20mm;
+    display: flex; flex-direction: column; background: var(--bg);
+    page-break-after: always; break-after: page; position: relative; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+@media print {
+    body { background: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .slide { box-shadow: none; border: none; margin: 0; }
+}
+
+.header { flex-shrink: 0; border-bottom: 3px solid var(--secondary); padding-bottom: 8px; margin-bottom: 14px; }
+.header-tag { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--secondary); margin-bottom: 4px; }
+.title { font-size: 27px; font-weight: 800; margin: 0; color: var(--primary); text-transform: var(--title-transform, none); }
+
+.content { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.footer { position: absolute; bottom: 12px; left: 20mm; right: 20mm; padding-top: 8px; border-top: 1px solid #cbd5e1; text-align: center; font-size: 13px; font-weight: 600; color: #64748b; display: flex; justify-content: space-between; }
+
+strong { color: var(--gold-color); }
+.law-ref { color: #000; font-weight: 800; }
+.formula { font-family: 'Cambria Math', 'Times New Roman', serif; font-style: italic; font-weight: 700; color: var(--primary); }
+.highlight-red { color: #dc2626; font-weight: 900; }
+
+.box-title { display: block; font-weight: 800; color: var(--primary); margin-bottom: 0; font-size: 21px; line-height: 1.3; }
+.text-content { font-size: 17px; line-height: 1.55; color: var(--text); margin: 0; text-align: justify; }
+
+table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 15px; }
+th, td { border: 1px solid #cbd5e1; padding: 8px 12px; text-align: center; }
+th { background-color: var(--primary); color: white; font-weight: 700; }
+tr:nth-child(even) { background-color: #f1f5f9; }
+
+/* =========================================================================
+   VRSTVA 2 — ŠABLÓNY OBSAHU & GRAFICKÁ PODPORA
+   ========================================================================= */
+.card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.card-icon { width: 30px; height: 30px; flex-shrink: 0; color: var(--secondary); display: flex; align-items: center; }
+.card-icon svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.graph-box { width: 100%; height: 110px; margin-top: 8px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; }
+.graph-box.fig { height: auto; margin-top: 16px; padding: 6px 12px; }
+
+.content.grid-cards-4 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; }
+.content.grid-cards-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr; gap: 16px; }
+.content.grid-cards-2 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 26px; align-content: stretch; }
+.content.grid-cards-1 { display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr; gap: 26px; padding: 10px 40px; height: 100%; }
+.content.single-block { display: flex; align-items: flex-start; justify-content: center; padding: 0; height: 100%; }
+.content.list-block { display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+
+.card { background: var(--card); padding: 22px 24px; border-radius: var(--radius); border-left: var(--accent-w) solid var(--secondary); box-shadow: 0 4px 8px rgba(0,0,0,.05); display: flex; flex-direction: column; justify-content: space-between; }
+.grid-cards-2 .card { padding: 26px 30px; }
+.grid-cards-1 .card { padding: 35px; justify-content: center; align-items: center; text-align: center; }
+.grid-cards-1 .text-content { font-size: 22px; line-height: 1.6; text-align: center; }
+.grid-cards-1 .box-title { font-size: 28px; margin-bottom: 16px; }
+
+.single-card { width: 100%; margin: auto 0; padding: 30px 45px; text-align: center; background: var(--card); border-radius: var(--radius); box-shadow: 0 4px 8px rgba(0,0,0,.05); border-top: var(--accent-w) solid var(--secondary); }
+.single-card .box-title { font-size: 25px; margin-bottom: 12px; color: var(--primary); }
+.single-card .text-content { font-size: 19px; line-height: 1.6; text-align: center; }
+
+.list-item { flex: 1; display: flex; align-items: center; gap: 20px; background: var(--card); border-radius: var(--radius); padding: 16px 26px; box-shadow: 0 4px 8px rgba(0,0,0,.05); border-left: var(--accent-w) solid var(--secondary); }
+.list-marker { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; }
+.list-body { flex: 1; }
+
+.hero { justify-content: center; align-items: center; text-align: center; color: #fff; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); }
+.hero-title { font-size: 42px; color: white; margin: 0; font-weight: 800; line-height: 1.2; padding: 0 40px; }
+.hero-subtitle { font-size: 22px; margin-top: 16px; color: #f1f5f9; font-weight: 400; max-width: 900px; line-height: 1.4; }
+.hero-author { margin-top: 40px; font-size: 19px; line-height: 1.5; color: #cbd5e1; }
+
+/* =========================================================================
+   VRSTVA 3 — MATICA 10 TÉM
+   ========================================================================= */
+.theme-ksk-formal { --primary:#0f172a; --primary-dark:#020617; --secondary:#c5a059; --bg:#f8fafc; --card:#ffffff; --text:#334155; --radius:8px; --accent-w:6px; --gold-color:#c5a059; --title-transform:uppercase; }
+.theme-ksk-internal { --primary:#0f172a; --primary-dark:#020617; --secondary:#94a3b8; --bg:#f8fafc; --card:#ffffff; --text:#334155; --radius:8px; --accent-w:6px; --gold-color:#64748b; --title-transform:none; }
+.theme-ksk-public { --primary:#1e3a5f; --primary-dark:#0f172a; --secondary:#f59e0b; --bg:#f8fafc; --card:#ffffff; --text:#334155; --radius:12px; --accent-w:6px; --gold-color:#d97706; --title-transform:none; }
+
+.theme-sosa-formal { --primary:#1c1917; --primary-dark:#0c0a09; --secondary:#ea580c; --bg:#fafaf9; --card:#ffffff; --text:#292524; --radius:8px; --accent-w:6px; --gold-color:#ea580c; --title-transform:uppercase; }
+.theme-sosa-internal { --primary:#292524; --primary-dark:#1c1917; --secondary:#fb923c; --bg:#fafaf9; --card:#ffffff; --text:#292524; --radius:10px; --accent-w:6px; --gold-color:#ea580c; --title-transform:none; }
+.theme-sosa-public { --primary:#1e293b; --primary-dark:#0f172a; --secondary:#fbbf24; --bg:#f8fafc; --card:#ffffff; --text:#334155; --radius:14px; --accent-w:6px; --gold-color:#d97706; --title-transform:none; }
+
+.theme-hviezdica-formal { --primary:#7c2d12; --primary-dark:#431407; --secondary:#1c1917; --bg:#fcf8f6; --card:#ffffff; --text:#292524; --radius:6px; --accent-w:6px; --gold-color:#9a3412; --title-transform:uppercase; }
+.theme-hviezdica-internal { --primary:#9a3412; --primary-dark:#7c2d12; --secondary:#57534e; --bg:#fafaf9; --card:#ffffff; --text:#292524; --radius:8px; --accent-w:6px; --gold-color:#9a3412; --title-transform:none; }
+.theme-hviezdica-public { --primary:#c2410c; --primary-dark:#9a3412; --secondary:#fef3e2; --bg:#fffaf5; --card:#ffffff; --text:#431407; --radius:12px; --accent-w:6px; --gold-color:#c2410c; --title-transform:none; }
+
+.theme-neutral { --primary:#0f172a; --primary-dark:#020617; --secondary:#0284c7; --bg:#f8fafc; --card:#ffffff; --text:#334155; --radius:12px; --accent-w:6px; --gold-color:#0284c7; --title-transform:none; }
+</style>
+</head>
+<body>
+
+<div class="deck-container" id="slides"></div>
+
+<script>
+const AUTHOR_DEFAULT = "Autor prezentácie";
+
+/* =========================================================================
+   DÁTA PREZENTÁCIE (Generované AI)
+   ========================================================================= */
+const data = [
+    // Sem vkladá model pole objektov pre jednotlivé slajdy
+];
+
+function card(b) { 
+    const iconHtml = b.icon ? `<div class="card-icon">${b.icon}</div>` : '';
+    const chartHtml = b.chart ? `<div class="graph-box">${b.chart}</div>` : '';
+    return `<div class="card">
+        <div>
+            <div class="card-header">${iconHtml}<span class="box-title">${b.t}</span></div>
+            <div class="text-content">${b.d}</div>
+        </div>
+        ${chartHtml}
+    </div>`; 
+}
+
+function listItem(it, i) { 
+    return `<div class="list-item"><div class="list-marker">${i + 1}</div><div class="list-body"><span class="box-title">${it.t}</span><div class="text-content">${it.d}</div></div></div>`; 
+}
+
+const renderers = {
+    "grid-4": s => `<div class="content grid-cards-4">${s.boxes.map(card).join('')}</div>`,
+    "grid-3": s => `<div class="content grid-cards-3" style="${s.extraStyle || ''}">${s.boxes.map(card).join('')}</div>`,
+    "grid-2-airy": s => `<div class="content grid-cards-2">${s.boxes.map(card).join('')}</div>`,
+    "grid-1": s => `<div class="content grid-cards-1">${s.boxes.map(card).join('')}</div>`,
+    "single-block": s => `<div class="content single-block"><div class="single-card"><span class="box-title">${s.heading}</span><div class="text-content">${s.body}</div>${s.figure ? `<div class="graph-box fig">${s.figure}</div>` : ''}</div></div>`,
+    "list": s => `<div class="content list-block">${s.items.map(listItem).join('')}</div>`
+};
+
+function buildSlide(s, index, total) {
+    const themeClass = `theme-${s.theme}`;
+    const authorText = s.author || AUTHOR_DEFAULT;
+    
+    if (s.template === "hero") {
+        return `<div class="slide ${themeClass} hero">
+            <h1 class="hero-title">${s.title}</h1>
+            ${s.subtitle ? `<p class="hero-subtitle">${s.subtitle}</p>` : ''}
+            <div class="hero-author"><strong>${s.author}</strong></div>
+            <div class="footer"><span style="width:100%; text-align:center;">Snímka ${index + 1} / ${total}</span></div>
+        </div>`;
+    }
+    const headerHtml = `<div class="header">${s.tag ? `<div class="header-tag">${s.tag}</div>` : ''}<h1 class="title">${s.title || ''}</h1></div>`;
+    const contentHtml = renderers[s.template](s);
+    const footerHtml = `<div class="footer"><span>${authorText}</span><span>Snímka ${index + 1} / ${total}</span></div>`;
+    return `<div class="slide ${themeClass}">${headerHtml}${contentHtml}${footerHtml}</div>`;
+}
+
+document.getElementById('slides').innerHTML = data.map((slide, index) => buildSlide(slide, index, data.length)).join('');
+</script>
+</body>
+</html>

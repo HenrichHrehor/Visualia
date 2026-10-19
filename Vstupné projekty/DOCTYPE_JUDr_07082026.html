@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reforma Sociálnych Služieb 2026 - Tier 1 Odborná Komisia</title>
+    <style>
+        /* === SYSTEM ENGINE & TIER 1 PALETTE (A4 Landscape) === */
+        :root {
+            --font-family: 'Inter', 'Segoe UI', -apple-system, Roboto, Helvetica, Arial, sans-serif;
+            --page-width: 297mm;
+            --page-height: 210mm;
+            --bg-main: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            
+            /* Tier 1 Color Palette */
+            --primary: #0f172a;         /* Tmavomodrá */
+            --primary-light: #f1f5f9;   /* Jemné modrosivé pozadie */
+            --accent: #c5a059;          /* Zlatá */
+            --accent-light: #fefce8;    /* Presvetlená zlatá pre akcenty */
+            --border-color: #cbd5e1;
+            --shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+            --danger: #dc2626;          /* Červená pre finančný dopad a výstrahy */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: #e2e8f0;
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* === A4 LANDSCAPE PAGE CONTAINER === */
+        .page {
+            width: var(--page-width);
+            height: var(--page-height);
+            background: var(--card-bg);
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+            padding: 18mm 22mm 15mm 22mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+            page-break-after: always;
+            page-break-inside: avoid;
+        }
+
+        /* === HEADER === */
+        .slide-header {
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+        }
+
+        .slide-header h1 {
+            font-size: 21pt;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 800;
+        }
+
+        .slide-header h2 {
+            font-size: 13pt;
+            color: var(--accent);
+            font-weight: 600;
+            margin-top: 3px;
+        }
+
+        /* === CONTENT BODY (AIRY LAYOUT) === */
+        .slide-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            justify-content: flex-start;
+        }
+
+        /* === HERO LAYOUT === */
+        .hero-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 30px;
+        }
+
+        .hero-title {
+            font-size: 32pt;
+            color: var(--primary);
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 18px;
+        }
+
+        .hero-subtitle {
+            font-size: 16pt;
+            color: var(--accent);
+            font-weight: 700;
+            max-width: 85%;
+            margin-bottom: 28px;
+        }
+
+        .hero-meta {
+            font-size: 11.5pt;
+            color: var(--text-muted);
+            border-top: 2px solid var(--accent);
+            padding-top: 18px;
+            width: 65%;
+            line-height: 1.6;
+        }
+
+        /* === BLOCKS & AIRY CARDS === */
+        .info-box {
+            background: var(--primary-light);
+            border-left: 5px solid var(--accent);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 11pt;
+            line-height: 1.6;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-top: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 20px 22px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .card h3 {
+            font-size: 12.5pt;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 700;
+            border-bottom: 1px solid var(--primary-light);
+            padding-bottom: 6px;
+        }
+
+        ul {
+            list-style-position: inside;
+            margin-left: 4px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            font-size: 10.5pt;
+            line-height: 1.5;
+        }
+
+        p {
+            font-size: 10.5pt;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .highlight-red {
+            color: var(--danger);
+            font-weight: 800;
+            font-size: 11.5pt;
+        }
+
+        /* === TIMELINE COMPONENT === */
+        .timeline-container {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 30px 0 10px 0;
+            gap: 18px;
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 12%;
+            right: 12%;
+            height: 4px;
+            background: var(--accent);
+            z-index: 1;
+        }
+
+        .timeline-step {
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            text-align: center;
+        }
+
+        .timeline-badge {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 13pt;
+            margin: 0 auto 16px auto;
+            border: 3px solid var(--accent);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .timeline-card {
+            background: var(--primary-light);
+            border: 1px solid var(--border-color);
+            border-top: 3px solid var(--primary);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: left;
+            height: calc(100% - 65px);
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 11.5pt;
+            margin-bottom: 8px;
+        }
+
+        /* === TABLES === */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9.5pt;
+            margin-top: 8px;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 9px 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: #ffffff;
+            font-weight: 600;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--primary-light);
+        }
+
+        /* === FOOTER === */
+        .slide-footer {
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
+            margin-top: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 9pt;
+            color: var(--text-muted);
+        }
+
+        .footer-text {
+            font-weight: 600;
+            color: var(--primary);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* === PRINT OVERRIDES === */
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+                margin: 0;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+                width: 297mm;
+                height: 210mm;
+            }
+            @page {
+                size: 297mm 210mm landscape;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="presentation">
+    <!-- Slajdy sa dynamicky vygenerujú z poľa data -->
+</div>
+
+<script>
+    const data = [
+        // Snímka 1
+        {
+            type: "hero",
+            headerTitle: "SOCIÁLNA KOMISIA | Reforma Sociálnych Služieb",
+            title: "Reforma Sociálnych Služieb",
+            subtitle: "Informácia k zmenám prijatej legislatívy účinnej od 1. júla 2026",
+            meta: "5. August 2026<br>Spracovala: JUDr. et Mgr. Katarína Hrehorová Kaňuchová",
+            footer: "ODBOR SOCIÁLNYCH VECÍ | KSK | 1/22"
+        },
+        // Snímka 2
+        {
+            type: "standard",
+            headerTitle: "KONTEXT REFORMY",
+            content: `
+                <div class="info-box">
+                    Zákon č. 406/2025 Z. z. o príspevku na pomoc pri odkázanosti na pomoc inej fyzickej osoby a o zmene a doplnení niektorých zákonov (PPO), schválený dňa 9. decembra 2025, publikovaný v Zbierke zákonov dňa 23.12.2025 bol splnením posledného míľnika Plánu obnovy a odolnosti SR v oblasti integrácie dlhodobej sociálno-zdravotnej starostlivosti.
+                </div>
+                <div class="grid-2" style="margin-top: 6px;">
+                    <div class="card">
+                        <h3>Blok 1 (Integrácia starostlivosti)</h3>
+                        <p>Dôraz na potreby FO odkázanej na pomoc inej osoby a jej život v prirodzenom prostredí.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Blok 2 (Vplyv zákona)</h3>
+                        <ul>
+                            <li>Zásadný posun vo financovaní - tzv. paušály</li>
+                            <li>Zákon 406/2025 Z. z. novelizoval zákon č. 448/2008 Z. z. o sociálnych službách</li>
+                        </ul>
+                    </div>
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 2/22"
+        },
+        // Snímka 3
+        {
+            type: "timeline",
+            headerTitle: "ETAPY ÚČINNOSTI LEGISLATÍVNYCH ZMIEN",
+            subtitle: "Reforma bola naplánovaná do troch kľúčových etáp :",
+            steps: [
+                {
+                    phase: "I. ETAPA",
+                    date: "Od 1. januára 2026",
+                    text: "Menej závažné zmeny (napr. úprava okruhu prijímateľov a poskytovateľov SS, nový druh SS rozvoj rodičovských zručností, personálny normatív..)"
+                },
+                {
+                    phase: "II. ETAPA",
+                    date: "Od 1. júla 2026",
+                    text: "Komplexnejšie zmeny vyžadujúce čas na implementáciu (FPP, kompetencie, nová profesia)."
+                },
+                {
+                    phase: "III. ETAPA",
+                    date: "Od 31. decembra 2026",
+                    text: "Spustenie príspevku na pomoc pri odkázanosti (PPO) a zavŕšenie reformy."
+                }
+            ],
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 3/22"
+        },
+        // Snímka 4
+        {
+            type: "standard",
+            headerTitle: "NOVÝ SYSTÉM FINANCOVANIA",
+            content: `
+                <p>Od 1.7.2026 zmena financovania neverejných poskytovateľov. Finančný príspevok na prevádzku (FPP) sa už neurčuje podľa ekonomicky oprávnených výdavkov poskytovateľa, ale paušálnou sadzbou na miesto alebo hodinu služby stanovenou v zákone (Príloha č. 5a).</p>
+                <h3 style="margin-top: 10px; font-size: 11pt; color: var(--primary);">Tabuľka – Príloha č. 5a FINANČNÝ PRÍSPEVOK NA PREVÁDZKU poskytovanej sociálnej služby (§ 77 ods. 2):</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Druh sociálnej služby</th>
+                            <th>Pobytová SS / mesiac / miesto</th>
+                            <th>Ambulantná SS / mesiac / miesto</th>
+                            <th>Terénna SS / hodina</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Zariadenie podpor. bývania</td><td>288 eur (277,59)</td><td>-</td><td>-</td></tr>
+                        <tr><td>Zariadenie pre seniorov</td><td>309 eur (0)</td><td>-</td><td>-</td></tr>
+                        <tr><td>Zariadenie opatr. služby</td><td>309 eur (0)</td><td>-</td><td>-</td></tr>
+                        <tr><td>Rehabilitačné stredisko</td><td>414 eur (0)</td><td>353 eur (451,25)</td><td>-</td></tr>
+                        <tr><td>Domov sociálnych služieb</td><td>414 eur (336,99)</td><td>353 eur (227,81)</td><td>-</td></tr>
+                        <tr><td>Špecializované zariadenie</td><td>489 eur (497,35)</td><td>438 eur (444,60)</td><td>-</td></tr>
+                        <tr><td>Denný stacionár</td><td>-</td><td>119 eur</td><td>-</td></tr>
+                        <tr><td>Opatrovateľská služba</td><td>-</td><td>-</td><td>3,7 eura</td></tr>
+                    </tbody>
+                </table>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 4/22"
+        },
+        // Snímka 5
+        {
+            type: "standard",
+            headerTitle: "FINANCOVANIE KRÍZOVEJ INTERVENCIE",
+            content: `
+                <h3 style="font-size: 11pt; color: var(--primary); margin-bottom: 8px;">Tabuľka – Príloha č. 4a Finančný príspevok na poskytovanie sociálnej služby v zariadeniach krízovej intervencie (§ 78aa):</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Druh zariadenia krízovej intervencie</th>
+                            <th>Sadzba za mesiac</th>
+                            <th>Sadzba za rozpočtový rok</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>nocľaháreň</td><td>408 eur / mesiac</td><td>4 896 eur / rozpočtový rok</td></tr>
+                        <tr><td>útulok</td><td>408 eur / mesiac</td><td>4 896 eur / rozpočtový rok</td></tr>
+                        <tr><td>domov na polceste</td><td>408 eur / mesiac</td><td>4 896 eur / rozpočtový rok</td></tr>
+                        <tr><td>zariadenie núdzového bývania</td><td>408 eur / mesiac</td><td>4 896 eur / rozpočtový rok</td></tr>
+                    </tbody>
+                </table>
+                <div class="info-box" style="margin-top: 18px;">
+                    <strong>Poznámka:</strong> FPP za 1. polrok 2026 v zariadeniach krízovej intervencie (útulky + ZNB) bol vo výške 358,49 eur / miesto / mesiac.
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 5/22"
+        },
+        // Snímka 6 (DOMINANTNÁ S ZLATÝM AKCENTOM)
+        {
+            type: "standard",
+            headerTitle: "PRESUN FINANCOVANIA ZO SAMOSPRÁV NA VÚC",
+            content: `
+                <div class="card" style="padding: 35px 40px; display: flex; flex-direction: column; justify-content: center; min-height: 380px; border-top-width: 6px; border-top-color: var(--accent);">
+                    <h3 style="font-size: 18pt; color: var(--primary); margin-bottom: 20px; text-transform: uppercase; font-weight: 800; border-bottom: none;">
+                        Text: Povinnosť financovať neverejné zariadenia:
+                    </h3>
+                    <ul style="font-size: 15pt; line-height: 2; margin-left: 15px; margin-bottom: 30px;">
+                        <li><strong>zariadenia pre seniorov</strong> a</li>
+                        <li><strong>zariadenia opatrovateľskej služby</strong></li>
+                    </ul>
+                    <div class="info-box" style="padding: 22px 28px; font-size: 16pt; border-left-width: 8px; border-left-color: var(--accent); background: var(--primary-light);">
+                        <strong>Záver:</strong> prechádza z obcí na <span style="color: var(--accent); font-weight: 800;">vyššie územné celky (VÚC)</span>.
+                    </div>
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 6/22"
+        },
+        // Snímka 7 (ZVYRAZNENÉ DOPADY ČERVENÝM A TUČNÝM)
+        {
+            type: "standard",
+            headerTitle: "FINANČNÝ DOPAD NA KSK",
+            content: `
+                <div class="info-box" style="padding: 18px 22px;">
+                    <strong style="font-size: 12pt; color: var(--primary);">Text: Presun financovania znamená pre KSK:</strong>
+                    <ul style="margin-top: 12px; font-size: 11pt; line-height: 1.8;">
+                        <li>Od 1. 7. 2026 dopad <span class="highlight-red">+ 2,7 mil. eur</span></li>
+                        <li>V roku 2027 predpokladaný dopad <span class="highlight-red">+ 7,4 mil. eur</span></li>
+                    </ul>
+                </div>
+                <div class="card" style="margin-top: 10px;">
+                    <h3>Doplňujúce informácie:</h3>
+                    <ul>
+                        <li>Od 1. 1. 2027 Príloha 5a už nebude obsahovať aktuálne sumy. Zákon ponechá len mechanizmus a konkrétne výšky bude každý rok určovať nariadenie vlády SR. Na rok 2027 ich ustanovuje nariadenie vlády č. 182/2026 Z. z.</li>
+                        <li>Upravujú sa aj príspevky krízovej intervencie, financujeme plnú registrovanú kapacitu § 75 ods. 1 c) paušál je určený ako priemer pre Slovensko.</li>
+                    </ul>
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 7/22"
+        },
+        // Snímka 8
+        {
+            type: "standard",
+            headerTitle: "ZMENA: FINANCOVANIE PODĽA KAPACITY ZARIADENIA",
+            content: `
+                <div class="grid-3">
+                    <div class="card">
+                        <h3>Blok 1</h3>
+                        <p>FPP sa poskytuje podľa registrovanej kapacity (počtu miest), nie podľa počtu FO ani podľa bydliska.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Blok 2 (Financovanie na kapacitu v území)</h3>
+                        <p>VÚC financuje zariadenia nachádzajúce sa v jeho územnom obvode. Príspevok sa už neviaže na trvalý pobyt. Platí to pre služby podmienené odkázanosťou a krízovú intervenciu.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Blok 3 (Neobsadené miesto § 75 ods. 9 a 10)</h3>
+                        <p>Zákon priznáva právo na čerpanie FPP aj počas dočasného neobsadenia miesta prijímateľom:</p>
+                        <ul>
+                            <li>V pobytových zariadeniach: najviac po dobu 30 dní za sebou.</li>
+                            <li>V ambulantných zariadeniach: najviac po dobu 20 pracovných dní za sebou.</li>
+                        </ul>
+                    </div>
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 8/22"
+        },
+        // Snímka 9
+        {
+            type: "standard",
+            headerTitle: "NOVÝ PERSONÁLNY NORMATÍV (§ 9 ods. 4 zákona)",
+            content: `
+                <p><strong>Text:</strong> Zavádza sa nová filozofia vykazovania personálnej kapacity:</p>
+                <div class="grid-2" style="margin-top: 10px;">
+                    <div class="card">
+                        <h3>Už nie percentuálny podiel %</h3>
+                        <p>Nahrádza sa starý systém počtu zamestnancov a podielu odborných pracovníkov k celkovému počtu.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Určuje sa maximálny počet prijímateľov</h3>
+                        <p>pripadajúcich na 1 odbor. zamestnanca.</p>
+                    </div>
+                </div>
+                <div class="info-box" style="margin-top: 10px;">
+                    <strong>Poznámky:</strong>
+                    <ul style="margin-top: 6px;">
+                        <li>Príloha č. 1 obsahuje zoznam profesií, ktoré sa považujú za odborné a započítavajú sa do výpočtu.</li>
+                        <li>Povinnosť plnenia personálneho normatívu od 1. júla 2026 (§ 110aw) (napr. 3,8 prijímateľa na 1 odborného zamestnanca v týždennej pobytovej DSS).</li>
+                    </ul>
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 9/22"
+        },
+        // Snímka 10
+        {
+            type: "standard",
+            headerTitle: "NOVÁ ODBORNÁ ČINNOSŤ A FORMY SLUŽIEB",
+            content: `
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Blok 1 (Rozvoj rodičovských zručností - § 23c)</h3>
+                        <ul>
+                            <li>odborná činnosť zameraná na podporu zdravého fyzického a psychického vývinu dieťaťa.</li>
+                            <li>poskytovaná tehotnej žene, rodičovi dieťaťa alebo FO, ktorá má dieťa zverené do osobnej starostlivosti v nepriaznivej sociálnej situácii.</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Blok 2 (Celoročná forma a Nocľahárne)</h3>
+                        <ul>
+                            <li><strong>Zariadenia podporovaného bývania (ZPB), ZpS a ZOS:</strong> od 1.1.2026 Poskytovanie služieb je obmedzené len na pobytovú formu (doterajšie ambulantné sa od 1.1.2026 automaticky preklápajú na denný stacionár).</li>
+                            <li><strong>Ubytovanie v nocľahárni:</strong> Vypúšťa sa obmedzenie "len na účel prenocovania". Prijímatelia sa môžu zdržiavať v priestoroch aj počas dňa (poradenstvo, nepriaznivé počasie).</li>
+                        </ul>
+                    </div>
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 10/22"
+        },
+        // Snímka 11
+        {
+            type: "standard",
+            headerTitle: "NOVÉ PODMIENKY POSUDZOVANIA MAJETKU",
+            content: `
+                <div class="info-box">
+                    <strong>Text:</strong> Zavádza sa prísnejší režim zisťovania a vyhlasovania o majetku prijímateľov s cieľom znížiť narastajúce pohľadávky v systéme.
+                </div>
+                <div class="card" style="margin-top: 15px;">
+                    <h3>Nový režim posudzovania majetku od 1. 1. 2026:</h3>
+                    <ul>
+                        <li>hranica súhrnnej hodnoty majetku: nad 8 000 eur,</li>
+                        <li>peňažné úspory: nad 2 000 eur,</li>
+                        <li>nové povinné vyhlásenie o majetku ako príloha č. 4b.</li>
+                    </ul>
+                </div>
+            `,
+            footer: "Katarína Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 11/22"
+        },
+        // Snímka 12
+        {
+            type: "standard",
+            headerTitle: "ÚPRAVA EKONOMIKY: PRECHOD NA EOV",
+            content: `
+                <p><strong>Hlavný text:</strong> Doterajší pojem "Ekonomicky oprávnené náklady (EON)" sa v zákone 448/2008 nahrádza pojmom "Ekonomicky oprávnené výdavky (EOV)".</p>
+                <div class="grid-2" style="margin-top: 10px;">
+                    <div class="card">
+                        <h3>Vylúčenie odpisov z výdavkov:</h3>
+                        <ul>
+                            <li>Odpisy majetku už nie sú považované za EOV. Mení sa spôsob výpočtu, odpisy sa postupne vylučujú.</li>
+                            <li>Prechodné obdobie 2026 (§ 110bc): Dočasne sa pre rozpočtový rok 2026 odpisy ešte považujú za EOV kvôli rozpracovaným kalkuláciám.</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Prepočet na kapacity a ošetrovateľstvo:</h3>
+                        <ul>
+                            <li>Priemerná výška úhrady sa prepočítava na počet zapísaných miest (kapacitu v registri), nie na počet skutočných prijímateľov.</li>
+                            <li>Do príjmov, ktoré sa odpočítavajú od EOV, sa zahŕňa aj úhrada za ošetrovateľskú starostlivosť od zdravotných poisťovní.</li>
+                        </ul>
+                    </div>
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snimka 12/22"
+        },
+        // Snímka 13
+        {
+            type: "standard",
+            headerTitle: "NOVÁ PROFESIA V SOCIÁLNYCH SLUŽBÁCH",
+            content: `
+                <div class="info-box">
+                    <strong>Hlavný text:</strong> Zavádza sa nová profesia "Pracovník dlhodobej starostlivosti" § 84 ods. 23 predstavuje kľúčové prepojenie sociálneho a zdravotného systému v zariadeniach.
+                </div>
+                <div class="grid-2" style="margin-top: 12px;">
+                    <div class="card">
+                        <h3>Kvalifikačné predpoklady:</h3>
+                        <ul>
+                            <li>Úplné stredné odborné vzdelanie so zameraním na opatrovanie/zdravotnú starostlivosť.</li>
+                            <li>Alternatíva: Akékoľvek úplné stredné vzdelanie + akreditovaný kurz dlhodobej sociálno-zdravotnej starostlivosti v rozsahu min. 400 hodín.</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Súčasní opatrovatelia (§ 110be prechodné ustanovenie):</h3>
+                        <p>Pre existujúcich opatrovateľov (s 220-hodinovým kurzom) platí prechodné obdobie: Kvalifikácia sa uzná za splnenú, ak do 31. decembra 2028 absolvujú doplňujúce vzdelávanie v rozsahu min. 180 hodín zamerané na úkony ošetrovateľskej starostlivosti (Príloha č. 7).</p>
+                    </div>
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 13/22"
+        },
+        // Snímka 14
+        {
+            type: "standard",
+            headerTitle: "ZJEDNODUŠENIE ZABEZPEČOVANIA SLUŽIEB",
+            content: `
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Blok 1:</h3>
+                        <ul>
+                            <li>VÚC od 1.7.2026 financuje neverejných PSS v územnom obvode, bez ohľadu na bydlisko FO</li>
+                            <li>FO odkázaná na pomoc inej osoby už nežiada VÚC o zabezpečenie sociálnej služby</li>
+                            <li>Svoju žiadosť smeruje priamo vybranému poskytovateľovi (PSS) = mení sa administratívny postup</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Blok 2 (Čo zostáva v kompetencii obcí?):</h3>
+                        <p>Obce naďalej zabezpečujú služby, ktorých financovanie (FPP) je priamo viazané na žiadosť občana: Terénna domáca opatrovateľská služba, Denný stacionár</p>
+                    </div>
+                </div>
+                <div class="info-box" style="margin-top: 10px;">
+                    <strong>Záver:</strong> Komunitné plány obcí sa zosúladia s reformou do 31.12.2027 a koncepcie VÚC do 30.6.2028.
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 14/22"
+        },
+        // Snímka 15
+        {
+            type: "standard",
+            headerTitle: "PROCES ZABEZPEČENIA POSKYTOVANIA SOCIÁLNEJ SLUŽBY DO 30.6.2026",
+            content: `
+                <div class="card">
+                    <h3>Body:</h3>
+                    <ul>
+                        <li>Podanie žiadosti výlučne na KSK</li>
+                        <li>Po kontrole žiadosti a príloh evidencia v RPSS</li>
+                        <li>Obmedzenie počtu podaných žiadostí na 1 FO (1 žiadosť na 1 druh a formu SoS)</li>
+                        <li>Trvalý pobyt prijímateľa určujúci pre financovanie</li>
+                    </ul>
+                </div>
+                <div class="info-box" style="margin-top: 15px;">
+                    <strong>Služba v pôsobnosti KSK:</strong> Zariadenie podporovaného bývania, Rehabilitačné stredisko, Domov sociálnych služieb, Špecializované zariadenie
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 15/22"
+        },
+        // Snímka 16
+        {
+            type: "standard",
+            headerTitle: "PROCES ZABEZPEČENIA POSKYTOVANIA SOCIÁLNEJ SLUŽBY OD 1.7.2026",
+            content: `
+                <div class="card">
+                    <h3>Body:</h3>
+                    <ul>
+                        <li>Podanie žiadosti priamo poskytovateľovi</li>
+                        <li>Po kontrole žiadosti a príloh evidencia poskytovateľom v aplikácii určenej KSK</li>
+                        <li>BEZ obmedzenia počtu podaných žiadostí pre FO</li>
+                        <li>Trvalý pobyt prijímateľa nerozhoduje. Určujúce je miesto poskytovania SoS</li>
+                    </ul>
+                </div>
+                <div class="info-box" style="margin-top: 15px;">
+                    <strong>Služby v pôsobnosti KSK:</strong> Zariadenie podporovaného bývania, Rehabilitačné stredisko, Domov sociálnych služieb, Špecializované zariadenie 
+                    <span class="highlight-red">+ Zariadenie opatrovateľskej služby + Zariadenie pre seniorov</span>
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 16/22"
+        },
+        // Snímka 17
+        {
+            type: "standard",
+            headerTitle: "LEGISLATÍVNE UKOTVENIE BEZODKLADNOSTI (§ 81c)",
+            content: `
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Riešenie bezodkladnosti v pôsobnosti obce / mesta:</h3>
+                        <p>Denný stacionár (amb. forma), Opatrovateľská služba (terénna forma)</p>
+                    </div>
+                    <div class="card">
+                        <h3>Riešenie bezodkladnosti v pôsobnosti VÚC:</h3>
+                        <p>Zariadenie podporovaného bývania, Rehabilitačné stredisko, Domov sociálnych služieb, Špecializované zariadenie + Zariadenie opatrovateľskej služby + Zariadenie pre seniorov</p>
+                    </div>
+                </div>
+                <div class="info-box" style="margin-top: 15px;">
+                    <strong>Dôležitá podmienka:</strong> Od 1.7.2026 je LEN obec / mesto oprávnená podať podnet na začatie konania o integrovanom posudku
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 17/22"
+        },
+        // Snímka 18
+        {
+            type: "standard",
+            headerTitle: "PODMIENKY BEZODKLADNÉHO POSKYTNUTIA (§ 81c)",
+            content: `
+                <div class="card">
+                    <h3>Hlavná zásada: Sociálna služba sa poskytne bezodkladne, ak je:</h3>
+                    <ul>
+                        <li>a) vážne ohrozenie života alebo zdravia</li>
+                        <li>b) absentujúce životné podmienky</li>
+                        <li>c) ukončenie pobytu v CDR.</li>
+                    </ul>
+                </div>
+                <div class="card" style="margin-top: 10px;">
+                    <h3>Vážne ohrozenie života je najmä:</h3>
+                    <ul>
+                        <li>ohrozenie správaním inej FO,</li>
+                        <li>absencia blízkej osoby (blízka osoba je najmä príbuzný v priamom rade, súrodenec a manžel),</li>
+                        <li>úmrtie blízkej osoby,</li>
+                        <li>nezabezpečená osobná starostlivosť</li>
+                    </ul>
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 18/22"
+        },
+        // Snímka 19
+        {
+            type: "standard",
+            headerTitle: "POVINNOŠŤ UZATVORIŤ ZMLUVU PRI VOĽNEJ KAPACITE § 8",
+            content: `
+                <div class="info-box" style="font-size: 11pt;">
+                    <strong>Text:</strong> Ak obec alebo VÚC požiada poskytovateľa o prijatie FO a zariadenie má voľné miesto, poskytovateľ SS musí uzatvoriť zmluvu.
+                </div>
+                <div class="card" style="margin-top: 20px; padding: 22px;">
+                    <h3>Dôležitá zmena:</h3>
+                    <p style="font-size: 11.5pt;">Táto povinnosť sa už netýka len neverejných poskytovateľov, ale aj verejných zariadení (aj obecných aj mestských).</p>
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK Snímka 19/22"
+        },
+        // Snímka 20
+        {
+            type: "standard",
+            headerTitle: "REGISTRÁCIA, IS SOS A SPRÁVNE DELIKTY",
+            content: `
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Prístup k údajom v IS SoS:</h3>
+                        <p>VÚC a poskytovatelia prístup k vybraným údajom z neverejnej časti IS SOS: Pre PSS: Údaje o fyzických osobách, ktoré požiadali obec/VÚC o službu u nich.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Evidencia:</h3>
+                        <p>§ 95 ods. 11 - všetci PSS sú povinní predkladať štvrťročnú evidenciu prijímateľov = nové administratívne povinnosti pre zariadenia.</p>
+                    </div>
+                </div>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 20/22"
+        },
+        // Snímka 21
+        {
+            type: "standard",
+            headerTitle: "SPRÁVNE DELIKTY A POKUTY (§ 99)",
+            subtitle: "Nové kategórie deliktov a vyššie pokuty",
+            content: `
+                <table style="margin-top: 10px;">
+                    <thead>
+                        <tr>
+                            <th>Kategória porušenia / deliktu</th>
+                            <th>Maximálna pokuta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ochrana života, zdravia a dôstojnosti</td>
+                            <td><strong>Max. pokuta 10 000 EUR</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Podmieňovanie uzatvorenia zmluvy</td>
+                            <td><strong>Max. pokuta 5 000 EUR</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Nedovolené navýšenie úhrady</td>
+                            <td><strong>Max. pokuta 3 000 EUR</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            `,
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 21/22"
+        },
+        // Snímka 22
+        {
+            type: "hero",
+            headerTitle: "ĎAKUJEM ZA POZORNOSŤ",
+            title: "Ďakujem za pozornosť",
+            subtitle: "Materiál pripravený pre zasadnutie Sociálnej komisie KSK.",
+            meta: "Organizácia: Košický samosprávny kraj | Odbor sociálnych vecí",
+            footer: "Katarina Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK | Snímka 22/22"
+        }
+    ];
+
+    // RENDER ENGINE
+    const container = document.getElementById('presentation');
+
+    data.forEach((item) => {
+        const page = document.createElement('div');
+        page.className = 'page';
+
+        let contentHTML = '';
+
+        if (item.type === 'hero') {
+            contentHTML = `
+                <div class="slide-header">
+                    <h1>${item.headerTitle}</h1>
+                </div>
+                <div class="slide-content">
+                    <div class="hero-container">
+                        <div class="hero-title">${item.title}</div>
+                        <div class="hero-subtitle">${item.subtitle}</div>
+                        <div class="hero-meta">${item.meta}</div>
+                    </div>
+                </div>
+            `;
+        } else if (item.type === 'timeline') {
+            let stepsHTML = item.steps.map((step, i) => `
+                <div class="timeline-step">
+                    <div class="timeline-badge">${i + 1}</div>
+                    <div class="timeline-card">
+                        <div class="timeline-date">${step.phase}<br><small style="font-weight:normal; color:var(--text-main);">${step.date}</small></div>
+                        <p>${step.text}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            contentHTML = `
+                <div class="slide-header">
+                    <h1>${item.headerTitle}</h1>
+                    ${item.subtitle ? `<h2>${item.subtitle}</h2>` : ''}
+                </div>
+                <div class="slide-content">
+                    <div class="timeline-container">
+                        ${stepsHTML}
+                    </div>
+                </div>
+            `;
+        } else {
+            contentHTML = `
+                <div class="slide-header">
+                    <h1>${item.headerTitle}</h1>
+                    ${item.subtitle ? `<h2>${item.subtitle}</h2>` : ''}
+                </div>
+                <div class="slide-content">
+                    ${item.content}
+                </div>
+            `;
+        }
+
+        // FOOTER
+        const footerHTML = `
+            <div class="slide-footer">
+                <div class="footer-text">${item.footer}</div>
+            </div>
+        `;
+
+        page.innerHTML = contentHTML + footerHTML;
+        container.appendChild(page);
+    });
+</script>
+</body>
+</html>

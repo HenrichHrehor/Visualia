@@ -1,0 +1,44 @@
+"visual_micro_ui_guidelines_v4_5": {
+      "title": "Modern Micro-UI Vrstva (NOVÉ vo v4.5)",
+      "description": "Súbor vizuálnych vylepšení pre moderný, hĺbkový vzhľad prezentácie bez rizika pretečenia textu na formáte A4 Landscape.",
+      
+      "1_ambient_layered_shadows": {
+        "rule": "Karty nesmú používať tvrdý čierny tieň. Využívaj viacvrstvový ambientný tieň pre prémiový 'floating' efekt.",
+        "css": "box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05), 0 10px 15px -3px rgba(15, 23, 42, 0.03), 0 1px 2px rgba(0, 0, 0, 0.02);"
+      },
+
+      "2_technical_dot_pattern": {
+        "rule": "Na pozadie slajdov (a najmä Hero) vkladaj jemný technický bodkovaný raster s nízkou opacitou (7–10 %), ktorý pôsobí ako milimetrový papier pri IT, technike a fyzike.",
+        "html_element": "<div class='dot-pattern'></div> ako prvý potomok v '.slide'",
+        "css": ".dot-pattern { position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(148, 163, 184, 0.15) 1.5px, transparent 1.5px); background-size: 20px 20px; }"
+      },
+
+      "3_badge_pill_tags": {
+        "rule": "Každá karta v 'grid-*' alebo 'single-block' môže obsahovať kľúč 'badge' pre okamžitú kategorizáciu obsahu (napr. 'EXPERIMENT', 'LEGISLATÍVA', 'METRIKA', 'TRADÍCIA', 'POZOR').",
+        "placement": "Renderuje sa nad nadpisom karty v kontajneri '.card-badge'.",
+        "css": ".card-badge { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; background: rgba(2, 132, 199, 0.08); color: var(--secondary); border: 1px solid rgba(2, 132, 199, 0.2); margin-bottom: 8px; width: fit-content; }"
+      },
+
+      "4_big_number_template": {
+        "rule": "Pre kľúčové štatistiky, KPI, finančné čiastky alebo fyzikálne namerané konštanty použi šablónu 'grid-stat-3' alebo 'grid-stat-4'. Namiesto ikony dominuje obrovské číslo.",
+        "json_structure": {
+          "template": "grid-stat-3",
+          "boxes": [
+            {
+              "badge": "Kategória (napr. Meranie)",
+              "num": "0,60",
+              "unit": "m/s² (voliteľné)",
+              "t": "Názov metriky bez skratiek",
+              "d": "Plynulý vysvetľujúci text v rozsahu 25 až 35 slov."
+            }
+          ]
+        },
+        "css_stat_value": ".stat-value { font-size: 52px; font-weight: 900; line-height: 1; color: var(--secondary); letter-spacing: -1.5px; margin-bottom: 6px; display: flex; align-items: baseline; gap: 6px; } .stat-unit { font-size: 20px; font-weight: 700; color: var(--primary); }"
+      },
+
+      "engine_renderers_integration": {
+        "card_with_badge": "function card(b) { const badgeHtml = b.badge ? `<div class='card-badge'>${b.badge}</div>` : ''; const iconHtml = b.icon ? `<div class='card-icon'>${b.icon}</div>` : ''; const chartHtml = b.chart ? `<div class='graph-box'>${b.chart}</div>` : ''; return `<div class='card'><div>${badgeHtml}<div class='card-header'>${iconHtml}<span class='box-title'>${b.t}</span></div><div class='text-content">${b.d}</div></div>${chartHtml}</div>`; }",
+        "stat_card": "function statCard(b) { const badgeHtml = b.badge ? `<div class='card-badge'>${b.badge}</div>` : ''; return `<div class='card stat-card'><div>${badgeHtml}<div class='stat-value'>${b.num} <span class='stat-unit'>${b.unit || ''}</span></div><span class='box-title' style='margin-bottom:8px;'>${b.t}</span></div><div class='text-content'>${b.d}</div></div>`; }",
+        "single_block_with_badge_and_figure": "'single-block': s => `<div class='content single-block'><div class='single-card'>${s.badge ? `<div class='card-badge' style='margin:0 auto 12px auto;'>${s.badge}</div>` : ''}<span class='box-title'>${s.heading}</span><div class='text-content'>${s.body}</div>${s.figure ? `<div class='graph-box fig'>${s.figure}</div>` : ''}</div></div>`"
+      }
+    }

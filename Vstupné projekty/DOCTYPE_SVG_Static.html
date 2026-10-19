@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<title>Reforma Sociálnych Služieb 2026 — KSK Tier 1</title>
+<style>
+/* =========================================================================
+   VRSTVA 1 — ENGINE (NEMENNÉ A4 LANDSCAPE)
+   ========================================================================= */
+@page { size: A4 landscape; margin: 0; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 0; background: #e2e8f0; font-family: 'Inter', 'Segoe UI', sans-serif; display: block; }
+
+.deck-container { width: 100%; height: auto; background-color: transparent; display: block; }
+
+.slide {
+    width: 297mm; height: 210mm; margin: 0 auto; padding: 20mm;
+    display: flex; flex-direction: column; background: var(--bg);
+    page-break-after: always; break-after: page; position: relative; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+@media print {
+    body { background: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .slide { box-shadow: none; border: none; margin: 0; }
+}
+
+.header { flex-shrink: 0; border-bottom: 3px solid var(--secondary); padding-bottom: 10px; margin-bottom: 15px; }
+.header-tag { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--secondary); margin-bottom: 4px; }
+.title { font-size: 28px; font-weight: 800; margin: 0; color: var(--primary); text-transform: var(--title-transform, none); }
+
+.content { flex: 1; min-height: 0; display: flex; flex-direction: column;}
+.footer { position: absolute; bottom: 15px; left: 20mm; right: 20mm; padding-top: 8px; border-top: 1px solid #cbd5e1; text-align: center; font-size: 13px; font-weight: 600; color: #64748b; display: flex; justify-content: space-between;}
+
+strong { color: var(--gold-color); }
+.law-ref { color: #000; font-weight: 800; }
+.highlight-red { color: #dc2626; font-weight: 900; }
+
+.box-title { display: block; font-weight: 800; color: var(--primary); margin-bottom: 12px; font-size: 22px; line-height: 1.3;}
+.text-content { font-size: 18px; line-height: 1.6; color: var(--text); margin: 0; text-align: justify;}
+
+table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 15px; }
+th, td { border: 1px solid #cbd5e1; padding: 8px 12px; text-align: left; }
+th { background-color: var(--primary); color: white; font-weight: 700; }
+tr:nth-child(even) { background-color: #f8fafc; }
+
+/* =========================================================================
+   VRSTVA 2 — ŠABLÓNY OBSAHU & SVG PODPORA
+   ========================================================================= */
+.card-icon {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 12px;
+    color: var(--secondary);
+    display: flex;
+    align-items: center;
+}
+.card-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.content.grid-cards-4 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 15px; }
+.content.grid-cards-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr; gap: 15px; }
+.content.grid-cards-2 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 30px; align-content: stretch;}
+.content.grid-cards-1 { display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr; gap: 30px; padding: 10px 40px; height: 100%; }
+.content.single-block { display: flex; align-items: flex-start; justify-content: center; padding: 0; height: 100%; }
+.content.list-block { display: flex; flex-direction: column; gap: 14px; justify-content: center;}
+
+.content.timeline-horizontal { display: flex; flex-direction: row; justify-content: space-between; align-items: stretch; position: relative; gap: 30px; padding-top: 20px; height: 100%; }
+.content.timeline-horizontal::before { content: ''; position: absolute; top: 42px; left: 16%; right: 16%; height: 6px; background: var(--secondary); z-index: 1; }
+.timeline-step { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; align-items: center; }
+.timeline-badge { flex-shrink: 0; width: 50px; height: 50px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 22px; margin-bottom: 25px; border: 6px solid var(--bg); }
+.timeline-card { background: var(--card); border-radius: var(--radius); padding: 30px; box-shadow: 0 4px 10px rgba(0,0,0,.08); border-top: var(--accent-w) solid var(--primary); width: 100%; flex: 1; text-align: left; }
+.timeline-date { display: block; font-weight: 800; color: var(--secondary); font-size: 14px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+.timeline-card .box-title { font-size: 20px; margin-bottom: 10px; color: var(--primary); }
+.timeline-card .text-content { font-size: 17px; line-height: 1.5; }
+
+.card { background: var(--card); padding: 25px; border-radius: var(--radius); border-left: var(--accent-w) solid var(--secondary); box-shadow: 0 4px 8px rgba(0,0,0,.05); display: flex; flex-direction: column; justify-content: center; }
+.grid-cards-2 .card { padding: 35px; }
+.grid-cards-1 .card { padding: 40px; justify-content: center; align-items: center; text-align: center; }
+.grid-cards-1 .card .card-icon { width: 48px; height: 48px; margin-bottom: 16px; }
+.grid-cards-1 .text-content { font-size: 26px; line-height: 1.6; text-align: center;}
+.grid-cards-1 .box-title { font-size: 34px; margin-bottom: 25px;}
+
+.single-card { width: 100%; margin: auto 0; padding: 30px 50px; text-align: left; background: var(--card); border-radius: var(--radius); box-shadow: 0 4px 8px rgba(0,0,0,.05); border-top: var(--accent-w) solid var(--secondary); }
+.single-card .box-title { font-size: 24px; margin-bottom: 15px; color: var(--primary);}
+.single-card .text-content { font-size: 17px; line-height: 1.5; }
+
+.list-item { flex: 1; display: flex; align-items: center; gap: 22px; background: var(--card); border-radius: var(--radius); padding: 18px 30px; box-shadow: 0 4px 8px rgba(0,0,0,.05); border-left: var(--accent-w) solid var(--secondary); }
+.list-marker { flex-shrink: 0; width: 45px; height: 45px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; }
+.list-body { flex: 1; }
+
+.hero { justify-content: center; align-items: center; text-align: center; color: #fff; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); }
+.hero-title { font-size: 46px; color: white; margin: 0; font-weight: 800; line-height: 1.2; padding: 0 40px;}
+.hero-subtitle { font-size: 26px; margin-top: 20px; color: #f1f5f9; font-weight: 400; }
+.hero-author { margin-top: 50px; font-size: 20px; line-height: 1.5; color: #cbd5e1;}
+
+/* =========================================================================
+   VRSTVA 3 — TÉMY (KSK Tier 1 - Odborná komisia)
+   ========================================================================= */
+.theme-ksk-formal { 
+    --primary: #0f172a; 
+    --primary-dark: #020617; 
+    --secondary: #c5a059; 
+    --bg: #f8fafc; 
+    --card: #ffffff; 
+    --text: #334155; 
+    --radius: 8px; 
+    --accent-w: 6px; 
+    --gold-color: #c5a059; 
+    --title-transform: uppercase; 
+}
+</style>
+</head>
+<body>
+
+<div class="deck-container" id="slides"></div>
+
+<script>
+const AUTHOR = "JUDr. et Mgr. Katarína Hrehorová Kaňuchová | ODBOR SOCIÁLNYCH VECÍ | KSK";
+
+/* =========================================================================
+   SADA LINE-ART SVG IKON (Tier 1 KSK Štandard)
+   ========================================================================= */
+const ICONS = {
+    doc: '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
+    trend: '<svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
+    building: '<svg viewBox="0 0 24 24"><path d="M3 21h18M3 7v14M21 7v14M6 21V11M10 21V11M14 21V11M18 21V11M12 3l9 4H3l9-4z"/></svg>',
+    money: '<svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+    users: '<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+    shield: '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+    contract: '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg>',
+    home: '<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+    calendar: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+    system: '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>',
+    alert: '<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+    scale: '<svg viewBox="0 0 24 24"><path d="M12 3v18M3 7l9-4 9 4M6 12l-3 6h6l-3-6zM18 12l-3 6h6l-3-6z"/></svg>',
+    chart: '<svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
+    heart: '<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',
+    arrowRight: '<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
+    history: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'
+};
+
+/* =========================================================================
+   DÁTA: REFORMA SOCIÁLNYCH SLUŽIEB 2026 (KSK TIER 1 - SVG UPDATE)
+   ========================================================================= */
+const data = [
+    // 1
+    {
+        theme: "ksk-formal", template: "hero",
+        title: "Reforma Sociálnych Služieb",
+        subtitle: "Informácia k zmenám prijatej legislatívy účinnej od 1. júla 2026",
+        author: "Materiál pre: SOCIÁLNA KOMISIA<br>Spracovala: JUDr. et Mgr. Katarína Hrehorová Kaňuchová"
+    },
+    // 2
+    {
+        theme: "ksk-formal", template: "grid-2-airy", tag: "Kontext reformy",
+        title: "Zákon o príspevku na pomoc pri odkázanosti",
+        boxes: [
+            { icon: ICONS.doc, t: "Zákon č. 406/2025 Z. z.", d: "Zákon o príspevku na pomoc pri odkázanosti na pomoc inej fyzickej osoby (PPO), schválený dňa 9. decembra 2025, bol splnením posledného míľnika <strong>Plánu obnovy a odolnosti SR</strong> v oblasti integrácie dlhodobej sociálno-zdravotnej starostlivosti." },
+            { icon: ICONS.trend, t: "Vplyv zákona", d: "Zákon novelizoval zákon <span class='law-ref'>č. 448/2008 Z. z.</span> o sociálnych službách. Prináša dôraz na potreby fyzickej osoby odkázanej na pomoc inej osoby v prirodzenom prostredí a <strong>zásadný posun vo financovaní (tzv. paušály)</strong>." }
+        ]
+    },
+    // 3 - TIMELINE
+    {
+        theme: "ksk-formal", template: "timeline-horizontal", tag: "Harmonogram",
+        title: "Etapy účinnosti legislatívnych zmien",
+        steps: [
+            { date: "Od 1. januára 2026", t: "I. Etapa", d: "Menej závažné zmeny. Úprava okruhu prijímateľov a poskytovateľov sociálnych služieb, nový druh služby – <strong>rozvoj rodičovských zručností</strong> a personálny normatív." },
+            { date: "Od 1. júla 2026", t: "II. Etapa", d: "Komplexnejšie zmeny vyžadujúce čas na implementáciu. Týka sa to predovšetkým <strong>finančného príspevku na prevádzku (FPP)</strong>, úpravy kompetencií VÚC a novej profesie." },
+            { date: "Od 31. dec. 2026", t: "III. Etapa", d: "Zavŕšenie národnej reformy. Oficiálne spustenie <strong>príspevku na pomoc pri odkázanosti (PPO)</strong> a jeho plná implementácia do reálnej aplikačnej praxe." }
+        ]
+    },
+    // 4
+    {
+        theme: "ksk-formal", template: "single-block", tag: "Nový systém financovania",
+        title: "Paušálne sadzby (Príloha č. 5a)",
+        heading: "Finančný príspevok na prevádzku (§ 77 ods. 2)",
+        body: `
+            <p style="margin-bottom: 10px;">Od 1.7.2026 nastáva zmena financovania neverejných poskytovateľov. Finančný príspevok na prevádzku (FPP) sa už neurčuje podľa ekonomicky oprávnených výdavkov, ale <strong>paušálnou sadzbou</strong> na miesto alebo hodinu služby stanovenou v zákone.</p>
+            <table>
+                <thead>
+                    <tr><th>Druh sociálnej služby</th><th>Pobytová SS / mesiac / miesto</th><th>Ambulantná SS / mesiac / miesto</th><th>Terénna SS / hodina</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Zariadenie podpor. bývania</td><td>288 eur (277,59)</td><td>-</td><td>-</td></tr>
+                    <tr><td>Zariadenie pre seniorov</td><td>309 eur (0)</td><td>-</td><td>-</td></tr>
+                    <tr><td>Zariadenie opatr. služby</td><td>309 eur (0)</td><td>-</td><td>-</td></tr>
+                    <tr><td>Rehabilitačné stredisko</td><td>414 eur (0)</td><td>353 eur (451,25)</td><td>-</td></tr>
+                    <tr><td>Domov sociálnych služieb</td><td>414 eur (336,99)</td><td>353 eur (227,81)</td><td>-</td></tr>
+                    <tr><td>Špecializované zariadenie</td><td>489 eur (497,35)</td><td>438 eur (444,60)</td><td>-</td></tr>
+                    <tr><td>Denný stacionár</td><td>-</td><td>119 eur</td><td>-</td></tr>
+                    <tr><td>Opatrovateľská služba</td><td>-</td><td>-</td><td>3,7 eura</td></tr>
+                </tbody>
+            </table>
+        `
+    },
+    // 5
+    {
+        theme: "ksk-formal", template: "single-block", tag: "Nový systém financovania",
+        title: "Financovanie krízovej intervencie",
+        heading: "Príloha č. 4a (§ 78aa)",
+        body: `
+            <table>
+                <thead>
+                    <tr><th>Druh zariadenia krízovej intervencie</th><th>Sadzba za mesiac</th><th>Sadzba za rozpočtový rok</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Nocľaháreň</td><td>408 eur / mesiac</td><td>4 896 eur / rozpočtový rok</td></tr>
+                    <tr><td>Útulok</td><td>408 eur / mesiac</td><td>4 896 eur / rozpočtový rok</td></tr>
+                    <tr><td>Domov na polceste</td><td>408 eur / mesiac</td><td>4 896 eur / rozpočtový rok</td></tr>
+                    <tr><td>Zariadenie núdzového bývania</td><td>408 eur / mesiac</td><td>4 896 eur / rozpočtový rok</td></tr>
+                </tbody>
+            </table>
+            <p style="margin-top: 15px;"><strong>Poznámka:</strong> FPP za 1. polrok 2026 v zariadeniach krízovej intervencie (útulky a ZNB) bol stanovený vo výške 358,49 eur / miesto / mesiac.</p>
+        `
+    },
+    // 6
+    {
+        theme: "ksk-formal", template: "grid-1", tag: "Kľúčová zmena kompetencií",
+        title: "Presun financovania zo samospráv na VÚC",
+        boxes: [
+            { icon: ICONS.building, t: "Povinnosť financovať neverejné zariadenia:", d: "<ul style='text-align: left; display: inline-block; margin-bottom: 20px;'><li>zariadenia pre seniorov a</li><li>zariadenia opatrovateľskej služby</li></ul><br><strong>Záver:</strong> Povinnosť s konečnou platnosťou prechádza z rozpočtov obcí priamo do kompetencie a rozpočtov <strong>vyšších územných celkov (VÚC)</strong>." }
+        ]
+    },
+    // 7
+    {
+        theme: "ksk-formal", template: "grid-2-airy", tag: "Ekonomické dopady",
+        title: "Finančný dopad na KSK",
+        boxes: [
+            { icon: ICONS.money, t: "Presun financovania znamená pre KSK:", d: "<ul><li>Od 1. 7. 2026 očakávame dopad <span class='highlight-red'>+ 2,7 mil. eur</span></li><li>V roku 2027 je predpokladaný dopad <span class='highlight-red'>+ 7,4 mil. eur</span></li></ul>" },
+            { icon: ICONS.doc, t: "Doplňujúce informácie:", d: "Od 1.1.2027 Príloha 5a už nebude obsahovať aktuálne sumy. Zákon ponechá len mechanizmus, výšky určí <strong>nariadenie vlády SR</strong> (č. 182/2026 Z. z.). Pri krízovej intervencii financujeme plnú registrovanú kapacitu paušálom." }
+        ]
+    },
+    // 8
+    {
+        theme: "ksk-formal", template: "grid-3", tag: "Metodika financovania",
+        title: "Financovanie podľa kapacity zariadenia",
+        boxes: [
+            { icon: ICONS.chart, t: "Registrovaná kapacita", d: "FPP sa po novom poskytuje striktne podľa <strong>registrovanej kapacity</strong> (počtu miest), a nie podľa reálneho počtu fyzických osôb ani podľa ich trvalého bydliska." },
+            { icon: ICONS.building, t: "Územný princíp", d: "VÚC financuje zariadenia nachádzajúce sa <strong>v jeho územnom obvode</strong>. Príspevok sa neviaže na trvalý pobyt (platí pre služby podmienené odkázanosťou a krízovú intervenciu)." },
+            { icon: ICONS.calendar, t: "Neobsadené miesto", d: "Zákon priznáva právo na čerpanie FPP aj pri dočasnom neobsadení miesta: V pobytových max. <strong>30 dní za sebou</strong>, v ambulantných max. 20 pracovných dní." }
+        ]
+    },
+    // 9
+    {
+        theme: "ksk-formal", template: "grid-2-airy", tag: "Riadenie ľudských zdrojov",
+        title: "Nový personálny normatív (§ 9 ods. 4)",
+        boxes: [
+            { icon: ICONS.users, t: "Zrušenie percentuálneho podielu", d: "Zavádza sa úplne nová filozofia. Systém percentuálneho podielu odborných pracovníkov k celkovému počtu zamestnancov sa ruší. Namiesto toho sa určuje <strong>maximálny počet prijímateľov</strong> na 1 odborného zamestnanca." },
+            { icon: ICONS.contract, t: "Aplikácia v praxi", d: "Príloha č. 1 obsahuje exaktný zoznam profesií, ktoré sa považujú za odborné. Povinnosť plnenia tohto nového normatívu vzniká od <strong>1. júla 2026</strong>." }
+        ]
+    },
+    // 10
+    {
+        theme: "ksk-formal", template: "grid-2-airy", tag: "Nové činnosti",
+        title: "Nová odborná činnosť a formy služieb",
+        boxes: [
+            { icon: ICONS.heart, t: "Rozvoj rodičovských zručností (§ 23c)", d: "Nová odborná činnosť zameraná na podporu vývinu dieťaťa. Je poskytovaná <strong>tehotnej žene, rodičovi alebo FO</strong> so zvereným dieťaťom, ak sa nachádzajú v nepriaznivej sociálnej situácii." },
+            { icon: ICONS.home, t: "Pobytová forma a nocľahárne", d: "Od 1.1.2026 sa služby ZPB, ZpS a ZOS obmedzujú <strong>len na pobytovú formu</strong> (ambulantné sa preklápajú na stacionár). V nocľahárňach sa ruší obmedzenie 'len na prenocovanie'." }
+        ]
+    },
+    // 11
+    {
+        theme: "ksk-formal", template: "grid-1", tag: "Posudzovanie majetku",
+        title: "Nové podmienky posudzovania majetku",
+        boxes: [
+            { icon: ICONS.shield, t: "Sprísnený režim zisťovania a vyhlasovania", d: "Zavádza sa prísnejší režim zisťovania majetku prijímateľov s cieľom znížiť narastajúce pohľadávky v systéme. Od 1. 1. 2026 platí <strong>hranica súhrnnej hodnoty majetku nad 8 000 eur</strong> a pri peňažných úsporách nad 2 000 eur. Zavádza sa tiež úplne nové povinné vyhlásenie o majetku (Príloha č. 4b)." }
+        ]
+    },
+    // 12
+    {
+        theme: "ksk-formal", template: "grid-2-airy", tag: "Ekonomika",
+        title: "Úprava ekonomiky: Prechod na EOV",
+        boxes: [
+            { icon: ICONS.money, t: "Vylúčenie odpisov z výdavkov", d: "Pojem 'Ekonomicky oprávnené náklady (EON)' sa nahrádza pojmom <strong>Ekonomicky oprávnené výdavky (EOV)</strong>. Odpisy majetku sa postupne vylučujú. Prechodne (do konca r. 2026) sa však odpisy ešte považujú za EOV." },
+            { icon: ICONS.chart, t: "Prepočet na kapacity a ošetrovateľstvo", d: "Priemerná výška úhrady sa po novom prepočítava priamo na <strong>počet zapísaných miest</strong> (kapacitu v registri). Do príjmov odpočítavaných od EOV sa zahŕňa aj úhrada za ošetrovateľskú starostlivosť." }
+        ]
+    },
+    // 13
+    {
+        theme: "ksk-formal", template: "grid-2-airy", tag: "Nová profesia",
+        title: "Pracovník dlhodobej starostlivosti",
+        boxes: [
+            { icon: ICONS.users, t: "Kvalifikačné predpoklady", d: "Nová profesia podľa <span class='law-ref'>§ 84 ods. 23</span> prepája sociálny a zdravotný systém. Vyžaduje úplné stredné odborné vzdelanie (opatrovanie) alebo akékoľvek úplné stredné vzdelanie + <strong>akreditovaný kurz v rozsahu 400 hodín</strong>." },
+            { icon: ICONS.calendar, t: "Prechodné ustanovenie pre opatrovateľov", d: "Súčasným opatrovateľom (s 220-hodinovým kurzom) sa kvalifikácia uzná, ak do <strong>31. decembra 2028</strong> absolvujú doplňujúce vzdelávanie v rozsahu minimálne 180 hodín zamerané na ošetrovateľské úkony." }
+        ]
+    },
+    // 14
+    {
+        theme: "ksk-formal", template: "grid-2-airy", tag: "Administratíva",
+        title: "Zjednodušenie zabezpečovania služieb",
+        boxes: [
+            { icon: ICONS.contract, t: "Podanie žiadosti", d: "Od 1.7.2026 FO odkázaná na pomoc už nežiada VÚC. Svoju žiadosť smeruje <strong>priamo vybranému poskytovateľovi</strong> (PSS), čím sa zásadne mení administratívny postup prijímania." },
+            { icon: ICONS.building, t: "Kompetencie obcí", d: "Obce naďalej zabezpečujú služby, ktorých financovanie je priamo viazané na žiadosť občana: <strong>Terénna domáca opatrovateľská služba a Denný stacionár</strong>. Plány obcí a VÚC sa musia zosúladiť s reformou." }
+        ]
+    },
+    // 15
+    {
+        theme: "ksk-formal", template: "grid-1", tag: "Prechodný stav",
+        title: "Zabezpečenie služby do 30.6.2026",
+        boxes: [
+            { icon: ICONS.history, t: "Súčasný proces (podanie na KSK)", d: "Žiadosti sa podávajú výlučne na KSK, nasleduje kontrola a evidencia v RPSS. Platí <strong>obmedzenie počtu podaných žiadostí</strong> na 1 FO a pre financovanie je určujúci trvalý pobyt prijímateľa. Týka sa ZPB, Rehabilitačných stredísk, DSS a Špecializovaných zariadení." }
+        ]
+    },
+    // 16
+    {
+        theme: "ksk-formal", template: "grid-1", tag: "Nový stav",
+        title: "Zabezpečenie služby od 1.7.2026",
+        boxes: [
+            { icon: ICONS.arrowRight, t: "Nový proces (podanie na PSS)", d: "Žiadosti sa podávajú priamo poskytovateľovi, evidencia prebieha v aplikácii KSK. <strong>Trvalý pobyt prijímateľa nerozhoduje</strong>, určujúce je miesto poskytovania SoS. K službám KSK (ZPB, RS, DSS, ŠZ) sa pridávajú <span class='highlight-red'>+ Zariadenie opatrovateľskej služby + Zariadenie pre seniorov</span>." }
+        ]
+    },
+    // 17
+    {
+        theme: "ksk-formal", template: "grid-2-airy", tag: "Ochrana života a zdravia",
+        title: "Legislatívne ukotvenie bezodkladnosti (§ 81c)",
+        boxes: [
+            { icon: ICONS.scale, t: "Riešenie bezodkladnosti", d: "V pôsobnosti obce/mesta zostáva Denný stacionár a Opatrovateľská služba. V pôsobnosti VÚC je ZPB, RS, DSS, ŠZ, a po novom aj <strong>Zariadenie opatrovateľskej služby a Zariadenie pre seniorov</strong>." },
+            { icon: ICONS.alert, t: "Podnet na konanie", d: "Od 1.7.2026 platí dôležitá podmienka: <strong>LEN obec alebo mesto</strong> je oprávnená podať podnet na začatie konania o integrovanom posudku pre potreby bezodkladného poskytnutia služby." }
+        ]
+    },
+    // 18
+    {
+        theme: "ksk-formal", template: "grid-2-airy", tag: "Ochrana života a zdravia",
+        title: "Podmienky bezodkladného poskytnutia",
+        boxes: [
+            { icon: ICONS.shield, t: "Hlavná zásada", d: "Sociálna služba sa poskytne bezodkladne, ak nastane: a) <strong>vážne ohrozenie života alebo zdravia</strong>, b) absentujúce životné podmienky, alebo c) ukončenie pobytu v centre pre deti a rodiny (CDR)." },
+            { icon: ICONS.alert, t: "Vážne ohrozenie života", d: "Za vážne ohrozenie sa považuje najmä: ohrozenie správaním inej FO, absencia alebo <strong>úmrtie blízkej osoby</strong>, alebo nezabezpečená nevyhnutná osobná starostlivosť o prijímateľa." }
+        ]
+    },
+    // 19
+    {
+        theme: "ksk-formal", template: "grid-1", tag: "Uzatváranie zmlúv",
+        title: "Povinnosť uzatvoriť zmluvu pri voľnej kapacite",
+        boxes: [
+            { icon: ICONS.contract, t: "Aplikácia § 8", d: "Ak obec alebo VÚC požiada poskytovateľa o prijatie FO a zariadenie má voľné miesto, poskytovateľ <strong>musí uzatvoriť zmluvu</strong>. Táto dôležitá zmena sa už netýka len neverejných poskytovateľov, ale po novom <strong>aj verejných zariadení</strong> (obecných aj mestských)." }
+        ]
+    },
+    // 20
+    {
+        theme: "ksk-formal", template: "grid-2-airy", tag: "Digitalizácia",
+        title: "Registrácia a IS SoS",
+        boxes: [
+            { icon: ICONS.system, t: "Prístup k údajom v IS SoS", d: "VÚC a poskytovatelia získajú prístup k vybraným údajom z neverejnej časti IS SoS. Poskytovatelia uvidia <strong>údaje o fyzických osobách</strong>, ktoré požiadali obec/VÚC o službu práve u nich." },
+            { icon: ICONS.doc, t: "Evidencia", d: "Podľa <span class='law-ref'>§ 95 ods. 11</span> sú všetci poskytovatelia povinní predkladať <strong>štvrťročnú evidenciu prijímateľov</strong>. Znamená to nové, prísnejšie administratívne povinnosti pre všetky zariadenia v systéme." }
+        ]
+    },
+    // 21
+    {
+        theme: "ksk-formal", template: "single-block", tag: "Sankcie",
+        title: "Správne delikty a pokuty (§ 99)",
+        heading: "Nové kategórie deliktov a vyššie pokuty",
+        body: `
+            <table>
+                <thead>
+                    <tr><th>Kategória porušenia / deliktu</th><th>Maximálna pokuta</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Ochrana života, zdravia a dôstojnosti</td><td><strong style="color:var(--primary);">Max. pokuta 10 000 EUR</strong></td></tr>
+                    <tr><td>Podmieňovanie uzatvorenia zmluvy</td><td><strong style="color:var(--primary);">Max. pokuta 5 000 EUR</strong></td></tr>
+                    <tr><td>Nedovolené navýšenie úhrady</td><td><strong style="color:var(--primary);">Max. pokuta 3 000 EUR</strong></td></tr>
+                </tbody>
+            </table>
+        `
+    },
+    // 22
+    {
+        theme: "ksk-formal", template: "hero",
+        title: "Ďakujem za pozornosť",
+        subtitle: "Rada zodpoviem na Vaše otázky a pripomienky v diskusii.",
+        author: "Spracovala: JUDr. et Mgr. Katarína Hrehorová Kaňuchová"
+    }
+];
+
+/* =========================================================================
+   RENDER LOGIKA (S PODPOROU SVG IKON)
+   ========================================================================= */
+function card(b) { 
+    const iconHtml = b.icon ? `<div class="card-icon">${b.icon}</div>` : '';
+    return `<div class="card">${iconHtml}<span class="box-title">${b.t}</span><div class="text-content">${b.d}</div></div>`; 
+}
+
+function timelineStep(step, i) {
+    return `<div class="timeline-step"><div class="timeline-badge">${i + 1}</div><div class="timeline-card"><span class="timeline-date">${step.date}</span><span class="box-title">${step.t}</span><div class="text-content">${step.d}</div></div></div>`;
+}
+
+function listItem(it, i) { 
+    return `<div class="list-item"><div class="list-marker">${i + 1}</div><div class="list-body"><span class="box-title">${it.t}</span><div class="text-content">${it.d}</div></div></div>`; 
+}
+
+const renderers = {
+    "grid-4": s => `<div class="content grid-cards-4">${s.boxes.map(card).join('')}</div>`,
+    "grid-3": s => `<div class="content grid-cards-3">${s.boxes.map(card).join('')}</div>`,
+    "grid-2-airy": s => `<div class="content grid-cards-2">${s.boxes.map(card).join('')}</div>`,
+    "grid-1": s => `<div class="content grid-cards-1">${s.boxes.map(card).join('')}</div>`,
+    "timeline-horizontal": s => `<div class="content timeline-horizontal">${s.steps.map(timelineStep).join('')}</div>`,
+    "single-block": s => `<div class="content single-block"><div class="single-card"><span class="box-title">${s.heading}</span><div class="text-content">${s.body}</div></div></div>`,
+    "list": s => `<div class="content list-block">${s.items.map(listItem).join('')}</div>`
+};
+
+function buildSlide(s, index, total) {
+    const themeClass = `theme-${s.theme}`;
+    if (s.template === "hero") {
+        return `<div class="slide ${themeClass} hero">
+            <h1 class="hero-title">${s.title}</h1>
+            ${s.subtitle ? `<p class="hero-subtitle">${s.subtitle}</p>` : ''}
+            <div class="hero-author"><strong>${s.author}</strong></div>
+            <div class="footer"><span style="width:100%; text-align:center;">${AUTHOR} | Snímka ${index + 1}/${total}</span></div>
+        </div>`;
+    }
+    const headerHtml = `<div class="header">${s.tag ? `<div class="header-tag">${s.tag}</div>` : ''}<h1 class="title">${s.title}</h1></div>`;
+    const contentHtml = renderers[s.template](s);
+    const footerHtml = `<div class="footer"><span>${AUTHOR}</span><span>Snímka ${index + 1}/${total}</span></div>`;
+    return `<div class="slide ${themeClass}">${headerHtml}${contentHtml}${footerHtml}</div>`;
+}
+
+document.getElementById('slides').innerHTML = data.map((slide, index) => buildSlide(slide, index, data.length)).join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pôsobnosť VÚC - Lightblue Airy Layout</title>
+    <style>
+        /* A4 Print Setup */
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        :root {
+            --primary-color: #0b3c5d;
+            --secondary-color: #328cc1;
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-color: #1d2731;
+            --border-radius: 12px;
+            --gold-color: #c5a059;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e2e8f0;
+            color: var(--text-color);
+            display: block;
+        }
+
+        .deck-container {
+            width: 100%;
+            height: auto;
+            background-color: transparent;
+            display: block;
+        }
+
+        .slide {
+            width: 297mm;
+            height: 210mm;
+            margin: 0 auto;
+            background-color: var(--bg-color);
+            padding: 20mm 20mm;
+            position: relative;
+            page-break-after: always;
+            break-after: page;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        @media print {
+            body { 
+                background: none; 
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact; 
+            }
+            .slide { 
+                margin: 0; 
+                box-shadow: none; 
+                border: none; 
+            }
+        }
+
+        /* Header & Typography */
+        .header-tag {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 5px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 15px;
+        }
+
+        /* 2-Box Airy Grid Layout */
+        .grid-airy {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr;
+            gap: 40px;
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 40px; 
+            border-radius: var(--border-radius);
+            border-left: 8px solid var(--secondary-color); 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+        }
+
+        .box-title {
+            display: block;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 24px; 
+            line-height: 1.3;
+        }
+
+        .text-content {
+            font-size: 19px; 
+            line-height: 1.6;
+            color: #333333;
+            text-align: justify;
+            margin: 0;
+        }
+
+        /* Title Slide Customization */
+        .title-slide {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+            background: linear-gradient(135deg, #0b3c5d 0%, #328cc1 100%);
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+        }
+
+        .title-slide h1 {
+            color: white;
+            border-bottom: none;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            padding: 0 40px;
+            line-height: 1.2;
+        }
+
+        .title-slide h2 {
+            color: #e2e8f0;
+            font-weight: 400;
+            font-size: 1.6rem;
+            margin-bottom: 30px;
+        }
+
+        .title-slide .subtitle {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            margin-top: 15px;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 15px;
+            left: 20mm;
+            right: 20mm;
+            text-align: center;
+            font-weight: 600;
+            font-size: 13px;
+            color: #64748b;
+            border-top: 1px solid #cbd5e1;
+            padding-top: 8px;
+        }
+        
+        strong { color: var(--gold-color); }
+        .law-ref { color: #000; font-weight: 800; }
+    </style>
+</head>
+<body>
+
+<div class="deck-container">
+
+    <!-- 1. ÚVOD (SLIDE č. 1) -->
+    <div class="slide">
+        <div class="title-slide">
+            <h1>Pôsobnosť, kompetencie a finančno-kontrolný rámec</h1>
+            <h2>Vyšší územný celok v systéme sociálnych služieb</h2>
+            <div class="subtitle">
+                <p>Od stratégie k aplikačnej praxi podľa zákona č. 448/2008 Z. z.</p>
+                <p style="margin-top: 20px; font-size: 1rem;">(Systém zmien s účinnosťou k 31.12.2026)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- OBSAHOVÉ SLIDY -->
+    <script>
+        const data = [
+            {
+                t: "Strategická úloha vyššieho územného celku (1/2)",
+                b: [
+                    {
+                        t: "Tvorba koncepcie rozvoja", 
+                        d: "Samosprávny kraj vystupuje ako kľúčový subjekt územnej samosprávy, ktorý nesie plnú zodpovednosť za dostupnosť a kvalitu služieb. Podľa <span class='law-ref'>§ 81 písm. a)</span> zákona je povinný <strong>vypracúvať a schvaľovať koncepciu rozvoja</strong> priamo vo svojom vymedzenom územnom obvode pre zachovanie dlhodobej prevádzkovej stability."
+                    },
+                    {
+                        t: "Sociálna mapa a demografia", 
+                        d: "Schválená koncepcia nesmie byť iba formálnym byrokratickým dokumentom. Predstavuje mimoriadne dôležitú <strong>sociálnu mapu celého regiónu</strong>, ktorá musí exaktne a precízne reflektovať demografický vývoj a identifikovať <strong>reálne potreby občanov</strong> v kontexte dlhodobej finančnej udržateľnosti celého sociálneho systému."
+                    }
+                ]
+            },
+            {
+                t: "Strategická úloha vyššieho územného celku (2/2)",
+                b: [
+                    {
+                        t: "Povinnosť úzkej spolupráce", 
+                        d: "Zákon na zaistenie funkčného a bezpečného systému prísne vyžaduje vzájomnú interakciu a zamedzuje izolácii. Priamo v <span class='law-ref'>§ 83 ods. 2</span> ukladá obciam a v <span class='law-ref'>§ 83 ods. 3</span> samosprávnym krajom bezpodmienečnú <strong>povinnosť úzkej odbornej spolupráce</strong> pri tvorení strategických alokačných plánov."
+                    },
+                    {
+                        t: "Verejná diskusia a legitimita", 
+                        d: "Územný celok v celom tomto náročnom procese plní primárne koordinačnú rolu, pričom musí nutne zabezpečiť, aby bol kompletný návrh koncepcie podľa <span class='law-ref'>§ 83 ods. 4</span> predložený na otvorenú <strong>verejnú diskusiu</strong>. Tento transparentný aspekt je absolútne nevyhnutný pre dosiahnutie legitimity prijatých opatrení."
+                    }
+                ]
+            },
+            {
+                t: "Registračný proces a právna regulácia (1/2)",
+                b: [
+                    {
+                        t: "Právomoc zápisu do registra", 
+                        d: "Vyšší územný celok disponuje exkluzívnou a nezastupiteľnou právomocou vstupovať do celého procesu akceptácie nových subjektov na trh pomoci. Ustanovenie <span class='law-ref'>§ 62 ods. 1</span> striktne stanovuje imperatív, že službu možno legálne poskytovať výlučne na základe <strong>oficiálneho zápisu do registra</strong>, ktorý vedie kraj."
+                    },
+                    {
+                        t: "Komplexné posúdenie žiadosti", 
+                        d: "Tento dôležitý registračný proces nie je automatický a vyžaduje si precíznu analýzu každého subjektu. Podľa <span class='law-ref'>§ 64 ods. 2</span> musí doručená žiadosť obsahovať komplexný súbor informácií, od presných identifikačných údajov až po nevyhnutné <strong>dokladovanie odbornej spôsobilosti</strong> prítomného personálu zariadenia."
+                    }
+                ]
+            },
+            {
+                t: "Registračný proces a právna regulácia (2/2)",
+                b: [
+                    {
+                        t: "Zákonné lehoty pre registráciu", 
+                        d: "Pri byrokratickom posudzovaní existujú prísne administratívne limity a mantinely. Zásadným procesným bodom pre fungovanie úradu je znenie <span class='law-ref'>§ 65 ods. 2</span>, ktoré jednoznačne určuje, že samospráva nevyhotovuje klasické rozhodnutie, ale zápis priamo a bezodkladne vykoná <strong>najneskôr do 30 dní</strong> odo dňa predloženia dokladov."
+                    },
+                    {
+                        t: "Ochranný mechanizmus výmazu", 
+                        d: "Samospráva má v rukách mimoriadne silné nástroje na takzvané purifikovanie registra od nespôsobilých entít. Ustanovenie <span class='law-ref'>§ 68</span> presne definuje obligatórne <strong>dôvody na bezodkladný výmaz</strong>, napríklad ak uplynie čas trvania služby, oprávnená fyzická osoba zomrie, alebo právnická osoba s konečnou platnosťou zanikne."
+                    }
+                ]
+            },
+            {
+                t: "Finančný mechanizmus, príspevky a úhrady (1/2)",
+                b: [
+                    {
+                        t: "Úloha kraja vo financovaní", 
+                        d: "Financovanie tohto zložitého dotačného systému predstavuje historicky najviac regulovanú oblasť celej platnej legislatívy. Územný celok vystupuje v dvojakej pozícii a podľa <span class='law-ref'>§ 75 ods. 1 písm. c)</span> je povinne zaviazaný plošne poskytovať <strong>finančný príspevok na prevádzku</strong> pre schválených neverejných poskytovateľov v regióne."
+                    },
+                    {
+                        t: "Ekonomicky oprávnené výdavky", 
+                        d: "Kľúčom pre výpočet prideľovaného príspevku je objektívna a neskreslená dotačná kalkulácia stanovená ministerstvom. Ústredným je ustanovenie <span class='law-ref'>§ 77</span>, ktoré do celého procesu pevne zavádza matematický vzorec striktne založený na overiteľných a <strong>legitímnych ekonomicky oprávnených výdavkoch</strong> každého jedného zapojeného zariadenia."
+                    }
+                ]
+            },
+            {
+                t: "Finančný mechanizmus, príspevky a úhrady (2/2)",
+                b: [
+                    {
+                        t: "Presné parametre pre výpočet", 
+                        d: "Výška prideľovaných dotačných prostriedkov nepodlieha politickým preferenciám, ale konkrétnym štatistickým dátam. Ako explicitne prikazuje <span class='law-ref'>§ 77 ods. 1</span>, príspevok sa určí priamo podľa druhu a formy služby v matematickom prepočte na <strong>aktuálny počet miest a zapísaných prijímateľov</strong> danej starostlivosti."
+                    },
+                    {
+                        t: "Povinnosť transparentnosti", 
+                        d: "Na absolútnu legislatívnu ochranu verejných zdrojov sa zaviedla mimoriadne prísna informačná otvorenosť. Úrad je na základe <span class='law-ref'>§ 77 ods. 5</span> viazaný každoročne zverejňovať presné <strong>priemerné bežné výdavky a dosiahnuté príjmy</strong> z platenia klientskych úhrad, a to vždy najneskôr do konca februára."
+                    }
+                ]
+            },
+            {
+                t: "Kontrolná pôsobnosť a inšpekčné mechanizmy (1/2)",
+                b: [
+                    {
+                        t: "Primárna kontrolná kompetencia", 
+                        d: "Pravidelná inšpekcia je primárnym nástrojom pre účinné vynútenie požadovanej bezpečnosti a kvality. Dôležitý <span class='law-ref'>§ 98</span> explicitne definuje rozsah pôsobnosti – od zariadení samotného kraja, cez podmienky zápisu do registra až po <strong>komplexnú kontrolu hospodárenia prijímateľov</strong> štátnych dotácií."
+                    },
+                    {
+                        t: "Stavebné a technické delikty", 
+                        d: "Pri tvrdom výkone inšpekčnej činnosti audítori mimoriadne často narážajú na vážne porušenia základných technických noriem. Podľa <span class='law-ref'>§ 100</span> sa prevádzkovateľ dopustí závažného správneho deliktu, ak nedodrží dôležité <strong>požiadavky na bezbariérovú prístupnosť</strong> a celkové užívanie stavieb detailne špecifikované v ustanovení <span class='law-ref'>§ 9 ods. 5</span>."
+                    }
+                ]
+            },
+            {
+                t: "Kontrolná pôsobnosť a inšpekčné mechanizmy (2/2)",
+                b: [
+                    {
+                        t: "Aplikácia správneho poriadku", 
+                        d: "Vyšší územný celok je priamo tým legitímnym orgánom, ktorý aktívne iniciuje úradné konania o uložení sankcií za vedomé pochybenia. Pri týchto formálnych postupoch sa podľa <span class='law-ref'>§ 91 ods. 2</span> v plnom rozsahu nekompromisne aplikuje <strong>všeobecný predpis o správnom konaní</strong>."
+                    },
+                    {
+                        t: "Pravidlá inšpekčnej činnosti", 
+                        d: "Každý vykonaný vonkajší dohľad nad poskytovaním akejkoľvek formy pomoci vyžaduje bezvýhradnú formálnu oporu v procesnom práve. Samospráva musí podľa <span class='law-ref'>§ 98 ods. 2</span> postupovať výlučne podľa základných pravidiel kontrolnej činnosti, čo absolútne garantuje <strong>právnu objektivitu a nezávislosť protokolu</strong> pri ukladaní pokút."
+                    }
+                ]
+            },
+            {
+                t: "Informačný systém ako nástroj riadenia (1/2)",
+                b: [
+                    {
+                        t: "Digitalizácia a zriadenie systému", 
+                        d: "Rýchla a plošná digitálna transformácia celej verejnej správy sa nevyhnutne dotýka aj citlivej oblasti sociálnej podpory. Ustanovenie <span class='law-ref'>§ 105a</span> explicitne definuje túto platformu ako <strong>ucelený informačný systém verejnej správy</strong> určený výhradne na úseku práce, rodiny a kľúčových sociálnych vecí obyvateľstva."
+                    },
+                    {
+                        t: "Zákonná povinnosť vkladania dát", 
+                        d: "Všetky dotknuté obce aj samosprávne kraje čelia náročnej povinnosti nielen systém pasívne využívať, ale údaje do neho aktívne dopĺňať. Znenie <span class='law-ref'>§ 105b ods. 4</span> a <span class='law-ref'>§ 105a ods. 2 písm. c)</span> im nariaďuje odoslať požadované balíky dát <strong>najneskôr do konca apríla</strong> nasledujúceho roka."
+                    }
+                ]
+            },
+            {
+                t: "Informačný systém ako nástroj riadenia (2/2)",
+                b: [
+                    {
+                        t: "Transparentnosť financovania", 
+                        d: "Centralizovaný informačný nástroj je absolútne a kriticky kľúčový pre národnú prehľadnosť celkovej alokácie prostriedkov. Ministerstvo prostredníctvom tohto portálu získava neskreslený a dokonalý prehľad o tom, kto, v ktorom regióne a za aké <strong>presné štátne prostriedky</strong> reálne zabezpečuje verejnoprospešné služby ohrozeným skupinám."
+                    },
+                    {
+                        t: "Zodpovednosť za dátovú čistotu", 
+                        d: "Spoľahlivý štátny strategický manažment si nekompromisne vyžaduje mimoriadnu analytickú dôslednosť a skutočne nulovú toleranciu k dátovej chybovosti. Región nesie plnú zodpovednosť za dodané údaje, keďže sa z nich tvoria <strong>dôležité odborné prognózy a makroekonomické prepočty</strong> ovplyvňujúce stabilitu rozpočtu štátu."
+                    }
+                ]
+            },
+            {
+                t: "Záverečné výzvy a sumár kompetencií (1/2)",
+                b: [
+                    {
+                        t: "Dátová hygiena a štandardy kvality", 
+                        d: "Kraj nesmie byť len pasívnym úradníkom, ale silným iniciátorom kvalitatívnych zmien v regionálnej praxi. Okrem dátovej čistoty v informačnom systéme sa pozornosť definitívne presúva na <strong>štandardy kvality podľa prílohy číslo dva</strong>, ktoré prioritne zohľadňujú úroveň ľudských práv a kvalitu života klientov."
+                    },
+                    {
+                        t: "Spravodlivá regionálna integrácia", 
+                        d: "Úspešné sieťovanie pomoci vyžaduje neustále sledovanie lokálnych sociálnych potrieb jednotlivých ohrozených skupín obyvateľstva. Systematické komunitné plánovanie musí zabrániť tomu, aby v jednej obci vznikali <strong>nežiaduce duplicitné kapacity</strong>, zatiaľ čo iné časti kraja by trápil akútny nedostatok lôžok a personálu."
+                    }
+                ]
+            },
+            {
+                t: "Záverečné výzvy a sumár kompetencií (2/2)",
+                b: [
+                    {
+                        t: "Aplikačná prax a právna istota", 
+                        d: "Efektívne a transparentné konanie je najdôležitejším pilierom dôvery občanov voči orgánom verejnej správy. Je nevyhnutné, aby samospráva mimoriadne pedantne dodržiavala <strong>všetky zákonné lehoty v správnom konaní</strong>, najmä pri dôležitých registračných zápisoch, čím eliminuje zbytočné žaloby a predlžovanie agendy."
+                    },
+                    {
+                        t: "Sumár základných kompetencií", 
+                        d: "Zákon poveruje samosprávu obrovským balíkom strategických úloh pre rozvoj územia a bezpečnosť obyvateľstva. Tento rozsah povinne zahŕňa samotné plánovanie <strong>podľa <span class='law-ref'>§ 81</span> a <span class='law-ref'>§ 83</span></strong>, proces registrácie a komplexné finančné dotovanie, ale aj prísnu inšpekčnú kontrolu a odosielanie dát do informačných platforiem."
+                    }
+                ]
+            }
+        ];
+
+        data.forEach(item => {
+            document.write(`
+                <div class="slide">
+                    <div class="header">
+                        <div class="header-tag">Analýza a legislatíva</div>
+                        <h1 class="title">${item.t}</h1>
+                    </div>
+                    <div class="grid-airy">
+                        ${item.b.map(box => `
+                            <div class="card">
+                                <div class="text-content">
+                                    <span class="box-title">${box.t}</span>
+                                    ${box.d}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="footer">JUDr. Katarína Hrehorová Kaňuchová | Odbor sociálnych vecí | Košický samosprávny kraj</div>
+                </div>
+            `);
+        });
+    </script>
+
+    <!-- ZÁVER (POSLEDNÝ SLIDE) -->
+    <div class="slide hero-slide">
+        <h1 class="hero-title">Ďakujem za pozornosť</h1>
+        <p class="hero-subtitle">Priestor pre Vaše otázky a odbornú diskusiu.</p>
+        <div class="hero-author">
+            <strong>JUDr. Katarína Hrehorová Kaňuchová</strong><br>
+            Odbor sociálnych vecí | Košický samosprávny kraj
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
