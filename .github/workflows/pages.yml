@@ -27,10 +27,21 @@ jobs:
       - name: Stage site
         shell: bash
         run: |
-          mkdir -p _site
-          cp index.html .nojekyll _site/
-          cp -a export _site/export
-          cp -a "Vstupné projekty" "_site/Vstupné projekty"
+          mkdir -p "_site/export" "_site/Vstupné projekty"
+          cp index.html favicon.svg .nojekyll _site/
+          cp export/sosa-skolsky-zakon.pdf export/sosa-skolsky-zakon.pptx \
+             export/sosa-tier1.pdf export/sosa-tier1.pptx \
+             export/sosa-tier2.pdf export/sosa-tier2.pptx \
+             export/sosa-tier3.pdf export/sosa-tier3.pptx \
+             export/pohyb-rovnomerny.pdf export/pohyb-rovnomerny.pptx \
+             export/vizualne-prvky.pdf export/vizualne-prvky.pptx \
+             _site/export/
+          cp "Vstupné projekty/DOCTYPE_SOŠa_AdaptiveTiersDemo_Static.html" \
+             "Vstupné projekty/DOCTYPE_SOŠa_AdaptiveTiersDemo_Dynamic.html" \
+             "Vstupné projekty/DOCTYPE_SOŠa_AdaptiveTiersDemo_Dynamic_Optimalized.html" \
+             "Vstupné projekty/Demonštrácia rovnomerného pohybu_IV_Hrehor.html" \
+             "Vstupné projekty/Ukážka vizuálnych prvkov_Claude.html" \
+             "_site/Vstupné projekty/"
 
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
