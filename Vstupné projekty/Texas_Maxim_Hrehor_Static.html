@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Texas — Maxim Hrehor, Kvinta</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+@page { size: A4 landscape; margin: 0; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 0; background: #e7eef6; font-family: 'Segoe UI', sans-serif; }
+.deck-container { width: 100%; }
+.slide {
+    width: 297mm; height: 210mm; margin: 0 auto 16px; padding: 16mm 18mm 18mm;
+    display: flex; flex-direction: column; background: var(--bg);
+    page-break-after: always; break-after: page; position: relative; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,.1);
+}
+@media print {
+    body { background: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .slide { box-shadow: none; margin: 0; }
+}
+.header { flex-shrink: 0; border-bottom: 3px solid var(--secondary); padding-bottom: 8px; margin-bottom: 12px; }
+.header-tag { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--secondary); margin-bottom: 4px; }
+.title { font-size: 28px; font-weight: 800; margin: 0; color: var(--primary); }
+.content { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.footer { position: absolute; bottom: 8px; left: 18mm; right: 18mm; padding-top: 6px; border-top: 1px solid #d5deea; font-size: 12px; font-weight: 600; color: #64748b; display: flex; justify-content: space-between; }
+strong { color: var(--gold-color); }
+.box-title { display: block; font-weight: 800; color: var(--primary); font-size: 18px; line-height: 1.25; }
+.text-content { font-size: 15px; line-height: 1.45; color: var(--text); margin: 0; }
+
+.card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.card-icon { width: 28px; height: 28px; flex-shrink: 0; color: var(--secondary); }
+.card-icon svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.content.grid-cards-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; align-content: center; }
+.content.grid-cards-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-content: center; }
+.card { background: var(--card); padding: 18px 18px; border-radius: var(--radius); border-top: var(--accent-w) solid var(--secondary); box-shadow: 0 4px 10px rgba(18,58,99,.06); display: flex; flex-direction: column; }
+.single-block { align-items: center; justify-content: center; }
+.single-card { width: 100%; margin: auto 0; padding: 22px 40px 26px; text-align: left; background: var(--card); border-radius: var(--radius); box-shadow: 0 4px 10px rgba(18,58,99,.06); border-top: var(--accent-w) solid var(--secondary); }
+.single-card .box-title { font-size: 24px; margin-bottom: 10px; }
+.single-card .text-content { font-size: 18px; line-height: 1.55; text-align: left; }
+.single-card.dropcap .text-content::first-letter { font-size: 58px; font-weight: 800; color: var(--secondary); float: left; line-height: .82; padding-right: 10px; }
+.underline-word { position: relative; font-weight: 800; color: var(--primary); white-space: nowrap; }
+.underline-word svg { position: absolute; left: 0; bottom: -6px; width: 100%; height: 8px; }
+
+.hero { justify-content: center; align-items: center; text-align: center; color: #fff; background: linear-gradient(145deg, #123a63 0%, #1d6aa5 58%, #e8b84a 160%); padding: 20mm; }
+.lone-star { width: 58px; height: 58px; margin-bottom: 8px; }
+.hero-title { font-size: 64px; color: white; margin: 0; font-weight: 800; letter-spacing: -1px; }
+.hero-subtitle { font-size: 22px; margin: 14px auto 0; color: #f8fafc; font-weight: 400; max-width: 860px; line-height: 1.4; }
+.hero-author { margin-top: 32px; font-size: 18px; line-height: 1.55; color: #e8eef6; }
+.hero strong { color: #ffe08a; }
+.hero .footer { color: #e8eef6; border-top-color: rgba(255,255,255,.28); }
+
+.content.bignum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.bignum-card { background: var(--card); border-radius: var(--radius); padding: 22px 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; box-shadow: 0 4px 10px rgba(18,58,99,.06); border-top: 6px solid var(--secondary); }
+.bignum-value { font-size: 48px; font-weight: 800; color: var(--primary); line-height: 1; }
+.bignum-unit { font-size: 18px; font-weight: 700; color: var(--secondary); margin-left: 4px; }
+.bignum-label { font-size: 15px; color: var(--text); margin-top: 12px; line-height: 1.35; }
+
+.content.timeline-wrap { position: relative; height: 100%; display: flex; align-items: center; padding: 0 6px; }
+.timeline-track { display: flex; justify-content: space-between; width: 100%; position: relative; }
+.timeline-track::before { content: ''; position: absolute; left: 24px; right: 24px; top: 12px; height: 4px; background: var(--secondary); opacity: .45; border-radius: 4px; }
+.t-step { flex: 1; text-align: center; position: relative; padding: 0 8px; }
+.t-dot { width: 26px; height: 26px; border-radius: 50%; background: var(--secondary); border: 5px solid var(--bg); box-shadow: 0 0 0 2px var(--secondary); margin: 0 auto 14px; position: relative; z-index: 2; }
+.t-step:nth-child(even) .t-dot { background: var(--gold-color); box-shadow: 0 0 0 2px var(--gold-color); }
+.t-label { font-weight: 800; color: var(--primary); font-size: 15px; }
+.t-text { font-size: 13px; color: var(--text); line-height: 1.35; margin: 6px auto 0; }
+
+.pill-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.pill { padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 700; color: var(--primary); background: #fff4dc; }
+.check-list { display: flex; flex-direction: column; gap: 10px; }
+.check-item { display: flex; align-items: center; gap: 12px; background: var(--card); border-radius: 12px; padding: 12px 16px; box-shadow: 0 2px 6px rgba(18,58,99,.05); }
+.check-icon { width: 24px; height: 24px; flex-shrink: 0; color: #15803d; }
+.check-text { font-size: 16px; color: var(--text); line-height: 1.35; }
+
+.theme-texas {
+    --primary: #123a63; --primary-dark: #0c2744; --secondary: #e8b84a; --bg: #fff8ef;
+    --card: #ffffff; --text: #3e4c5a; --radius: 16px; --accent-w: 7px; --gold-color: #c2410c;
+}
+</style>
+</head>
+<body>
+<div class="deck-container" id="slides"></div>
+<script>
+const AUTHOR = "Maxim Hrehor  ·  Kvinta  ·  Lutheran Grammar School of J.A. Comenius";
+const star = `<svg class="lone-star" viewBox="0 0 24 24" aria-hidden="true"><path fill="#ffe08a" d="M12 2.2 14.7 8.6 21.6 9.2 16.4 13.6 18 20.4 12 16.8 6 20.4 7.6 13.6 2.4 9.2 9.3 8.6Z"/></svg>`;
+const underline = (words) => `<span class="underline-word">${words}<svg viewBox="0 0 200 8" preserveAspectRatio="none"><path d="M2 5 Q50 1 100 5 T198 4" fill="none" stroke="var(--gold-color)" stroke-width="3" stroke-linecap="round"/></svg></span>`;
+const icon = (path) => `<svg viewBox="0 0 24 24"><path d="${path}"/></svg>`;
+
+const data = [
+    {
+        theme: "texas", template: "hero",
+        title: "Texas",
+        subtitle: "The Lone Star State — place, people, and one hard question.",
+        author: "Maxim Hrehor<br>Lutheran Grammar School of J.A. Comenius · Kvinta"
+    },
+    {
+        theme: "texas", template: "bignum", tag: "Geographic orientation",
+        title: "Texas at a glance",
+        boxes: [
+            { value: "2nd", label: "largest U.S. state by area, after Alaska" },
+            { value: "Austin", label: "the capital, in the Texas Hill Country" },
+            { value: "30", unit: "million+", label: "people live here, and the number is still growing" }
+        ]
+    },
+    {
+        theme: "texas", template: "grid-3", tag: "Physical geography and climate",
+        title: "Three landscapes, three kinds of weather",
+        boxes: [
+            { icon: icon("M12 3v18M4 8c2 2 4 2 8-2s6-4 8-2M4 14c2 2 4 2 8-2s6-4 8-2"), t: "The wet east", d: "Pine woods and the Gulf coast get heavy rain. Summers are hot and humid, and hurricanes can reach the shore." },
+            { icon: icon("M3 18 9 8l4 6 3-4 5 8H3z"), t: "Hills and plains", d: "The Hill Country rolls between rivers. Winters are usually mild, but storms and sudden cold can still arrive." },
+            { icon: icon("M12 3 4 20h16L12 3zM12 10v4"), t: "The dry west", d: "Big Bend holds desert, canyons, and mountains. Days are very hot, nights can be cold, and water is scarce." }
+        ]
+    },
+    {
+        theme: "texas", template: "timeline", tag: "History",
+        title: "How Texas became Texas",
+        items: [
+            { step: "First nations", text: "Caddo, Comanche, Apache, and coastal peoples lived here for centuries." },
+            { step: "Spain and Mexico", text: "Missions came first. Later, Texas was a region of Mexico." },
+            { step: "1836", text: "Texas became an independent republic after the revolution." },
+            { step: "1845", text: "The republic joined the United States as the 28th state." },
+            { step: "1901", text: "Oil at Spindletop changed the towns, the jobs, and the future." }
+        ]
+    },
+    {
+        theme: "texas", template: "single-block", dropcap: true, tag: "Cultural identity",
+        title: "Many stories under one star",
+        heading: "A place shaped by more than one people",
+        body: `Many nations knew this land long before any flag. Spanish and Mexican families then built towns, ranches, and a Tejano culture that is still part of daily life. Later came Anglo settlers, African Americans, and European immigrants, including Czechs and Germans. The ${underline("Lone Star")} is one symbol. The culture was never only one story.`
+    },
+    {
+        theme: "texas", template: "grid-3", tag: "Economy and industry",
+        title: "What keeps Texas working",
+        boxes: [
+            { icon: icon("M12 3v4M8 7h8l-1 14H9L8 7z"), t: "Energy", d: "Texas produces oil and natural gas, and it also leads the United States in wind power. Energy is a strength and a responsibility." },
+            { icon: icon("M4 20V10l8-6 8 6v10M9 20v-6h6v6"), t: "Cities of ideas", d: "Austin builds technology. Houston runs one of the busiest ports in the country and the Johnson Space Center, home of NASA." },
+            { icon: icon("M4 16c2-6 4-6 6 0s4 6 6 0 4-6 4 0"), t: "Land and cattle", d: "Cotton and cattle still matter. Ranches and farms connect today’s economy with the older picture of Texas." }
+        ]
+    },
+    {
+        theme: "texas", template: "single-block", dropcap: true, tag: "Demographics and society",
+        title: "Cities, countryside, and new neighbors",
+        heading: "A large state that keeps growing",
+        body: `Texas is home to ${underline("more than 30 million")} people. Houston, Dallas, San Antonio, and Austin are huge cities, while long stretches of the state are still ranches and small towns. About two in five residents are Hispanic or Latino. Many others are White, Black, or Asian. People move here for work, so neighborhoods, schools, and languages keep changing.`
+    },
+    {
+        theme: "texas", template: "grid-2", tag: "A current challenge",
+        title: "When a winter storm stopped the power",
+        boxes: [
+            { icon: icon("M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"), t: "What happened", d: "In February 2021, extreme cold froze equipment across Texas. Millions of homes lost electricity and heat. Most of the state’s power is run by its own grid, ERCOT, not by the national networks." },
+            { icon: icon("M12 3 4 7v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V7l-8-4z"), t: "A fair next step", d: "Some people want Texas to keep an independent grid. Others want stronger links to neighboring states. A practical step, supported by later reviews, is to prepare plants and fuel lines for freezing weather." }
+        ]
+    },
+    {
+        theme: "texas", template: "checklist", tag: "Evidence",
+        title: "Where these facts come from",
+        pills: ["Geography", "History", "Economy", "Society"],
+        items: [
+            "U.S. Census Bureau — population size and the mix of communities",
+            "Texas State Historical Association — the republic, statehood in 1845, and Spindletop",
+            "National Weather Service — climate regions and the February 2021 winter storm",
+            "ERCOT public reports — how most of the Texas electricity grid is organized"
+        ]
+    },
+    {
+        theme: "texas", template: "hero",
+        title: "Thank you",
+        subtitle: "Ask me one question: a place, a date, or the winter storm.",
+        author: "Maxim Hrehor<br>Lutheran Grammar School of J.A. Comenius · Kvinta"
+    }
+];
+
+function card(b) {
+    const head = b.icon
+        ? `<div class="card-header"><div class="card-icon">${b.icon}</div><span class="box-title">${b.t}</span></div>`
+        : `<span class="box-title">${b.t}</span>`;
+    return `<div class="card">${head}<div class="text-content">${b.d}</div></div>`;
+}
+const checkIcon = `<svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>`;
+const renderers = {
+    "grid-3": s => `<div class="content grid-cards-3">${s.boxes.map(card).join("")}</div>`,
+    "grid-2": s => `<div class="content grid-cards-2">${s.boxes.map(card).join("")}</div>`,
+    "bignum": s => `<div class="content bignum">${s.boxes.map(b => `<div class="bignum-card"><div class="bignum-value">${b.value}${b.unit ? `<span class="bignum-unit">${b.unit}</span>` : ""}</div><div class="bignum-label">${b.label}</div></div>`).join("")}</div>`,
+    "timeline": s => `<div class="content timeline-wrap"><div class="timeline-track">${s.items.map(it => `<div class="t-step"><div class="t-dot"></div><div class="t-label">${it.step}</div><div class="t-text">${it.text}</div></div>`).join("")}</div></div>`,
+    "single-block": s => `<div class="content single-block"><div class="single-card${s.dropcap ? " dropcap" : ""}"><span class="box-title">${s.heading}</span><div class="text-content">${s.body}</div></div></div>`,
+    "checklist": s => `<div class="content"><div class="pill-row">${s.pills.map(p => `<span class="pill">${p}</span>`).join("")}</div><div class="check-list">${s.items.map(t => `<div class="check-item">${checkIcon}<span class="check-text">${t}</span></div>`).join("")}</div></div>`
+};
+
+function buildSlide(s, index, total) {
+    const theme = `theme-${s.theme}`;
+    const foot = `<div class="footer"><span>${AUTHOR}</span><span>Slide ${index + 1}/${total}</span></div>`;
+    if (s.template === "hero") {
+        return `<div class="slide ${theme} hero">${star}<h1 class="hero-title">${s.title}</h1><p class="hero-subtitle">${s.subtitle}</p><div class="hero-author"><strong>${s.author}</strong></div>${foot}</div>`;
+    }
+    return `<div class="slide ${theme}"><div class="header"><div class="header-tag">${s.tag}</div><h1 class="title">${s.title}</h1></div>${renderers[s.template](s)}${foot}</div>`;
+}
+document.getElementById("slides").innerHTML = data.map((s, i) => buildSlide(s, i, data.length)).join("");
+</script>
+</body>
+</html>
