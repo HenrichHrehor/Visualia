@@ -13,7 +13,7 @@ from pptx.oxml.ns import qn
 from pptx.util import Mm, Pt
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "export" / "texas-maxim.pptx"
+OUT = ROOT / "export" / "texas" / "ver1.pptx"
 PHOTOS = ROOT / "Texas" / "slides"
 
 NAVY = RGBColor(0x12, 0x3A, 0x63)

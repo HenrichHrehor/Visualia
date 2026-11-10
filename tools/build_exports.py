@@ -33,6 +33,20 @@ SOSA_TIERS = {
 }
 
 
+def output_path(stem: str) -> Path:
+    folders = {
+        "sosa-skolsky-zakon": OUT / "sosa" / "komplet",
+        "sosa-tier1": OUT / "sosa" / "tier1",
+        "sosa-tier2": OUT / "sosa" / "tier2",
+        "sosa-tier3": OUT / "sosa" / "tier3",
+        "pohyb-rovnomerny": OUT / "pohyb" / "prezentacia",
+        "vizualne-prvky": OUT / "vizualne-prvky" / "prezentacia",
+    }
+    path = folders.get(stem, OUT / stem)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    return path
+
+
 def html_to_pdf(html: Path, pdf: Path) -> None:
     pdf.parent.mkdir(parents=True, exist_ok=True)
     if pdf.exists():
@@ -111,10 +125,10 @@ def split_sosa(pdf: Path) -> None:
         part = fitz.open()
         for index in pages:
             part.insert_pdf(doc, from_page=index, to_page=index)
-        target = OUT / f"{name}.pdf"
+        target = output_path(name).with_suffix(".pdf")
         part.save(target, garbage=4, deflate=True)
         part.close()
-        pdf_to_pptx(target, OUT / f"{name}.pptx")
+        pdf_to_pptx(target, output_path(name).with_suffix(".pptx"))
         print(f"  {name}: {len(pages)} stran")
     doc.close()
 
@@ -123,11 +137,11 @@ def main() -> None:
     OUT.mkdir(exist_ok=True)
     for filename, stem in JOBS:
         html = SRC / filename
-        pdf = OUT / f"{stem}.pdf"
+        pdf = output_path(stem).with_suffix(".pdf")
         print(f"PDF  {filename}")
         html_to_pdf(html, pdf)
         pages = trim_blank_pages(pdf)
-        count = pdf_to_pptx(pdf, OUT / f"{stem}.pptx")
+        count = pdf_to_pptx(pdf, output_path(stem).with_suffix(".pptx"))
         print(f"     {pages} stran -> {stem}.pptx ({count})")
         if stem == "sosa-skolsky-zakon":
             split_sosa(pdf)

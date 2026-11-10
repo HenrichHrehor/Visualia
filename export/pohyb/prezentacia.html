@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<title>Demonštrácia rovnomerného a nerovnomerného pohybu — Učebná pomôcka</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+/* =========================================================================
+   VRSTVA 1 — ENGINE (NEMENNÉ A4 LANDSCAPE)
+   ========================================================================= */
+@page { size: A4 landscape; margin: 0; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 0; background: #e2e8f0; font-family: 'Inter', 'Segoe UI', sans-serif; display: block; }
+
+.deck-container { width: 100%; height: auto; background-color: transparent; display: block; }
+
+.slide {
+    width: 297mm; height: 210mm; margin: 0 auto; padding: 18mm 20mm;
+    display: flex; flex-direction: column; background: var(--bg);
+    page-break-after: always; break-after: page; position: relative; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+@media print {
+    body { background: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .slide { box-shadow: none; border: none; margin: 0; }
+}
+
+.header { flex-shrink: 0; border-bottom: 3px solid var(--secondary); padding-bottom: 8px; margin-bottom: 14px; }
+.header-tag { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--secondary); margin-bottom: 4px; }
+.title { font-size: 27px; font-weight: 800; margin: 0; color: var(--primary); text-transform: var(--title-transform, none); }
+
+.content { flex: 1; min-height: 0; display: flex; flex-direction: column;}
+.footer { position: absolute; bottom: 12px; left: 20mm; right: 20mm; padding-top: 8px; border-top: 1px solid #cbd5e1; text-align: center; font-size: 13px; font-weight: 600; color: #64748b; display: flex; justify-content: space-between;}
+
+strong { color: var(--gold-color); }
+.formula { font-family: 'Cambria Math', 'Times New Roman', serif; font-style: italic; font-weight: 700; color: var(--primary); }
+
+.box-title { display: block; font-weight: 800; color: var(--primary); margin-bottom: 8px; font-size: 21px; line-height: 1.3;}
+.text-content { font-size: 17px; line-height: 1.55; color: var(--text); margin: 0; text-align: justify;}
+
+table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 15px; }
+th, td { border: 1px solid #cbd5e1; padding: 9px 12px; text-align: center; }
+th { background-color: var(--primary); color: white; font-weight: 700; }
+tr:nth-child(even) { background-color: #f1f5f9; }
+
+/* =========================================================================
+   VRSTVA 2 — ŠABLÓNY OBSAHU & GRAFICKÁ PODPORA
+   ========================================================================= */
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+.card-header .box-title { margin-bottom: 0; }
+.card-icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    color: var(--secondary);
+    display: flex;
+    align-items: center;
+}
+.card-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.content.grid-cards-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr; gap: 16px; }
+.content.grid-cards-2 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 26px; align-content: stretch;}
+.content.single-block { display: flex; align-items: flex-start; justify-content: center; padding: 0; height: 100%; }
+
+.card { background: var(--card); padding: 22px 24px; border-radius: var(--radius); border-left: var(--accent-w) solid var(--secondary); box-shadow: 0 4px 8px rgba(0,0,0,.05); display: flex; flex-direction: column; justify-content: space-between; }
+.grid-cards-2 .card { padding: 26px 30px; }
+
+.single-card { width: 100%; margin: auto 0; padding: 32px 45px; text-align: center; background: var(--card); border-radius: var(--radius); box-shadow: 0 4px 8px rgba(0,0,0,.05); border-top: var(--accent-w) solid var(--secondary); }
+.single-card .box-title { font-size: 26px; margin-bottom: 14px; color: var(--primary);}
+.single-card .text-content { font-size: 20px; line-height: 1.65; text-align: center;}
+
+.graph-box { width: 100%; height: 125px; margin-top: 10px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; }
+
+.graph-box.fig { height: auto; margin-top: 18px; padding: 6px 10px; }
+.hero { justify-content: center; align-items: center; text-align: center; color: #fff; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); }
+.hero-title { font-size: 42px; color: white; margin: 0; font-weight: 800; line-height: 1.2; padding: 0 40px;}
+.hero-subtitle { font-size: 22px; margin-top: 16px; color: #f1f5f9; font-weight: 400; max-width: 900px; line-height: 1.4;}
+.hero-author { margin-top: 40px; font-size: 19px; line-height: 1.5; color: #cbd5e1;}
+
+/* =========================================================================
+   VRSTVA 3 — TÉMY (SOŠ IT - Technická / Fyzikálna modrá téma)
+   ========================================================================= */
+.theme-sosit { 
+    --primary: #0f172a; 
+    --primary-dark: #020617; 
+    --secondary: #0284c7; 
+    --bg: #f8fafc; 
+    --card: #ffffff; 
+    --text: #334155; 
+    --radius: 12px; 
+    --accent-w: 6px; 
+    --gold-color: #0284c7; 
+    --title-transform: none; 
+}
+</style>
+</head>
+<body>
+
+<div class="deck-container" id="slides"></div>
+
+<script>
+const AUTHOR = "Hugo Hrehor, IV. B | Predmet: Fyzikálny seminár | Stredná odborná škola informačných technológií";
+
+/* =========================================================================
+   SADA LINE-ART SVG IKON
+   ========================================================================= */
+const ICONS = {
+    speedometer: '<svg viewBox="0 0 24 24"><path d="M12 14v-4"/><path d="M3.34 17a10 10 0 1 1 17.32 0"/></svg>',
+    ruler: '<svg viewBox="0 0 24 24"><path d="m2 12 10-10 10 10-10 10Z"/><path d="m7.5 7.5 3 3"/><path d="m10.5 4.5 3 3"/><path d="m4.5 10.5 3 3"/></svg>',
+    chartLine: '<svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>',
+    chartBar: '<svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><rect x="7" y="10" width="3" height="7"/><rect x="13" y="6" width="3" height="11"/><rect x="19" y="12" width="3" height="5"/></svg>',
+    ramp: '<svg viewBox="0 0 24 24"><polygon points="3 20 21 20 21 8 3 20"/><circle cx="10" cy="13" r="2"/></svg>',
+    timer: '<svg viewBox="0 0 24 24"><circle cx="12" cy="14" r="8"/><path d="M12 2v4"/><path d="m12 14 3-3"/></svg>',
+    sensor: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49"/><path d="M7.76 16.24a6 6 0 0 1 0-8.49"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 19.07a10 10 0 0 1 0-14.14"/></svg>',
+    shieldCheck: '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>',
+    cpu: '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M9 2v2M15 20v2M9 20v2M20 15h2M20 9h2M2 15h2M2 9h2"/></svg>'
+};
+
+/* =========================================================================
+   DÁTA PREZENTÁCIE — 15 OBSAHOVÝCH SLADOV + ÚVOD A ZÁVER (SPOLU 17)
+   ========================================================================= */
+const T='font-family="Segoe UI,sans-serif" font-weight="700"';
+const FIG = {
+road: `<svg viewBox="0 0 600 150" style="width:100%;height:150px"><rect x="30" y="26" width="54" height="16" rx="5" fill="#0284c7"/><rect x="42" y="16" width="28" height="12" rx="4" fill="#0284c7"/><circle cx="43" cy="44" r="5" fill="#0f172a"/><circle cx="71" cy="44" r="5" fill="#0f172a"/><text x="100" y="40" font-size="14" fill="#0f172a" ${T}>tempomat: 100 km/h ≈ 27,8 m/s</text><line x1="30" y1="100" x2="570" y2="100" stroke="#94a3b8" stroke-width="3"/><g stroke="#94a3b8" stroke-width="2"><line x1="30" y1="92" x2="30" y2="108"/><line x1="165" y1="92" x2="165" y2="108"/><line x1="300" y1="92" x2="300" y2="108"/><line x1="435" y1="92" x2="435" y2="108"/><line x1="570" y1="92" x2="570" y2="108"/></g><g fill="none" stroke="#0284c7" stroke-width="2"><path d="M34 86 Q97 64 161 86"/><path d="M169 86 Q232 64 296 86"/><path d="M304 86 Q367 64 431 86"/><path d="M439 86 Q502 64 566 86"/></g><g font-size="13" fill="#0284c7" text-anchor="middle" ${T}><text x="97" y="66">≈ 27,8 m</text><text x="232" y="66">≈ 27,8 m</text><text x="367" y="66">≈ 27,8 m</text><text x="502" y="66">≈ 27,8 m</text></g><g font-size="13" fill="#64748b" text-anchor="middle" ${T}><text x="30" y="126">0 s</text><text x="165" y="126">1 s</text><text x="300" y="126">2 s</text><text x="435" y="126">3 s</text><text x="570" y="126">4 s</text></g></svg>`,
+forces: `<svg viewBox="0 0 600 170" style="width:100%;height:160px"><defs><marker id="m1" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#0284c7"/></marker><marker id="m2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#dc2626"/></marker><marker id="m3" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#475569"/></marker></defs><polygon points="60,30 60,150 540,150" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/><g transform="rotate(14 302 79)"><rect x="277" y="68" width="50" height="22" rx="4" fill="#0f172a"/></g><line x1="302" y1="79" x2="302" y2="139" stroke="#dc2626" stroke-width="3" marker-end="url(#m2)"/><line x1="302" y1="79" x2="360" y2="93" stroke="#0284c7" stroke-width="3" marker-end="url(#m1)"/><line x1="302" y1="79" x2="314" y2="31" stroke="#475569" stroke-width="3" marker-end="url(#m3)"/><g font-size="13" ${T}><text x="309" y="138" fill="#dc2626">G = m·g</text><text x="372" y="96" fill="#0284c7">F∥ = m·g·sin α</text><text x="322" y="38" fill="#475569">N (reakcia podložky)</text><text x="462" y="143" fill="#0f172a">α</text></g></svg>`,
+speed: `<svg viewBox="0 0 600 150" style="width:100%;height:150px"><line x1="40" y1="125" x2="560" y2="125" stroke="#94a3b8" stroke-width="2"/><line x1="40" y1="10" x2="40" y2="125" stroke="#94a3b8" stroke-width="2"/><line x1="40" y1="125" x2="490" y2="25" stroke="#0284c7" stroke-width="3"/><g fill="#0284c7"><circle cx="190" cy="91.7" r="5"/><circle cx="340" cy="58.3" r="5"/><circle cx="490" cy="25" r="5"/></g><g font-size="13" ${T}><text x="150" y="82" fill="#0284c7">2 m/s</text><text x="300" y="49" fill="#0284c7">4 m/s</text><text x="450" y="16" fill="#0284c7">6 m/s</text><text x="60" y="30" fill="#0f172a">každú sekundu +2 m/s  (a = 2 m/s²)</text><g fill="#64748b" text-anchor="middle"><text x="190" y="142">1 s</text><text x="340" y="142">2 s</text><text x="490" y="142">3 s</text></g></g></svg>`,
+dist: `<svg viewBox="0 0 600 130" style="width:100%;height:130px"><text x="30" y="22" font-size="13" fill="#0f172a" ${T}>a = 2 m/s²: za 1., 2. a 3. sekundu prejde 1 m, 3 m a 5 m (spolu 1 m, 4 m, 9 m)</text><rect x="30" y="38" width="55" height="30" fill="rgba(2,132,199,.15)" stroke="#0284c7" stroke-width="2"/><rect x="85" y="38" width="165" height="30" fill="rgba(2,132,199,.3)" stroke="#0284c7" stroke-width="2"/><rect x="250" y="38" width="275" height="30" fill="rgba(2,132,199,.15)" stroke="#0284c7" stroke-width="2"/><g font-size="14" fill="#0f172a" text-anchor="middle" ${T}><text x="57" y="58">1 m</text><text x="167" y="58">3 m</text><text x="387" y="58">5 m</text></g><g font-size="12" fill="#64748b" text-anchor="middle" ${T}><text x="30" y="88">0 s</text><text x="85" y="88">1 s</text><text x="250" y="88">2 s</text><text x="525" y="88">3 s</text><text x="85" y="105">s = 1 m</text><text x="250" y="105">s = 4 m</text><text x="525" y="105">s = 9 m</text></g></svg>`,
+acc: `<svg viewBox="0 0 600 140" style="width:100%;height:140px"><line x1="60" y1="110" x2="560" y2="110" stroke="#94a3b8" stroke-width="2"/><rect x="120" y="83" width="90" height="27" fill="#0284c7"/><rect x="270" y="53" width="90" height="57" fill="#0284c7"/><rect x="420" y="20" width="90" height="90" fill="#0284c7"/><g font-size="14" text-anchor="middle" ${T}><g fill="#0284c7"><text x="165" y="77">0,60 m/s²</text><text x="315" y="47">1,26 m/s²</text><text x="465" y="14">2,00 m/s²</text></g><g fill="#64748b" font-size="12"><text x="165" y="128">5°  (t = 1,83 s)</text><text x="315" y="128">10°  (t = 1,26 s)</text><text x="465" y="128">15°  (t = 1,00 s)</text></g></g></svg>`,
+ideal: `<svg viewBox="0 0 600 150" style="width:100%;height:150px"><line x1="40" y1="110" x2="580" y2="110" stroke="#94a3b8" stroke-width="2"/><rect x="20" y="8" width="12" height="12" fill="#94a3b8"/><rect x="170" y="8" width="12" height="12" fill="#0284c7"/><g font-size="12" ${T}><text x="38" y="18" fill="#475569">ideálne a = g·sin α</text><text x="188" y="18" fill="#0284c7">namerané</text></g><g fill="#94a3b8"><rect x="90" y="80" width="40" height="30"/><rect x="260" y="50" width="40" height="60"/><rect x="430" y="21" width="40" height="89"/></g><g fill="#0284c7"><rect x="135" y="89" width="40" height="21"/><rect x="305" y="66" width="40" height="44"/><rect x="475" y="40" width="40" height="70"/></g><g font-size="11" text-anchor="middle" ${T}><g fill="#475569"><text x="110" y="75">0,86</text><text x="280" y="45">1,70</text><text x="450" y="16">2,54</text></g><g fill="#0284c7"><text x="155" y="84">0,60</text><text x="325" y="61">1,26</text><text x="495" y="35">2,00</text></g><g fill="#0f172a" font-size="13"><text x="132" y="130">α = 5°</text><text x="302" y="130">α = 10°</text><text x="472" y="130">α = 15°</text></g></g></svg>`,
+ramp: `<svg viewBox="0 0 260 110" style="width:100%;height:110px"><polygon points="10,15 10,95 250,95" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/><g transform="rotate(18.4 123 42)"><rect x="101" y="33" width="44" height="18" rx="4" fill="#0284c7"/><circle cx="111" cy="53" r="4" fill="#0f172a"/><circle cx="135" cy="53" r="4" fill="#0f172a"/></g><text x="205" y="90" font-size="14" fill="#0f172a" ${T}>α</text></svg>`,
+gates: `<svg viewBox="0 0 260 110" style="width:100%;height:110px"><line x1="10" y1="80" x2="250" y2="80" stroke="#94a3b8" stroke-width="3"/><g fill="#0f172a"><rect x="42" y="12" width="16" height="14" rx="2"/><rect x="202" y="12" width="16" height="14" rx="2"/></g><g stroke="#0284c7" stroke-width="2" stroke-dasharray="4 4"><line x1="50" y1="26" x2="50" y2="80"/><line x1="210" y1="26" x2="210" y2="80"/></g><rect x="80" y="62" width="40" height="14" rx="4" fill="#0284c7"/><circle cx="90" cy="78" r="4" fill="#0f172a"/><circle cx="110" cy="78" r="4" fill="#0f172a"/><g font-size="12" fill="#64748b" text-anchor="middle" ${T}><text x="50" y="100">štart</text><text x="210" y="100">cieľ</text><text x="130" y="100">Δt</text></g></svg>`,
+angles: `<svg viewBox="0 0 260 110" style="width:100%;height:110px"><line x1="10" y1="95" x2="250" y2="95" stroke="#94a3b8" stroke-width="3"/><g stroke="#0284c7" stroke-width="3"><line x1="10" y1="95" x2="235" y2="75.3"/><line x1="10" y1="95" x2="235" y2="54.4"/><line x1="10" y1="95" x2="235" y2="33.4"/></g><g font-size="12" fill="#0284c7" ${T}><text x="238" y="78">5°</text><text x="238" y="57">10°</text><text x="238" y="36">15°</text></g></svg>`,
+brake: `<svg viewBox="0 0 200 85" style="width:100%;height:85px"><rect x="10" y="12" width="30" height="20" fill="#94a3b8"/><text x="48" y="27" font-size="11" fill="#475569" ${T}>rýchlosť v → dráha s</text><rect x="10" y="44" width="120" height="20" fill="#0284c7"/><text x="136" y="59" font-size="11" fill="#0284c7" ${T}>2v → 4·s</text></svg>`,
+accel: `<svg viewBox="0 0 200 85" style="width:100%;height:85px"><defs><marker id="m4" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#dc2626"/></marker></defs><line x1="15" y1="15" x2="15" y2="70" stroke="#0f172a" stroke-width="3"/><polyline points="15,42 25,42 30,30 40,54 50,30 60,54 70,30 80,42 90,42" fill="none" stroke="#64748b" stroke-width="2"/><rect x="90" y="28" width="34" height="28" fill="#0284c7"/><line x1="135" y1="42" x2="185" y2="42" stroke="#dc2626" stroke-width="3" marker-end="url(#m4)"/><text x="155" y="34" font-size="12" fill="#dc2626" ${T}>a</text><text x="20" y="80" font-size="10" fill="#64748b" ${T}>akcelerometer: závažie na pružine</text></svg>`
+};
+
+const data = [
+    // 1. Úvodná snímka
+    {
+        theme: "sosit", template: "hero",
+        title: "Rovnomerný a nerovnomerný pohyb",
+        subtitle: "Praktická demonštrácia pomocou autíčka na naklonenej rovine a grafická analýza",
+        author: "Hugo Hrehor, IV. B<br>Predmet: Fyzikálny seminár | Stredná odborná škola informačných technológií"
+    },
+    // 2. Obsah 1: Motivačný úvod
+    {
+        theme: "sosit", template: "single-block", tag: "Základy kinematiky",
+        heading: "Čo je to pohyb a prečo ho vlastne meriame?",
+        body: "Pohyb je zmena polohy telesa v čase voči inému telesu. V informatike a technike potrebujeme presne vedieť, ako sa veci pohybujú, aby sme vedeli <strong>naprogramovať roboty, autonómne autá či hernú fyziku</strong>."
+    },
+    // 3. Obsah 2: Rovnomerný pohyb v praxi
+    {
+        theme: "sosit", template: "single-block", tag: "Pohyb v bežnom živote", figure: FIG.road,
+        heading: "Ako spoznáme rovnomerný pohyb v praxi?",
+        body: "Predstavte si auto na diaľnici so zapnutým <strong>tempomatom nastaveným na stovku</strong>. Auto ide stále rovnako rýchlo, výsledná sila naň je nulová (ťah motora vyrovnáva odpor vzduchu a trenie) a za každú sekundu prejde rovnaký kus cesty, pri 100 km/h asi 28 m."
+    },
+    // 4. Obsah 3: Vzorec rovnomerného pohybu
+    {
+        theme: "sosit", template: "single-block", tag: "Matematický opis",
+        heading: "Rýchlosť a dráha bez zložitej matematiky",
+        body: "Ak poznáme rýchlosť a čas, prejdenú dráhu vypočítame jednoduchým vzťahom <span class='formula'>s = v · t</span>. Rýchlosť sa počas celej doby nemení, preto je <strong>zrýchlenie nulové</strong>, čo je kľúčový znak rovnomerného pohybu telesa."
+    },
+    // 5. Obsah 4: Grafy rovnomerného pohybu
+    {
+        theme: "sosit", template: "grid-2-airy", tag: "Grafické porovnanie",
+        title: "Ako vyzerá rovnomerný pohyb v grafoch",
+        boxes: [
+            { 
+                icon: ICONS.chartLine, 
+                t: "Graf dráhy rastie rovnomerne", 
+                d: "Závislosť dráhy od času je <strong>priamka stúpajúca z nuly</strong>. Čím strmšie táto čiara stúpa nahor, tým vyššou stálou rýchlosťou sa naše autíčko po vodorovnej podložke pohybuje.",
+                chart: `<svg viewBox="0 0 200 85" style="width:100%; height:85px;"><line x1="25" y1="70" x2="190" y2="70" stroke="#94a3b8" stroke-width="2"/><line x1="25" y1="70" x2="25" y2="10" stroke="#94a3b8" stroke-width="2"/><line x1="25" y1="70" x2="175" y2="16" stroke="#0284c7" stroke-width="3"/><text x="185" y="80" font-size="10" fill="#64748b" font-weight="700">t [s]</text><text x="10" y="14" font-size="10" fill="#64748b" font-weight="700">s [m]</text><text x="110" y="38" font-size="11" fill="#0284c7" font-weight="800">s = v·t</text></svg>`
+            },
+            { 
+                icon: ICONS.chartBar, 
+                t: "Graf rýchlosti je vodorovný", 
+                d: "Rýchlosť sa v čase nemení, preto je jej grafom <strong>rovná vodorovná čiara</strong>. Plocha pod touto priamkou za určitý čas nám presne ukáže, akú dráhu autíčko prešlo.",
+                chart: `<svg viewBox="0 0 200 85" style="width:100%; height:85px;"><line x1="25" y1="70" x2="190" y2="70" stroke="#94a3b8" stroke-width="2"/><line x1="25" y1="70" x2="25" y2="10" stroke="#94a3b8" stroke-width="2"/><line x1="25" y1="32" x2="175" y2="32" stroke="#0284c7" stroke-width="3"/><polygon points="25,70 175,70 175,32 25,32" fill="rgba(2, 132, 199, 0.12)"/><text x="185" y="80" font-size="10" fill="#64748b" font-weight="700">t [s]</text><text x="10" y="14" font-size="10" fill="#64748b" font-weight="700">v [m/s]</text><text x="90" y="26" font-size="11" fill="#0284c7" font-weight="800">v = konšt.</text></svg>`
+            }
+        ]
+    },
+    // 6. Obsah 5: Laboratórna aparatúra (KĽÚČOVÁ — TEXT POSUNUTÝ NIŽŠIE)
+    {
+        theme: "sosit", template: "grid-3", tag: "Experimentálna metodika",
+        title: "Laboratórna aparatúra a priebeh experimentu",
+        extraStyle: "padding-top: 30px;",
+        boxes: [
+            { 
+                icon: ICONS.ramp, 
+                t: "Nastaviteľná naklonená rovina", chart: FIG.ramp, 
+                d: "Meranie realizujeme pomocou <strong>laboratórnej dráhy s nastaviteľným sklonom</strong>, modelového autíčka s nízkym valivým trením a dĺžkového meradla na presné vymedzenie dráhy s dĺžkou jeden meter." 
+            },
+            { 
+                icon: ICONS.sensor, 
+                t: "Optické časové brány", chart: FIG.gates, 
+                d: "Pre maximálnu presnosť používame <strong>digitálne optické časové brány</strong> prepojené s počítačom. Tento systém automaticky zaznamená čas prechodu autíčka od štartu až po cieľovú značku meranej dráhy." 
+            },
+            { 
+                icon: ICONS.timer, 
+                t: "Tri meracie konfigurácie", chart: FIG.angles, 
+                d: "Merania opakujeme pre <strong>tri rôzne uhly sklonu</strong> dráhy päť, desať a pätnásť stupňov. Pre každý sklon zaznamenávame čas a následne vypočítame priemerné zrýchlenie a konečnú rýchlosť." 
+            }
+        ]
+    },
+    // 7. Obsah 6: Tabuľka rovnomerný pohyb (KĽÚČOVÁ — ZACHOVANÁ)
+    {
+        theme: "sosit", template: "single-block", tag: "Namerané údaje",
+        title: "Laboratórne meranie: Rovnomerný priamočiary pohyb",
+        heading: "Pohyb autíčka s konštantnou rýchlosťou (nulový sklon dráhy)",
+        body: `
+            <p style="margin-bottom: 10px;">Experimentálne overenie rovnomerného pohybu na vodorovnej dráhe pri nulovom sklone (<span class='formula'>α = 0°</span>). Autíčko sa po počiatočnom postrčení pohybuje (v rámci presnosti merania) stálou rýchlosťou, takže zrýchlenie je približne nulové.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Číslo merania</th>
+                        <th>Dráha s [m]</th>
+                        <th>Čas pohybu t [s]</th>
+                        <th>Vypočítaná rýchlosť v [m/s]</th>
+                        <th>Zrýchlenie a [m/s²]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1. meranie</td><td>0,50</td><td>1,00</td><td><strong>0,50</strong></td><td><strong>0,00</strong></td></tr>
+                    <tr><td>2. meranie</td><td>1,00</td><td>2,01</td><td><strong>0,50</strong></td><td><strong>0,00</strong></td></tr>
+                    <tr><td>3. meranie</td><td>1,50</td><td>2,99</td><td><strong>0,50</strong></td><td><strong>0,00</strong></td></tr>
+                </tbody>
+            </table>
+            <p style="margin-top: 12px; font-size:16px;"><strong>Záver merania:</strong> Pomer dráhy a času zostáva konštantný (<span class='formula'>v = s / t ≈ 0,50 m/s</span>), čo potvrdzuje rovnomerný charakter pohybu bez prítomnosti zrýchlenia.</p>
+        `
+    },
+    // 8. Obsah 7: Tabuľka nerovnomerný zrýchlený pohyb (KĽÚČOVÁ — ZACHOVANÁ)
+    {
+        theme: "sosit", template: "single-block", tag: "Namerané údaje",
+        title: "Laboratórne meranie: Nerovnomerný zrýchlený pohyb",
+        heading: "Pohyb autíčka na naklonenej rovine (konštantná dráha s = 1,00 m)",
+        body: `
+            <p style="margin-bottom: 10px;">Meranie času zjazdu na pevnej dráhe <span class='formula'>s = 1,00 m</span> pri postupnom zvyšovaní uhla sklonu naklonenej roviny. Zrýchlenie je určené zo vzťahu <span class='formula'>a = 2s / t²</span>.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Uhol sklonu [°]</th>
+                        <th>Dráha s [m]</th>
+                        <th>Nameraný čas t [s]</th>
+                        <th>Zrýchlenie a [m/s²]</th>
+                        <th>Koncová rýchlosť v [m/s]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Sklon α₁ = 5°</td><td>1,00</td><td>1,83</td><td><strong>0,60</strong></td><td>1,10</td></tr>
+                    <tr><td>Sklon α₂ = 10°</td><td>1,00</td><td>1,26</td><td><strong>1,26</strong></td><td>1,59</td></tr>
+                    <tr><td>Sklon α₃ = 15°</td><td>1,00</td><td>1,00</td><td><strong>2,00</strong></td><td>2,00</td></tr>
+                </tbody>
+            </table>
+            <p style="margin-top: 12px; font-size:16px;"><strong>Záver merania:</strong> So zvyšujúcim sa sklonom dráhy prudko narastá zrýchlenie autíčka a skracuje sa čas pohybu v plnom súlade s teóriou zrýchleného pohybu.</p>
+        `
+    },
+    // 9. Obsah 8: Čo sa stalo pri naklonení dráhy
+    {
+        theme: "sosit", template: "single-block", tag: "Fyzikálny dej", figure: FIG.forces,
+        heading: "Prečo sa autíčko na naklonenej rovine správa inak?",
+        body: "Akonáhle sme dráhu naklonili, do hry vstúpila gravitácia. Jej zložka rovnobežná s rovinou (<span class='formula'>F = m·g·sin α</span>) <strong>začala autíčko neustále ťahať dopredu</strong>. Preto už nejde stále rovnakou rýchlosťou, ale každým centimetrom viditeľne a merateľne zrýchľuje."
+    },
+    // 10. Obsah 9: Čo znamená zrýchlenie
+    {
+        theme: "sosit", template: "single-block", tag: "Vysvetlenie pojmu", figure: FIG.speed,
+        heading: "Čo nám číslo zrýchlenia hovorí ľudskou rečou?",
+        body: "Zrýchlenie vyjadruje, o koľko metrov za sekundu sa zvýši rýchlosť autíčka za každú jednu sekundu. Ak je zrýchlenie napríklad <strong>2 m/s²</strong>, rýchlosť autíčka sa po každej sekunde zvýši o 2 m/s."
+    },
+    // 11. Obsah 10: Kvadratická závislosť
+    {
+        theme: "sosit", template: "single-block", tag: "Kvadratický nárast", figure: FIG.dist,
+        heading: "Prečo dráha pri zrýchlení rastie čoraz rýchlejšie?",
+        body: "Pri zrýchlenom pohybe neprejde teleso v každej sekunde rovnaký kus cesty. Pretože rýchlosť stále stúpa, dráha (pri rozbehu z pokoja) rastie s druhou mocninou času podľa vzorca <span class='formula'>s = ½ a · t²</span>, čo spôsobuje <strong>prudký nárast prejdenej vzdialenosti</strong>."
+    },
+    // 12. Obsah 11: Grafy zrýchleného pohybu
+    {
+        theme: "sosit", template: "grid-2-airy", tag: "Grafická analýza",
+        title: "Grafy rovnomerne zrýchleného pohybu",
+        boxes: [
+            { 
+                icon: ICONS.chartLine, 
+                t: "Graf dráhy je parabola", 
+                d: "Dráha nerastie rovno ako priamka, ale stáča sa nahor do <strong>zakrivenej kvadratickej paraboly</strong>. Tento tvar grafu je jasným dôkazom, že teleso nezachováva stálu rýchlosť, ale dynamicky zrýchľuje.",
+                chart: `<svg viewBox="0 0 200 85" style="width:100%; height:85px;"><line x1="25" y1="70" x2="190" y2="70" stroke="#94a3b8" stroke-width="2"/><line x1="25" y1="70" x2="25" y2="10" stroke="#94a3b8" stroke-width="2"/><path d="M25,70 Q95,70 165,14" fill="none" stroke="#0284c7" stroke-width="3"/><text x="185" y="80" font-size="10" fill="#64748b" font-weight="700">t [s]</text><text x="10" y="14" font-size="10" fill="#64748b" font-weight="700">s [m]</text><text x="95" y="52" font-size="11" fill="#0284c7" font-weight="800">s ~ t²</text></svg>`
+            },
+            { 
+                icon: ICONS.chartBar, 
+                t: "Graf rýchlosti lineárne stúpa", 
+                d: "Graf rýchlosti tvorí <strong>šikmá stúpajúca priamka</strong>. Každú desatinu sekundy je rýchlosť autíčka vyššia o presne rovnaký dielik, čo v praxi dokazuje stálu veľkosť pôsobiaceho zrýchlenia.",
+                chart: `<svg viewBox="0 0 200 85" style="width:100%; height:85px;"><line x1="25" y1="70" x2="190" y2="70" stroke="#94a3b8" stroke-width="2"/><line x1="25" y1="70" x2="25" y2="10" stroke="#94a3b8" stroke-width="2"/><line x1="25" y1="70" x2="170" y2="16" stroke="#0284c7" stroke-width="3"/><text x="185" y="80" font-size="10" fill="#64748b" font-weight="700">t [s]</text><text x="10" y="14" font-size="10" fill="#64748b" font-weight="700">v [m/s]</text><text x="105" y="56" font-size="11" fill="#0284c7" font-weight="800">v = a·t</text></svg>`
+            }
+        ]
+    },
+    // 13. Obsah 12: Analýza meraní pri troch uhloch
+    {
+        theme: "sosit", template: "single-block", tag: "Rozbor výsledkov", figure: FIG.acc,
+        heading: "Ako zmena uhla sklonu ovplyvnila výsledky?",
+        body: "Pri sklone päť stupňov potrebovalo autíčko takmer dve sekundy. Keď sme sklon zdvihli na pätnásť stupňov, zrýchlenie sa <strong>viac než strojnásobilo na dva metre za sekundu na druhú</strong> a čas zjazdu klesol na jedinú sekundu."
+    },
+    // 14. Obsah 13: Vplyv trenia a nepresnosti
+    {
+        theme: "sosit", template: "single-block", tag: "Fyzikálna realita", figure: FIG.ideal,
+        heading: "Prečo nám namerané čísla nevyšli na chlp ideálne?",
+        body: "Ideálny vzorec <span class='formula'>a = g·sin α</span> počíta iba s gravitáciou. V pokuse však výsledok ovplyvnilo <strong>valivé trenie ložísk a zotrvačnosť otáčajúcich sa koliesok</strong>, preto je namerané zrýchlenie o 21 až 30 % nižšie ako ideálne."
+    },
+    // 15. Obsah 14: Kde sa s tým stretávame v praxi
+    {
+        theme: "sosit", template: "grid-2-airy", tag: "Prepojenie s praxou",
+        title: "Kde tieto fyzikálne princípy využívame?",
+        boxes: [
+            { 
+                icon: ICONS.shieldCheck, 
+                t: "Bezpečnosť na cestách a brzdenie", chart: FIG.brake, 
+                d: "Princípy zrýchlenia využívame pri výpočte <strong>brzdnej dráhy cestných vozidiel</strong>. Pri dvojnásobnej rýchlosti je brzdná dráha až štvornásobná, čo vychádza zo vzťahu <span class='formula'>s = v² / 2a</span>." 
+            },
+            { 
+                icon: ICONS.cpu, 
+                t: "Autonómne systémy a senzory", chart: FIG.accel, 
+                d: "Moderné asistenčné systémy áut a mobilné telefóny používajú <strong>akcelerometre a gyroskopy</strong>: prvé merajú zrýchlenie, druhé uhlovú rýchlosť otáčania. Z týchto údajov (spolu s GPS) sa odhaduje poloha a pohyb v priestore." 
+            }
+        ]
+    },
+    // 16. Obsah 15: Zhrnutie pred písomkou
+    {
+        theme: "sosit", template: "single-block", tag: "Zhrnutie pre triedu",
+        heading: "Čo si z tejto prezentácie zapamätať na písomku?",
+        body: "Rovnomerný pohyb znamená <strong>stálu rýchlosť a nulové zrýchlenie</strong>, pričom dráha rastie v čase lineárne. Pri rovnomerne zrýchlenom pohybe je zrýchlenie stále, rýchlosť lineárne stúpa a dráha narastá kvadraticky podľa paraboly."
+    },
+    // 17. Hero: Záver
+    {
+        theme: "sosit", template: "hero",
+        title: "Ďakujem za pozornosť",
+        subtitle: "Verím, že táto praktická ukážka pomohla k pochopeniu kinematiky.<br>Rád zodpoviem na Vaše otázky k experimentu.",
+        author: "Hugo Hrehor, IV. B<br>Predmet: Fyzikálny seminár | Stredná odborná škola informačných technológií"
+    }
+];
+
+/* =========================================================================
+   RENDER LOGIKA
+   ========================================================================= */
+function card(b) { 
+    const iconHtml = b.icon ? `<div class="card-icon">${b.icon}</div>` : '';
+    const chartHtml = b.chart ? `<div class="graph-box">${b.chart}</div>` : '';
+    return `<div class="card">
+        <div>
+            <div class="card-header">${iconHtml}<span class="box-title">${b.t}</span></div>
+            <div class="text-content">${b.d}</div>
+        </div>
+        ${chartHtml}
+    </div>`; 
+}
+
+const renderers = {
+    "grid-3": s => `<div class="content grid-cards-3" style="${s.extraStyle || ''}">${s.boxes.map(card).join('')}</div>`,
+    "grid-2-airy": s => `<div class="content grid-cards-2">${s.boxes.map(card).join('')}</div>`,
+    "single-block": s => `<div class="content single-block"><div class="single-card"><span class="box-title">${s.heading}</span><div class="text-content">${s.body}</div>${s.figure ? `<div class="graph-box fig">${s.figure}</div>` : ''}</div></div>`
+};
+
+function buildSlide(s, index, total) {
+    const themeClass = `theme-${s.theme}`;
+    if (s.template === "hero") {
+        return `<div class="slide ${themeClass} hero">
+            <h1 class="hero-title">${s.title}</h1>
+            ${s.subtitle ? `<p class="hero-subtitle">${s.subtitle}</p>` : ''}
+            <div class="hero-author"><strong>${s.author}</strong></div>
+            <div class="footer"><span style="width:100%; text-align:center;">${AUTHOR} | Snímka ${index + 1}/${total}</span></div>
+        </div>`;
+    }
+    const headerHtml = `<div class="header">${s.tag ? `<div class="header-tag">${s.tag}</div>` : ''}<h1 class="title">${s.title || ''}</h1></div>`;
+    const contentHtml = renderers[s.template](s);
+    const footerHtml = `<div class="footer"><span>${AUTHOR}</span><span>Snímka ${index + 1}/${total}</span></div>`;
+    return `<div class="slide ${themeClass}">${headerHtml}${contentHtml}${footerHtml}</div>`;
+}
+
+document.getElementById('slides').innerHTML = data.map((slide, index) => buildSlide(slide, index, data.length)).join('');
+</script>
+</body>
+</html>

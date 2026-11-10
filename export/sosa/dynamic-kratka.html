@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Školský zákon 2026 — SOŠa Dynamic (iOS Optimized)</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+/* =========================================================================
+   VRSTVA 1 — ENGINE (DYNAMIC INTERACTIVE LAYOUT + iOS FIX)
+   ========================================================================= */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; width: 100%; height: 100%; position: fixed; overflow: hidden; background: #020617; font-family: 'Inter', 'Segoe UI', sans-serif; }
+
+#slides-container { position: relative; width: 100%; height: 100%; }
+
+.slide {
+    display: none; 
+    width: 100%; 
+    height: 100vh; /* Fallback pre staré zariadenia */
+    height: 100dvh; /* iOS Fix: Dynamická výška podľa Safari lišty */
+    padding: 40px 80px 80px 80px;
+    flex-direction: column; 
+    background: var(--bg); 
+    position: absolute; top: 0; left: 0;
+    animation: fadeIn 0.4s ease-out; 
+    overflow-y: auto; 
+    -webkit-overflow-scrolling: touch; /* iOS Fix: Plynulé scrollovanie */
+}
+.slide.active { display: flex; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.header { flex-shrink: 0; border-bottom: 3px solid var(--secondary); padding-bottom: 10px; margin-bottom: 22px; }
+.header-tag { font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--secondary); margin-bottom: 4px; }
+.title { font-size: 34px; font-weight: 800; margin: 0; color: var(--primary); text-transform: var(--title-transform, none); }
+
+.content { flex: 1; min-height: 0; }
+
+strong { color: var(--gold-color); }
+.law-ref { color: #000; font-weight: 800; }
+.box-title { display: block; font-weight: 800; color: var(--primary); margin-bottom: 12px; font-size: 24px; line-height: 1.3;}
+.text-content { font-size: 20px; line-height: 1.6; color: var(--text); margin: 0; text-align: justify;}
+
+/* =========================================================================
+   VRSTVA 2 — ŠABLÓNY OBSAHU (Prispôsobené pre obrazovky)
+   ========================================================================= */
+.content.grid-cards-4 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 20px; height: 100%;}
+.content.grid-cards-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr; gap: 20px; height: 100%;}
+.content.grid-cards-2 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 40px; height: 100%;}
+.content.grid-cards-1 { display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr; gap: 40px; padding: 20px 80px; height: 100%;}
+.content.single-block { display: flex; align-items: center; justify-content: center; padding: 20px; height: 100%;}
+.content.list-block { display: flex; flex-direction: column; gap: 16px; justify-content: center; height: 100%;}
+
+.card { background: var(--card); padding: 30px; border-radius: var(--radius); border-left: var(--accent-w) solid var(--secondary); box-shadow: 0 5px 15px rgba(0,0,0,.08); display: flex; flex-direction: column; justify-content: center; }
+.grid-cards-2 .card { padding: 50px; }
+.grid-cards-1 .card { padding: 60px; }
+.grid-cards-1 .text-content { font-size: 24px; line-height: 1.6; }
+.grid-cards-1 .box-title { font-size: 30px; margin-bottom: 20px;}
+
+.single-card { width: 100%; padding: 60px 100px; text-align: center; background: var(--card); border-radius: var(--radius); box-shadow: 0 5px 15px rgba(0,0,0,.08); }
+.single-card .box-title { font-size: 32px; margin-bottom: 25px; color: var(--primary);}
+.single-card .text-content { font-size: 24px; line-height: 1.7; text-align: center;}
+
+.list-item { flex: 1; display: flex; align-items: center; gap: 25px; background: var(--card); border-radius: var(--radius); padding: 20px 40px; box-shadow: 0 5px 15px rgba(0,0,0,.08); border-left: var(--accent-w) solid var(--secondary); }
+.list-marker { flex-shrink: 0; width: 50px; height: 50px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; }
+.list-body { flex: 1; }
+
+.hero { justify-content: center; align-items: center; text-align: center; color: #fff; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); padding: 40px;}
+.hero-title { font-size: 54px; color: white; margin: 0; font-weight: 800; line-height: 1.2; padding: 0 40px;}
+.hero-subtitle { font-size: 30px; margin-top: 25px; color: #f1f5f9; font-weight: 400; }
+.hero-author { margin-top: 60px; font-size: 22px; line-height: 1.5; color: #cbd5e1;}
+
+/* =========================================================================
+   VRSTVA 3 — TÉMY (Inštitúcia: SOŠ automobilová | 3 Tiers)
+   ========================================================================= */
+.theme-sos-tier1 { --primary: #1c1917; --primary-dark: #0a0908; --secondary: #ea580c; --bg: #f5f5f4; --card: #ffffff; --text: #292524; --radius: 4px; --accent-w: 6px; --gold-color: #c2410c; --title-transform: uppercase; }
+.theme-sos-tier2 { --primary: #292524; --primary-dark: #1c1917; --secondary: #fb923c; --bg: #fafaf9; --card: #ffffff; --text: #44403c; --radius: 8px; --accent-w: 8px; --gold-color: #ea580c; --title-transform: none; }
+.theme-sos-tier3 { --primary: #1e293b; --primary-dark: #0f172a; --secondary: #fbbf24; --bg: #f8fafc; --card: #ffffff; --text: #334155; --radius: 14px; --accent-w: 10px; --gold-color: #d97706; --title-transform: none; }
+
+/* =========================================================================
+   VRSTVA 4 — INTERAKTIVITA A MENU
+   ========================================================================= */
+.footer { position: fixed; bottom: 0; left: 0; width: 100%; height: 45px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; z-index: 998; }
+
+.nav { 
+    position: fixed; bottom: 65px; right: 60px; display: flex; gap: 8px; z-index: 999; 
+    background: rgba(2, 6, 23, 0.85); padding: 8px 12px; border-radius: 50px; 
+    backdrop-filter: blur(8px); box-shadow: 0 4px 20px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);
+}
+.nav button { 
+    background: transparent; color: #f8fafc; border: 1px solid transparent; padding: 10px 20px; 
+    cursor: pointer; border-radius: 30px; font-weight: 700; font-size: 14px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+}
+.nav button:hover { background: var(--secondary); color: #fff; }
+
+#toc { position: fixed; top: 0; left: -450px; width: 400px; height: 100vh; height: 100dvh; background: #020617; color: white; z-index: 1000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 40px; box-sizing: border-box; overflow-y: auto; box-shadow: 5px 0 20px rgba(0,0,0,0.6); }
+#toc h2 { color: var(--gold-color); margin-top: 0; font-size: 24px; border-bottom: 2px solid var(--secondary); padding-bottom: 10px; }
+.toc-item { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; font-size: 15px; transition: 0.2s; line-height: 1.4;}
+.toc-item:hover { color: var(--gold-color); padding-left: 10px; }
+.toc-close { width: 100%; margin-top: 30px; background: transparent; border: 2px solid var(--gold-color); color: var(--gold-color); padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s;}
+.toc-close:hover { background: var(--gold-color); color: #020617; }
+
+/* =========================================================================
+   VRSTVA 5 — MOBILE OPTIMIZATION
+   ========================================================================= */
+@media (max-width: 768px) {
+    .slide { padding: 25px 20px 120px 20px; } /* Viac miesta dole pre mobily */
+    
+    .title { font-size: 24px; margin-bottom: 15px; }
+    .hero-title { font-size: 34px; padding: 0 10px; }
+    .hero-subtitle { font-size: 20px; }
+    .box-title { font-size: 20px; margin-bottom: 8px;}
+    .text-content { font-size: 16px; }
+
+    .content.grid-cards-4, 
+    .content.grid-cards-3, 
+    .content.grid-cards-2, 
+    .content.grid-cards-1 { 
+        display: flex; flex-direction: column; gap: 15px; height: auto; padding: 0;
+    }
+
+    .card, .single-card { padding: 20px; }
+    .list-item { padding: 15px; flex-direction: column; text-align: center; gap: 10px;}
+    .list-marker { width: 35px; height: 35px; font-size: 16px; }
+
+    .nav { 
+        bottom: 60px; right: 50%; transform: translateX(50%); 
+        width: 90%; max-width: 400px; justify-content: space-between; padding: 6px 10px;
+    }
+    .nav button { padding: 8px 12px; font-size: 12px; flex: 1;}
+    .footer { font-size: 11px; padding: 0 10px; text-align: center; }
+    #toc { width: 300px; left: -350px; padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="toc">
+    <h2>Obsah prezentácie</h2>
+    <div id="toc-list"></div>
+    <button class="toc-close" onclick="toggleToc()">ZATVORIŤ MENU</button>
+</div>
+
+<div id="slides-container"></div>
+
+<div class="nav">
+    <button onclick="toggleToc()">Obsah</button>
+    <button onclick="prev()">◄ Späť</button>
+    <button onclick="next()">Ďalej ►</button>
+</div>
+
+<div class="footer">
+    <span id="footer-text">Mgr. Henrich Hrehor, PhD. | SOŠ automobilová Košice</span>
+</div>
+
+<script>
+/* =========================================================================
+   DÁTA Z TEXTU
+   ========================================================================= */
+const data = [
+    {
+        theme: "sos-tier1", template: "hero",
+        title: "Legislatívny a kontrolný rámec",
+        subtitle: "Aplikácia novely Školského zákona v riadení našej SOŠ",
+        author: "Mgr. Henrich Hrehor, PhD.",
+        org: "SOŠ automobilová Košice"
+    },
+    {
+        theme: "sos-tier2", template: "grid-2-airy", tag: "Pedagogická prax",
+        title: "Pravidlá pre náš zbor",
+        boxes: [
+            { t: "Priebežné hodnotenie", d: "Ako vyučujúci musíme hodnotiť žiakov podľa <span class='law-ref'>§ 55</span> priebežne. Odporúča sa kombinovať známku so <strong>slovným formatívnym hodnotením</strong>, aby žiak presne vedel, v akej konkrétnej zručnosti musí ešte pridať." },
+            { t: "Riešenie neprospievania", d: "Ak študent neprospeje, podľa <span class='law-ref'>§ 55a</span> musíme hľadať nápravu. Je dôležité okamžite kontaktovať výchovného poradcu a rodiča. Cieľom nie je žiaka potopiť, ale včas aktivovať <strong>školský podporný tím</strong> pre doučovanie." }
+        ]
+    },
+    {
+        theme: "sos-tier3", template: "grid-4", tag: "Prax vo firmách",
+        title: "Tvoja príprava na skutočné povolanie",
+        boxes: [
+            { t: "Prečo máme duál?", d: "Škola ťa nepripravuje len do lavice, ale pre život. Vďaka duálnemu systému si osvojíš prácu s <strong>najnovšími technológiami</strong> priamo u tvojho budúceho zamestnávateľa." },
+            { t: "Zodpovedný prístup", d: "Firma na teba spolieha. Vyžaduje sa stopercentná dochádzka a sústredenosť. Majstri hodnotia tvoju <strong>pracovnú morálku a snahu</strong> rovnako prísne ako učitelia v škole." },
+            { t: "Ochrana a bezpečnosť", d: "Pred vstupom do dielne musíš absolvovať školenie BOZP. Je to tvoja povinnosť a tvoje zdravie. Akékoľvek <strong>porušenie bezpečnostných noriem</strong> môže znamenať koniec tvojej praxe." },
+            { t: "Ukončenie štúdia", d: "Svoje zručnosti nakoniec preukážeš pred komisiou priamo vo firme. Úspešná praktická maturitná skúška je tvojou <strong>vstupenkou k stabilnému zamestnaniu</strong> ihneď po škole." }
+        ]
+    },
+    {
+        theme: "sos-tier1", template: "list", tag: "Manažérske výzvy",
+        title: "Kľúčové úlohy pre vedenie",
+        items: [
+            { t: "Legislatívny súlad", d: "Nevyhnutnosť bezodkladnej aktualizácie vnútorného školského poriadku a smerníc tak, aby boli v absolútnom súlade so všetkými <strong>novými ustanoveniami zákona</strong> platnými pre ďalšie obdobie." },
+            { t: "Hygiena osobných údajov", d: "Strikné plnenie termínov a povinností v rámci <strong>zadávania dát do centrálnych registrov</strong> pre zamedzenie finančných postihov a prípadného pozastavenia štátnych dotácií pre našu SOŠ." },
+            { t: "Kvalita vzdelávania", d: "Zabezpečenie personálnej stability a implementácia strategických krokov pre podporu <strong>odborného vzdelávania a duálneho systému</strong>, čím sa posilní konkurencieschopnosť inštitúcie na trhu." }
+        ]
+    },
+    {
+        theme: "sos-tier3", template: "hero",
+        title: "Ďakujem za pozornosť",
+        subtitle: "Ak máte k pravidlám akékoľvek otázky, kedykoľvek sa na mňa obráťte.",
+        author: "Mgr. Henrich Hrehor, PhD.",
+        org: "SOŠ automobilová Košice"
+    }
+];
+
+/* =========================================================================
+   RENDER LOGIKA
+   ========================================================================= */
+function card(b) { return `<div class="card"><span class="box-title">${b.t}</span><div class="text-content">${b.d}</div></div>`; }
+function listItem(it, i) { return `<div class="list-item"><div class="list-marker">${i + 1}</div><div class="list-body"><span class="box-title">${it.t}</span><div class="text-content">${it.d}</div></div></div>`; }
+
+const renderers = {
+    "grid-4": s => `<div class="content grid-cards-4">${s.boxes.map(card).join('')}</div>`,
+    "grid-3": s => `<div class="content grid-cards-3">${s.boxes.map(card).join('')}</div>`,
+    "grid-2-airy": s => `<div class="content grid-cards-2">${s.boxes.map(card).join('')}</div>`,
+    "grid-1": s => `<div class="content grid-cards-1">${s.boxes.map(card).join('')}</div>`,
+    "single-block": s => `<div class="content single-block"><div class="single-card"><span class="box-title">${s.heading}</span><div class="text-content">${s.body}</div></div></div>`,
+    "list": s => `<div class="content list-block">${s.items.map(listItem).join('')}</div>`
+};
+
+const slideContainer = document.getElementById('slides-container');
+const tocList = document.getElementById('toc-list');
+
+data.forEach((s, i) => {
+    let html = '';
+    const themeClass = `theme-${s.theme}`;
+    
+    if (s.template === "hero") {
+        html = `<div class="slide ${themeClass} hero" id="s${i}">
+            <h1 class="hero-title">${s.title}</h1>
+            ${s.subtitle ? `<p class="hero-subtitle">${s.subtitle}</p>` : ''}
+            <div class="hero-author"><strong>${s.author}</strong><br>${s.org}</div>
+        </div>`;
+    } else {
+        const headerHtml = `<div class="header">${s.tag ? `<div class="header-tag">${s.tag}</div>` : ''}<h1 class="title">${s.title}</h1></div>`;
+        const contentHtml = renderers[s.template](s);
+        html = `<div class="slide ${themeClass}" id="s${i}">${headerHtml}${contentHtml}</div>`;
+    }
+    slideContainer.innerHTML += html;
+
+    let tocTitle = s.title;
+    if(i === 0) tocTitle = "Úvodná obrazovka";
+    if(i === data.length - 1) tocTitle = "Záver a poďakovanie";
+    tocList.innerHTML += `<div class="toc-item" onclick="to(${i})">${i}. ${tocTitle}</div>`;
+});
+
+/* =========================================================================
+   INTERAKTIVITA A APPLE iOS SWIPE FIX
+   ========================================================================= */
+let current = 0;
+const total = data.length;
+
+function update() { 
+    document.querySelectorAll('.slide').forEach((el, i) => {
+        el.classList.toggle('active', i === current);
+        if(i === current) el.scrollTop = 0; 
+    });
+}
+function next() { if(current < total - 1) { current++; update(); } }
+function prev() { if(current > 0) { current--; update(); } }
+function to(n) { current = n; update(); toggleToc(); }
+
+function toggleToc() { 
+    const toc = document.getElementById('toc'); 
+    toc.style.left = toc.style.left === '0px' ? '-450px' : '0px'; 
+}
+
+document.addEventListener('keydown', (e) => { 
+    if(e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') next(); 
+    if(e.key === 'ArrowLeft' || e.key === 'PageUp') prev(); 
+});
+
+/* iOS Optimalizovaný Swipe (Ignoruje scrollovanie textu dole/hore) */
+let touchstartX = 0;
+let touchstartY = 0;
+let touchendX = 0;
+let touchendY = 0;
+
+document.addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX;
+    touchstartY = e.changedTouches[0].screenY;
+}, {passive: true});
+
+document.addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX;
+    touchendY = e.changedTouches[0].screenY;
+    
+    let deltaX = touchendX - touchstartX;
+    let deltaY = touchendY - touchstartY;
+    
+    // Swipe sa vyhodnotí iba ak ide prst zreteľne doprava/doľava a nie dole
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 60) {
+        if (deltaX < 0) next(); 
+        if (deltaX > 0) prev(); 
+    }
+}, {passive: true});
+
+update(); // Init
+</script>
+</body>
+</html>
