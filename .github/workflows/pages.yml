@@ -39,6 +39,7 @@ jobs:
              export/pohyb-rovnomerny.pdf export/pohyb-rovnomerny.pptx \
              export/vizualne-prvky.pdf export/vizualne-prvky.pptx \
              export/texas-maxim.pdf export/texas-maxim.pptx \
+             export/texas-pdf2.pdf export/texas-pptx2.pptx \
              _site/export/
           cp "Vstupné projekty/Texas_Maxim_Hrehor_Static.html" \
              "Vstupné projekty/Texas_Maxim_Hrehor_v2.html" \
