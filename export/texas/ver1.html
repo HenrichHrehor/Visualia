@@ -34,6 +34,7 @@ body.present .slide { display: none; margin: 0; box-shadow: none; }
 body.present .slide.active { display: flex; position: fixed; left: 50%; top: 50%; margin: 0; transform: translate(-50%, -50%) scale(var(--fit, 1)); transform-origin: center center; }
 .present-bar { position: fixed; z-index: 20; left: 50%; bottom: 16px; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 999px; background: rgba(12, 20, 34, .82); color: #fff; }
 .present-bar button { border: 0; border-radius: 999px; background: #e8b84a; color: #123a63; font: inherit; font-weight: 800; padding: 8px 14px; cursor: pointer; }
+.present-bar button.leave { background: transparent; color: #fff; box-shadow: inset 0 0 0 1px rgba(255,255,255,.55); }
 .present-bar span { min-width: 72px; text-align: center; font-weight: 700; }
 .header { flex-shrink: 0; border-bottom: 3px solid var(--secondary); padding-bottom: 8px; margin-bottom: 12px; }
 .header-tag { font-size: 0.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--secondary); margin-bottom: 4px; }
@@ -251,7 +252,7 @@ if (new URLSearchParams(location.search).has("present")) {
     let index = 0;
     const bar = document.createElement("nav");
     bar.className = "present-bar";
-    bar.innerHTML = `<button type="button" id="present-prev">←</button><span id="present-count"></span><button type="button" id="present-next">→</button>`;
+    bar.innerHTML = `<button type="button" id="present-prev">←</button><span id="present-count"></span><button type="button" id="present-next">→</button><button type="button" id="present-leave" class="leave">Leave</button>`;
     document.body.appendChild(bar);
     const count = document.getElementById("present-count");
     const fit = () => {
@@ -265,9 +266,22 @@ if (new URLSearchParams(location.search).has("present")) {
         count.textContent = `${index + 1} / ${slides.length}`;
         fit();
     };
+    const leave = () => {
+        const url = new URL(location.href);
+        const parts = url.pathname.split("/").filter(Boolean);
+        parts.pop();
+        if (parts.at(-1) === "texas" && parts.at(-2) === "export") { parts.pop(); parts.pop(); }
+        else if (parts.length) parts.pop();
+        url.pathname = `/${[...parts, "index.html"].join("/")}`;
+        url.search = "";
+        url.hash = "";
+        location.assign(url.href);
+    };
     document.getElementById("present-prev").onclick = () => show(index - 1);
     document.getElementById("present-next").onclick = () => show(index + 1);
+    document.getElementById("present-leave").onclick = leave;
     document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") { event.preventDefault(); leave(); return; }
         if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(event.key)) { event.preventDefault(); show(index + 1); }
         if (["ArrowLeft", "ArrowUp", "PageUp", "Backspace"].includes(event.key)) { event.preventDefault(); show(index - 1); }
     });
