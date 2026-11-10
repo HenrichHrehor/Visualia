@@ -41,6 +41,7 @@ jobs:
              export/texas-maxim.pdf export/texas-maxim.pptx \
              _site/export/
           cp "Vstupné projekty/Texas_Maxim_Hrehor_Static.html" \
+             "Vstupné projekty/Texas_Maxim_Hrehor_v2.html" \
              "Vstupné projekty/DOCTYPE_SOŠa_AdaptiveTiersDemo_Static.html" \
              "Vstupné projekty/DOCTYPE_SOŠa_AdaptiveTiersDemo_Dynamic.html" \
              "Vstupné projekty/DOCTYPE_SOŠa_AdaptiveTiersDemo_Dynamic_Optimalized.html" \
