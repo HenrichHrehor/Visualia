@@ -28,6 +28,13 @@ body { margin: 0; padding: 0; background: #e7eef6; font-family: 'Segoe UI', sans
     body { background: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .slide { box-shadow: none; margin: 0; }
 }
+body.present { margin: 0; height: 100vh; overflow: hidden; background: #0c1422; }
+body.present .deck-container { width: 100vw; height: 100vh; }
+body.present .slide { display: none; margin: 0; box-shadow: none; }
+body.present .slide.active { display: flex; position: fixed; left: 50%; top: 50%; margin: 0; transform: translate(-50%, -50%) scale(var(--fit, 1)); transform-origin: center center; }
+.present-bar { position: fixed; z-index: 20; left: 50%; bottom: 16px; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 999px; background: rgba(12, 20, 34, .82); color: #fff; }
+.present-bar button { border: 0; border-radius: 999px; background: #e8b84a; color: #123a63; font: inherit; font-weight: 800; padding: 8px 14px; cursor: pointer; }
+.present-bar span { min-width: 72px; text-align: center; font-weight: 700; }
 .header { flex-shrink: 0; border-bottom: 3px solid var(--secondary); padding-bottom: 8px; margin-bottom: 12px; }
 .header-tag { font-size: 0.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--secondary); margin-bottom: 4px; }
 .title { font-size: 34px; font-weight: 800; margin: 0; color: var(--primary); line-height: 1.08; }
@@ -238,6 +245,35 @@ function buildSlide(s, index, total) {
     return `<div class="slide ${theme}"><div class="pair">${photoCard(index, s.credit)}${nameCard(inner)}</div>${foot}</div>`;
 }
 document.getElementById("slides").innerHTML = data.map((s, i) => buildSlide(s, i, data.length)).join("");
+if (new URLSearchParams(location.search).has("present")) {
+    document.body.classList.add("present");
+    const slides = [...document.querySelectorAll(".slide")];
+    let index = 0;
+    const bar = document.createElement("nav");
+    bar.className = "present-bar";
+    bar.innerHTML = `<button type="button" id="present-prev">←</button><span id="present-count"></span><button type="button" id="present-next">→</button>`;
+    document.body.appendChild(bar);
+    const count = document.getElementById("present-count");
+    const fit = () => {
+        const slide = slides[index];
+        const scale = Math.min(window.innerWidth / slide.offsetWidth, (window.innerHeight - 72) / slide.offsetHeight);
+        document.documentElement.style.setProperty("--fit", String(scale));
+    };
+    const show = (next) => {
+        index = (next + slides.length) % slides.length;
+        slides.forEach((slide, i) => slide.classList.toggle("active", i === index));
+        count.textContent = `${index + 1} / ${slides.length}`;
+        fit();
+    };
+    document.getElementById("present-prev").onclick = () => show(index - 1);
+    document.getElementById("present-next").onclick = () => show(index + 1);
+    document.addEventListener("keydown", (event) => {
+        if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(event.key)) { event.preventDefault(); show(index + 1); }
+        if (["ArrowLeft", "ArrowUp", "PageUp", "Backspace"].includes(event.key)) { event.preventDefault(); show(index - 1); }
+    });
+    window.addEventListener("resize", fit);
+    show(0);
+}
 </script>
 </body>
 </html>
