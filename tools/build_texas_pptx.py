@@ -20,7 +20,8 @@ NAVY = RGBColor(0x12, 0x3A, 0x63)
 CREAM = RGBColor(0xFF, 0xFD, 0xF8)
 GOLD = RGBColor(0xE8, 0xB8, 0x4A)
 GOLD_INK = RGBColor(0xC2, 0x41, 0x0C)
-INK = RGBColor(0x3E, 0x4C, 0x5A)
+INK = RGBColor(0x14, 0x20, 0x2C)
+SEMI = "Segoe UI Semibold"
 WHITE = RGBColor(0xFF, 0xFF, 0xFF)
 FELT = RGBColor(0xE7, 0xD7, 0xB1)
 FOOT = RGBColor(0x5C, 0x4B, 0x32)
@@ -29,8 +30,8 @@ GREEN = RGBColor(0x15, 0x80, 0x3D)
 SUN = RGBColor(0xFF, 0xE0, 0x8A)
 FONT = "Segoe UI"
 
-SKIES = ["1d6aa5", "0e7490", "b45309", "7c2d12", "1e3a5f", "0369a1", "9a3412", "1e40af", "115e59", "123a63"]
-GROUNDS = ["e8b84a", "86efac", "fdba74", "fcd34d", "93c5fd", "fde68a", "fb923c", "7dd3fc", "5eead4", "fbbf24"]
+SKIES = ["1d6aa5", "0e7490", "14532d", "b45309", "9a3412", "1e3a5f", "7c2d12", "0369a1", "3f6212", "1e40af", "0f766e", "123a63", "166534"]
+GROUNDS = ["e8b84a", "d6d3d1", "86efac", "fdba74", "fcd34d", "fde68a", "fdba74", "93c5fd", "fbbf24", "7dd3fc", "bae6fd", "e8b84a", "86efac"]
 
 AUTHOR = "Maxim Hrehor  ·  Kvinta  ·  Lutheran Grammar School of J.A. Comenius"
 SCHOOL = "Maxim Hrehor\nLutheran Grammar School of J.A. Comenius · Kvinta"
@@ -108,7 +109,7 @@ def write(shape, runs, *, align=PP_ALIGN.LEFT, anchor=None):
         for item in paragraph["runs"]:
             run = p.add_run()
             run.text = item["t"]
-            run.font.name = FONT
+            run.font.name = item.get("f") or FONT
             run.font.size = Pt(item.get("s", 14))
             run.font.bold = item.get("b", False)
             run.font.color.rgb = item.get("c", INK)
@@ -127,8 +128,8 @@ def write(shape, runs, *, align=PP_ALIGN.LEFT, anchor=None):
     return shape
 
 
-def run(text, size=14, bold=False, color=INK, underline=False):
-    return {"t": text, "s": size, "b": bold, "c": color, "u": underline}
+def run(text, size=16, bold=False, color=INK, underline=False, font=None):
+    return {"t": text, "s": size, "b": bold, "c": color, "u": underline, "f": font or (FONT if bold else SEMI)}
 
 
 def para(*runs, align=PP_ALIGN.LEFT, before=0, after=0):
@@ -148,7 +149,7 @@ def photo_path(index: int) -> Path | None:
     return None
 
 
-def add_photo_card(slide, index: int) -> None:
+def add_photo_card(slide, index: int, credit: str) -> None:
     x, y, w, h = 8, 8, 112, 190
     sky = rgb(SKIES[index])
     ground = rgb(GROUNDS[index])
@@ -185,10 +186,12 @@ def add_photo_card(slide, index: int) -> None:
     except Exception:
         pass
     pip = textbox(slide, x + 3, y + 2, 22, 8, f"Pip {index + 1}")
-    plain(pip, "T ★", 13, WHITE, True)
-    pip2 = textbox(slide, x + w - 25, y + h - 10, 22, 8, f"Pip {index + 1} bottom")
-    plain(pip2, "T ★", 13, WHITE, True, PP_ALIGN.RIGHT)
-    pip2.rotation = 180.0
+    plain(pip, "T ★", 14, WHITE, True)
+    bar = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, Mm(x + 1.8), Mm(y + h - 16), Mm(w - 3.6), Mm(14))
+    bar.name = f"Credit bar {index + 1}"
+    fill(bar, RGBColor(0x0C, 0x27, 0x44))
+    note = textbox(slide, x + 2, y + h - 15.5, w - 4, 13, f"Photo credit {index + 1}", "ctr")
+    plain(note, credit, 10, WHITE, True, anchor="ctr")
 
 
 def add_spine(slide) -> None:
@@ -218,7 +221,7 @@ def add_header(slide, tag: str, title: str) -> float:
     tag_box = textbox(slide, 146, 13, 136, 6, "Section")
     plain(tag_box, tag.upper(), 11, GOLD, True)
     title_box = textbox(slide, 146, 19, 136, 22, "Title")
-    plain(title_box, title, 20, NAVY, True)
+    plain(title_box, title, 22, NAVY, True)
     line = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, Mm(148), Mm(42.5), Mm(132), Mm(1.1))
     line.name = "Title rule"
     fill(line, GOLD)
@@ -238,8 +241,9 @@ def sheet_cards(slide, top, height, count, gap=3.5):
     return boxes
 
 
-def build_hero(slide, title, subtitle, index, total):
-    add_photo_card(slide, index)
+def build_hero(slide, item, index, total):
+    title, subtitle = item["title"], item["subtitle"]
+    add_photo_card(slide, index, item["credit"])
     add_spine(slide)
     star = slide.shapes.add_shape(MSO_SHAPE.STAR_5_POINT, Mm(152), Mm(28), Mm(16), Mm(16))
     star.name = "Lone star"
@@ -247,44 +251,44 @@ def build_hero(slide, title, subtitle, index, total):
     heading = textbox(slide, 148, 48, 132, 24, "Hero title")
     plain(heading, title, 40, NAVY, True)
     sub = textbox(slide, 148, 76, 132, 28, "Subtitle")
-    plain(sub, subtitle, 20, INK)
+    plain(sub, subtitle, 22, INK)
     who = textbox(slide, 148, 112, 132, 22, "Author")
     write(who, [para(run(line, 16, True, NAVY), before=1) for line in SCHOOL.split("\n")])
     add_footer(slide, index, total)
 
 
 def build_bignum(slide, slide_data, index, total):
-    add_photo_card(slide, index)
+    add_photo_card(slide, index, slide_data["credit"])
     add_spine(slide)
     add_header(slide, slide_data["tag"], slide_data["title"])
     cards = sheet_cards(slide, 58, 118, 3)
     for (x, y, w, h, _), box in zip(cards, slide_data["boxes"]):
         value = textbox(slide, x + 1, y + 28, w - 2, 28, f"Number {box['value']}")
-        bits = [run(box["value"], 28, True, NAVY)]
+        bits = [run(box["value"], 32, True, NAVY)]
         if box.get("unit"):
-            bits.append(run(" " + box["unit"], 13, True, GOLD))
+            bits.append(run(" " + box["unit"], 14, True, GOLD))
         write(value, [para(*bits, align=PP_ALIGN.CENTER)], align=PP_ALIGN.CENTER, anchor="ctr")
         label = textbox(slide, x + 1, y + 58, w - 2, 42, f"Number label {box['value']}")
-        plain(label, box["label"], 13, INK, align=PP_ALIGN.CENTER)
+        plain(label, box["label"], 15, INK, align=PP_ALIGN.CENTER)
     add_footer(slide, index, total)
 
 
 def build_grid(slide, slide_data, index, total, columns):
-    add_photo_card(slide, index)
+    add_photo_card(slide, index, slide_data["credit"])
     add_spine(slide)
     add_header(slide, slide_data["tag"], slide_data["title"])
     height = 128 if columns == 3 else 124
     cards = sheet_cards(slide, 52, height, columns, 3.2 if columns == 3 else 4)
     for i, ((x, y, w, h, _), box) in enumerate(zip(cards, slide_data["boxes"]), start=1):
         title = textbox(slide, x + 1, y + 6, w - 2, 22 if columns == 3 else 16, f"Card title {i}")
-        plain(title, box["t"], 14 if columns == 3 else 16, NAVY, True)
-        body = textbox(slide, x + 1, y + (28 if columns == 3 else 24), w - 2, h - (34 if columns == 3 else 30), f"Card text {i}")
-        plain(body, box["d"], 12 if columns == 3 else 13, INK)
+        plain(title, box["t"], 16 if columns == 3 else 18, NAVY, True)
+        body = textbox(slide, x + 1, y + (28 if columns == 3 else 26), w - 2, h - (34 if columns == 3 else 32), f"Card text {i}")
+        plain(body, box["d"], 14 if columns == 3 else 15, INK)
     add_footer(slide, index, total)
 
 
 def build_timeline(slide, slide_data, index, total):
-    add_photo_card(slide, index)
+    add_photo_card(slide, index, slide_data["credit"])
     add_spine(slide)
     add_header(slide, slide_data["tag"], slide_data["title"])
     items = slide_data["items"]
@@ -299,14 +303,14 @@ def build_timeline(slide, slide_data, index, total):
         dot.name = f"Timeline dot {i + 1}"
         fill(dot, GOLD if i % 2 else GOLD_INK, WHITE, 1.25)
         label = textbox(slide, x, 84, step, 16, f"Timeline label {i + 1}")
-        plain(label, item["step"], 12, NAVY, True, PP_ALIGN.CENTER)
+        plain(label, item["step"], 13, NAVY, True, PP_ALIGN.CENTER)
         body = textbox(slide, x, 100, step, 70, f"Timeline text {i + 1}")
-        plain(body, item["text"], 11, INK, align=PP_ALIGN.CENTER)
+        plain(body, item["text"], 12, INK, align=PP_ALIGN.CENTER)
     add_footer(slide, index, total)
 
 
 def body_runs(text: str, mark: str):
-    size = 15
+    size = 17
     if mark not in text:
         return [run(text, size, False, INK)]
     before, after = text.split(mark, 1)
@@ -320,7 +324,7 @@ def body_runs(text: str, mark: str):
 
 
 def build_story(slide, slide_data, index, total):
-    add_photo_card(slide, index)
+    add_photo_card(slide, index, slide_data["credit"])
     add_spine(slide)
     add_header(slide, slide_data["tag"], slide_data["title"])
     card = round_rect(slide, 146, 50, 136, 136, WHITE, "Story card", line=None, radius=0.06)
@@ -328,21 +332,23 @@ def build_story(slide, slide_data, index, total):
     bar.name = "Story accent"
     fill(bar, GOLD)
     heading = textbox(slide, 150, 58, 128, 22, "Story heading")
-    plain(heading, slide_data["heading"], 18, NAVY, True)
-    letter = slide_data["body"][0]
-    rest = slide_data["body"][1:]
-    cap = textbox(slide, 150, 82, 16, 20, "Drop cap")
-    plain(cap, letter, 32, GOLD, True)
-    body = textbox(slide, 166, 82, 110, 96, "Story")
-    mark = slide_data["mark"]
-    # The drop cap already shows the first letter, so the paragraph continues without it.
-    continued = rest.lstrip()
-    write(body, [para(*body_runs(continued, mark))])
+    plain(heading, slide_data["heading"], 20, NAVY, True)
+    mark = slide_data.get("mark")
+    if mark:
+        letter = slide_data["body"][0]
+        rest = slide_data["body"][1:].lstrip()
+        cap = textbox(slide, 150, 84, 16, 20, "Drop cap")
+        plain(cap, letter, 34, GOLD, True)
+        body = textbox(slide, 166, 84, 110, 94, "Story")
+        write(body, [para(*body_runs(rest, mark))])
+    else:
+        body = textbox(slide, 152, 84, 124, 94, "Story")
+        plain(body, slide_data["body"], 18, INK)
     add_footer(slide, index, total)
 
 
 def build_sources(slide, slide_data, index, total):
-    add_photo_card(slide, index)
+    add_photo_card(slide, index, slide_data["credit"])
     add_spine(slide)
     add_header(slide, slide_data["tag"], slide_data["title"])
     x = 146
@@ -360,7 +366,7 @@ def build_sources(slide, slide_data, index, total):
         tick = textbox(slide, 151, y + 7.2, 10, 9, f"Check mark {i + 1}", "ctr")
         plain(tick, "✓", 11, GREEN, True, PP_ALIGN.CENTER, "ctr")
         words = textbox(slide, 163, y + 2, 114, 22, f"Source text {i + 1}", "ctr")
-        plain(words, item, 13, INK, anchor="ctr")
+        plain(words, item, 14, INK, anchor="ctr")
     add_footer(slide, index, total)
 
 
@@ -371,70 +377,71 @@ def felt(slide):
 
 
 SLIDES = [
-    {"kind": "hero", "title": "Texas", "subtitle": "The Lone Star State — place, people, and one hard question."},
+    {"kind": "hero", "title": "Texas", "subtitle": "The Lone Star State. A place, its people, and one hard question.", "credit": "CupWithSoda19 · CC BY-SA 4.0 · Wikimedia Commons"},
     {
         "kind": "bignum", "tag": "Geographic orientation", "title": "Texas at a glance",
+        "credit": "Carol M. Highsmith · public domain · Wikimedia Commons",
         "boxes": [
-            {"value": "2nd", "label": "largest U.S. state by area, after Alaska"},
-            {"value": "Austin", "label": "the capital, in the Texas Hill Country"},
-            {"value": "30", "unit": "million+", "label": "people live here, and the number is still growing"},
+            {"value": "2nd", "label": "largest state, after Alaska"},
+            {"value": "Austin", "label": "the capital"},
+            {"value": "30", "unit": "million+", "label": "people, and still growing"},
         ],
     },
-    {
-        "kind": "grid", "columns": 3, "tag": "Physical geography and climate",
-        "title": "Three landscapes, three kinds of weather",
-        "boxes": [
-            {"t": "The wet east", "d": "Pine woods and the Gulf coast get heavy rain. Summers are hot and humid, and hurricanes can reach the shore."},
-            {"t": "Hills and plains", "d": "The Hill Country rolls between rivers. Winters are usually mild, but storms and sudden cold can still arrive."},
-            {"t": "The dry west", "d": "Big Bend holds desert, canyons, and mountains. Days are very hot, nights can be cold, and water is scarce."},
-        ],
-    },
+    {"kind": "story", "tag": "Physical geography", "title": "Rain, pines, and the Gulf", "heading": "The wet east", "credit": "Maciej Kraus · CC BY 2.0 · Wikimedia Commons", "body": "Pine woods and the Gulf coast get the most rain. Summers are hot and humid. Hurricanes can reach the shore."},
+    {"kind": "story", "tag": "Physical geography", "title": "Rivers and rolling land", "heading": "Hills and plains", "credit": "Lorenzo The Snail · CC BY-SA 4.0 · Wikimedia Commons", "body": "The Hill Country sits between rivers and open plains. Winters are usually mild. Storms and a sudden cold can still arrive."},
+    {"kind": "story", "tag": "Physical geography", "title": "Desert, canyons, little water", "heading": "The dry west", "credit": "Martin Proll · public domain · Wikimedia Commons", "body": "Big Bend holds desert, canyons, and mountains. Days are very hot. Nights can be cold, and water is scarce."},
     {
         "kind": "timeline", "tag": "History", "title": "How Texas became Texas",
+        "credit": "DatraxMada · CC BY-SA 4.0 · Wikimedia Commons",
         "items": [
-            {"step": "First nations", "text": "Caddo, Comanche, Apache, and coastal peoples lived here for centuries."},
-            {"step": "Spain and Mexico", "text": "Missions came first. Later, Texas was a region of Mexico."},
-            {"step": "1836", "text": "Texas became an independent republic after the revolution."},
-            {"step": "1845", "text": "The republic joined the United States as the 28th state."},
-            {"step": "1901", "text": "Oil at Spindletop changed the towns, the jobs, and the future."},
+            {"step": "First nations", "text": "Caddo, Comanche, and Apache peoples lived here for centuries."},
+            {"step": "Spain and Mexico", "text": "Missions came first. Later, Texas was part of Mexico."},
+            {"step": "1836", "text": "Texas became an independent republic."},
+            {"step": "1845", "text": "It joined the United States as the 28th state."},
+            {"step": "1901", "text": "Oil at Spindletop changed the towns and the jobs."},
         ],
     },
     {
-        "kind": "story", "tag": "Cultural identity", "title": "Many stories under one star",
-        "heading": "A place shaped by more than one people", "mark": "Lone Star",
-        "body": "Many nations knew this land long before any flag. Spanish and Mexican families then built towns, ranches, and a Tejano culture that is still part of daily life. Later came Anglo settlers, African Americans, and European immigrants, including Czechs and Germans. The Lone Star is one symbol. The culture was never only one story.",
+        "kind": "story", "tag": "Cultural identity", "title": "Many stories, one star",
+        "heading": "More than one people", "mark": "Lone Star",
+        "credit": "Ashland Thomas · CC BY-SA 4.0 · Wikimedia Commons",
+        "body": "Many nations knew this land before any flag. Spanish and Mexican families built towns and a Tejano culture that is still here. Later came Anglo settlers, African Americans, Czechs, and Germans. The Lone Star is one symbol, not the whole story.",
     },
+    {"kind": "story", "tag": "Economy", "title": "Oil, gas, and the wind", "heading": "Energy", "credit": "Matthew T Rader · CC BY-SA 4.0 · Wikimedia Commons", "body": "Texas produces oil and natural gas. It also leads the United States in wind power. That strength comes with a duty to use it carefully."},
     {
-        "kind": "grid", "columns": 3, "tag": "Economy and industry", "title": "What keeps Texas working",
+        "kind": "grid", "columns": 2, "tag": "Economy", "title": "Cities, ports, and ranches",
+        "credit": "U.S. Fish and Wildlife Service · public domain · Wikimedia Commons",
         "boxes": [
-            {"t": "Energy", "d": "Texas produces oil and natural gas, and it also leads the United States in wind power. Energy is a strength and a responsibility."},
-            {"t": "Cities of ideas", "d": "Austin builds technology. Houston runs one of the busiest ports in the country and the Johnson Space Center, home of NASA."},
-            {"t": "Land and cattle", "d": "Cotton and cattle still matter. Ranches and farms connect today’s economy with the older picture of Texas."},
+            {"t": "Cities of ideas", "d": "Austin builds technology. Houston runs a great port and the Johnson Space Center."},
+            {"t": "Land and cattle", "d": "Cotton and cattle still matter. Ranches keep an older picture of Texas alive."},
         ],
     },
     {
-        "kind": "story", "tag": "Demographics and society", "title": "Cities, countryside, and new neighbors",
-        "heading": "A large state that keeps growing", "mark": "more than 30 million",
-        "body": "Texas is home to more than 30 million people. Houston, Dallas, San Antonio, and Austin are huge cities, while long stretches of the state are still ranches and small towns. About two in five residents are Hispanic or Latino. Many others are White, Black, or Asian. People move here for work, so neighborhoods, schools, and languages keep changing.",
+        "kind": "story", "tag": "Demographics and society", "title": "A state that keeps growing",
+        "heading": "Cities and open country", "mark": "more than 30 million",
+        "credit": "David Daniel Turner · CC BY 4.0 · Wikimedia Commons",
+        "body": "Texas is home to more than 30 million people. Houston, Dallas, San Antonio, and Austin are huge, while much of the land is still ranches and small towns. About two in five residents are Hispanic or Latino. People move here for work, so schools and languages keep changing.",
     },
     {
-        "kind": "grid", "columns": 2, "tag": "A current challenge", "title": "When a winter storm stopped the power",
+        "kind": "grid", "columns": 2, "tag": "A current challenge", "title": "The week the power stopped",
+        "credit": "Jno.skinner · CC BY-SA 4.0 · Wikimedia Commons",
         "boxes": [
-            {"t": "What happened", "d": "In February 2021, extreme cold froze equipment across Texas. Millions of homes lost electricity and heat. Most of the state’s power is run by its own grid, ERCOT, not by the national networks."},
-            {"t": "A fair next step", "d": "Some people want Texas to keep an independent grid. Others want stronger links to neighboring states. A practical step, supported by later reviews, is to prepare plants and fuel lines for freezing weather."},
+            {"t": "What happened", "d": "In February 2021, extreme cold froze equipment. Millions of homes lost heat. Most of the grid is run by ERCOT, not by the national networks."},
+            {"t": "A fair next step", "d": "Some want Texas to stay independent. Others want links to neighboring states. One practical step is to prepare plants and fuel lines for freezing weather."},
         ],
     },
     {
         "kind": "sources", "tag": "Evidence", "title": "Where these facts come from",
+        "credit": "Montysayshello · CC BY-SA 4.0 · Wikimedia Commons",
         "pills": ["Geography", "History", "Economy", "Society"],
         "items": [
-            "U.S. Census Bureau — population size and the mix of communities",
-            "Texas State Historical Association — the republic, statehood in 1845, and Spindletop",
-            "National Weather Service — climate regions and the February 2021 winter storm",
-            "ERCOT public reports — how most of the Texas electricity grid is organized",
+            "U.S. Census Bureau — population and communities",
+            "Texas State Historical Association — the republic, 1845, and Spindletop",
+            "National Weather Service — climate and the February 2021 storm",
+            "ERCOT public reports — how most of the Texas grid is organized",
         ],
     },
-    {"kind": "hero", "title": "Thank you", "subtitle": "Ask me one question: a place, a date, or the winter storm."},
+    {"kind": "hero", "title": "Thank you", "subtitle": "Ask me one question: a place, a date, or the winter storm.", "credit": "Carol M. Highsmith · public domain · Wikimedia Commons"},
 ]
 
 
@@ -451,7 +458,7 @@ def build() -> Path:
         felt(slide)
         kind = item["kind"]
         if kind == "hero":
-            build_hero(slide, item["title"], item["subtitle"], index, total)
+            build_hero(slide, item, index, total)
         elif kind == "bignum":
             build_bignum(slide, item, index, total)
         elif kind == "grid":

@@ -19,8 +19,8 @@ body { margin: 0; padding: 0; background: #e7eef6; font-family: 'Segoe UI', sans
 .pcard { position: relative; border-radius: 16px; border: 2px solid #123a63; background: #fffdf8; box-shadow: 0 7px 0 rgba(18,58,99,.16); overflow: hidden; min-height: 0; }
 .pcard.photo { background: #123a63; }
 .scene, .pcard.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.pip { position: absolute; z-index: 3; top: 8px; left: 10px; color: #fff; font-weight: 800; font-size: 16px; letter-spacing: .04em; text-shadow: 0 1px 2px rgba(0,0,0,.35); }
-.pip.bottom { top: auto; bottom: 8px; left: auto; right: 10px; transform: rotate(180deg); }
+.pip { position: absolute; z-index: 4; top: 8px; left: 10px; color: #fff; font-weight: 800; font-size: 16px; letter-spacing: .04em; text-shadow: 0 1px 2px rgba(0,0,0,.35); }
+.credit { position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; padding: 16px 12px 8px; background: linear-gradient(transparent, rgba(8,24,44,.9)); color: #fff; font-size: 12px; font-weight: 700; line-height: 1.25; }
 .textcard { display: flex; }
 .spine { width: 58px; flex-shrink: 0; background: #123a63; color: #ffe08a; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; text-orientation: upright; font-weight: 800; font-size: 26px; letter-spacing: .42em; }
 .sheet { flex: 1; min-width: 0; min-height: 0; padding: 14px 16px 10px; display: flex; flex-direction: column; }
@@ -29,13 +29,13 @@ body { margin: 0; padding: 0; background: #e7eef6; font-family: 'Segoe UI', sans
     .slide { box-shadow: none; margin: 0; }
 }
 .header { flex-shrink: 0; border-bottom: 3px solid var(--secondary); padding-bottom: 8px; margin-bottom: 12px; }
-.header-tag { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--secondary); margin-bottom: 4px; }
-.title { font-size: 32px; font-weight: 800; margin: 0; color: var(--primary); line-height: 1.12; }
+.header-tag { font-size: 0.95rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--secondary); margin-bottom: 4px; }
+.title { font-size: 34px; font-weight: 800; margin: 0; color: var(--primary); line-height: 1.08; }
 .content { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .footer { position: absolute; bottom: 4px; left: 8mm; right: 8mm; border-top: 0; font-size: 12px; font-weight: 700; color: #5c4b32; display: flex; justify-content: space-between; }
 strong { color: var(--gold-color); }
-.box-title { display: block; font-weight: 800; color: var(--primary); font-size: 20px; line-height: 1.2; }
-.text-content { font-size: 17px; line-height: 1.4; color: var(--text); margin: 0; }
+.box-title { display: block; font-weight: 800; color: var(--primary); font-size: 22px; line-height: 1.15; }
+.text-content { font-size: 18px; font-weight: 600; line-height: 1.35; color: var(--text); margin: 0; }
 
 .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .card-icon { width: 28px; height: 28px; flex-shrink: 0; color: var(--secondary); }
@@ -45,8 +45,8 @@ strong { color: var(--gold-color); }
 .card { background: var(--card); padding: 18px 18px; border-radius: var(--radius); border-top: var(--accent-w) solid var(--secondary); box-shadow: 0 4px 10px rgba(18,58,99,.06); display: flex; flex-direction: column; }
 .single-block { align-items: center; justify-content: center; }
 .single-card { width: 100%; margin: auto 0; padding: 22px 40px 26px; text-align: left; background: var(--card); border-radius: var(--radius); box-shadow: 0 4px 10px rgba(18,58,99,.06); border-top: var(--accent-w) solid var(--secondary); }
-.single-card .box-title { font-size: 26px; margin-bottom: 8px; }
-.single-card .text-content { font-size: 20px; line-height: 1.45; text-align: left; }
+.single-card .box-title { font-size: 28px; margin-bottom: 8px; }
+.single-card .text-content { font-size: 23px; font-weight: 650; line-height: 1.38; text-align: left; }
 .single-card.dropcap .text-content::first-letter { font-size: 58px; font-weight: 800; color: var(--secondary); float: left; line-height: .82; padding-right: 10px; }
 .underline-word { position: relative; font-weight: 800; color: var(--primary); white-space: nowrap; }
 .underline-word svg { position: absolute; left: 0; bottom: -6px; width: 100%; height: 8px; }
@@ -54,14 +54,14 @@ strong { color: var(--gold-color); }
 .hero-sheet { justify-content: center; }
 .lone-star { width: 54px; height: 54px; margin-bottom: 10px; }
 .hero-title { font-size: 54px; color: var(--primary); margin: 0; font-weight: 800; letter-spacing: -1px; line-height: .95; }
-.hero-subtitle { font-size: 26px; margin: 16px 0 0; color: var(--text); font-weight: 500; line-height: 1.35; }
-.hero-author { margin-top: 22px; font-size: 20px; line-height: 1.45; color: var(--primary); }
+.hero-subtitle { font-size: 28px; margin: 16px 0 0; color: var(--text); font-weight: 650; line-height: 1.3; }
+.hero-author { margin-top: 22px; font-size: 22px; font-weight: 700; line-height: 1.4; color: var(--primary); }
 
 .content.bignum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .bignum-card { background: var(--card); border-radius: var(--radius); padding: 22px 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; box-shadow: 0 4px 10px rgba(18,58,99,.06); border-top: 6px solid var(--secondary); }
-.bignum-value { font-size: 42px; font-weight: 800; color: var(--primary); line-height: 1; }
-.bignum-unit { font-size: 16px; font-weight: 700; color: var(--secondary); margin-left: 4px; }
-.bignum-label { font-size: 16px; color: var(--text); margin-top: 10px; line-height: 1.3; }
+.bignum-value { font-size: 48px; font-weight: 800; color: var(--primary); line-height: 1; }
+.bignum-unit { font-size: 18px; font-weight: 800; color: var(--secondary); margin-left: 4px; }
+.bignum-label { font-size: 18px; font-weight: 650; color: var(--text); margin-top: 10px; line-height: 1.25; }
 
 .content.timeline-wrap { position: relative; height: 100%; display: flex; align-items: center; padding: 0 6px; }
 .timeline-track { display: flex; justify-content: space-between; width: 100%; position: relative; }
@@ -69,19 +69,19 @@ strong { color: var(--gold-color); }
 .t-step { flex: 1; text-align: center; position: relative; padding: 0 8px; }
 .t-dot { width: 26px; height: 26px; border-radius: 50%; background: var(--secondary); border: 5px solid var(--bg); box-shadow: 0 0 0 2px var(--secondary); margin: 0 auto 14px; position: relative; z-index: 2; }
 .t-step:nth-child(even) .t-dot { background: var(--gold-color); box-shadow: 0 0 0 2px var(--gold-color); }
-.t-label { font-weight: 800; color: var(--primary); font-size: 16px; }
-.t-text { font-size: 14px; color: var(--text); line-height: 1.3; margin: 6px auto 0; }
+.t-label { font-weight: 800; color: var(--primary); font-size: 17px; }
+.t-text { font-size: 15px; font-weight: 650; color: var(--text); line-height: 1.28; margin: 6px auto 0; }
 
 .pill-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
 .pill { padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 700; color: var(--primary); background: #fff4dc; }
 .check-list { display: flex; flex-direction: column; gap: 10px; }
 .check-item { display: flex; align-items: center; gap: 12px; background: var(--card); border-radius: 12px; padding: 12px 16px; box-shadow: 0 2px 6px rgba(18,58,99,.05); }
 .check-icon { width: 24px; height: 24px; flex-shrink: 0; color: #15803d; }
-.check-text { font-size: 17px; color: var(--text); line-height: 1.3; }
+.check-text { font-size: 18px; font-weight: 650; color: var(--text); line-height: 1.28; }
 
 .theme-texas {
     --primary: #123a63; --primary-dark: #0c2744; --secondary: #e8b84a; --bg: #fff8ef;
-    --card: #ffffff; --text: #3e4c5a; --radius: 16px; --accent-w: 7px; --gold-color: #c2410c;
+    --card: #ffffff; --text: #14202c; --radius: 16px; --accent-w: 7px; --gold-color: #c2410c;
 }
 </style>
 </head>
@@ -97,83 +97,110 @@ const data = [
     {
         theme: "texas", template: "hero",
         title: "Texas",
-        subtitle: "The Lone Star State — place, people, and one hard question.",
-        author: "Maxim Hrehor<br>Lutheran Grammar School of J.A. Comenius · Kvinta"
+        subtitle: "The Lone Star State. A place, its people, and one hard question.",
+        author: "Maxim Hrehor<br>Lutheran Grammar School of J.A. Comenius · Kvinta",
+        credit: "CupWithSoda19 · CC BY-SA 4.0 · Wikimedia Commons"
     },
     {
         theme: "texas", template: "bignum", tag: "Geographic orientation",
         title: "Texas at a glance",
+        credit: "Carol M. Highsmith · public domain · Wikimedia Commons",
         boxes: [
-            { value: "2nd", label: "largest U.S. state by area, after Alaska" },
-            { value: "Austin", label: "the capital, in the Texas Hill Country" },
-            { value: "30", unit: "million+", label: "people live here, and the number is still growing" }
+            { value: "2nd", label: "largest state, after Alaska" },
+            { value: "Austin", label: "the capital" },
+            { value: "30", unit: "million+", label: "people, and still growing" }
         ]
     },
     {
-        theme: "texas", template: "grid-3", tag: "Physical geography and climate",
-        title: "Three landscapes, three kinds of weather",
-        boxes: [
-            { icon: icon("M12 3v18M4 8c2 2 4 2 8-2s6-4 8-2M4 14c2 2 4 2 8-2s6-4 8-2"), t: "The wet east", d: "Pine woods and the Gulf coast get heavy rain. Summers are hot and humid, and hurricanes can reach the shore." },
-            { icon: icon("M3 18 9 8l4 6 3-4 5 8H3z"), t: "Hills and plains", d: "The Hill Country rolls between rivers. Winters are usually mild, but storms and sudden cold can still arrive." },
-            { icon: icon("M12 3 4 20h16L12 3zM12 10v4"), t: "The dry west", d: "Big Bend holds desert, canyons, and mountains. Days are very hot, nights can be cold, and water is scarce." }
-        ]
+        theme: "texas", template: "single-block", tag: "Physical geography",
+        title: "Rain, pines, and the Gulf",
+        heading: "The wet east",
+        credit: "Maciej Kraus · CC BY 2.0 · Wikimedia Commons",
+        body: "Pine woods and the Gulf coast get the most rain. Summers are hot and humid. Hurricanes can reach the shore."
+    },
+    {
+        theme: "texas", template: "single-block", tag: "Physical geography",
+        title: "Rivers and rolling land",
+        heading: "Hills and plains",
+        credit: "Lorenzo The Snail · CC BY-SA 4.0 · Wikimedia Commons",
+        body: "The Hill Country sits between rivers and open plains. Winters are usually mild. Storms and a sudden cold can still arrive."
+    },
+    {
+        theme: "texas", template: "single-block", tag: "Physical geography",
+        title: "Desert, canyons, little water",
+        heading: "The dry west",
+        credit: "Martin Proll · public domain · Wikimedia Commons",
+        body: "Big Bend holds desert, canyons, and mountains. Days are very hot. Nights can be cold, and water is scarce."
     },
     {
         theme: "texas", template: "timeline", tag: "History",
         title: "How Texas became Texas",
+        credit: "DatraxMada · CC BY-SA 4.0 · Wikimedia Commons",
         items: [
-            { step: "First nations", text: "Caddo, Comanche, Apache, and coastal peoples lived here for centuries." },
-            { step: "Spain and Mexico", text: "Missions came first. Later, Texas was a region of Mexico." },
-            { step: "1836", text: "Texas became an independent republic after the revolution." },
-            { step: "1845", text: "The republic joined the United States as the 28th state." },
-            { step: "1901", text: "Oil at Spindletop changed the towns, the jobs, and the future." }
+            { step: "First nations", text: "Caddo, Comanche, and Apache peoples lived here for centuries." },
+            { step: "Spain and Mexico", text: "Missions came first. Later, Texas was part of Mexico." },
+            { step: "1836", text: "Texas became an independent republic." },
+            { step: "1845", text: "It joined the United States as the 28th state." },
+            { step: "1901", text: "Oil at Spindletop changed the towns and the jobs." }
         ]
     },
     {
         theme: "texas", template: "single-block", dropcap: true, tag: "Cultural identity",
-        title: "Many stories under one star",
-        heading: "A place shaped by more than one people",
-        body: `Many nations knew this land long before any flag. Spanish and Mexican families then built towns, ranches, and a Tejano culture that is still part of daily life. Later came Anglo settlers, African Americans, and European immigrants, including Czechs and Germans. The ${underline("Lone Star")} is one symbol. The culture was never only one story.`
+        title: "Many stories, one star",
+        heading: "More than one people",
+        credit: "Ashland Thomas · CC BY-SA 4.0 · Wikimedia Commons",
+        body: `Many nations knew this land before any flag. Spanish and Mexican families built towns and a Tejano culture that is still here. Later came Anglo settlers, African Americans, Czechs, and Germans. The ${underline("Lone Star")} is one symbol, not the whole story.`
     },
     {
-        theme: "texas", template: "grid-3", tag: "Economy and industry",
-        title: "What keeps Texas working",
+        theme: "texas", template: "single-block", tag: "Economy",
+        title: "Oil, gas, and the wind",
+        heading: "Energy",
+        credit: "Matthew T Rader · CC BY-SA 4.0 · Wikimedia Commons",
+        body: "Texas produces oil and natural gas. It also leads the United States in wind power. That strength comes with a duty to use it carefully."
+    },
+    {
+        theme: "texas", template: "grid-2", tag: "Economy",
+        title: "Cities, ports, and ranches",
+        credit: "U.S. Fish and Wildlife Service · public domain · Wikimedia Commons",
         boxes: [
-            { icon: icon("M12 3v4M8 7h8l-1 14H9L8 7z"), t: "Energy", d: "Texas produces oil and natural gas, and it also leads the United States in wind power. Energy is a strength and a responsibility." },
-            { icon: icon("M4 20V10l8-6 8 6v10M9 20v-6h6v6"), t: "Cities of ideas", d: "Austin builds technology. Houston runs one of the busiest ports in the country and the Johnson Space Center, home of NASA." },
-            { icon: icon("M4 16c2-6 4-6 6 0s4 6 6 0 4-6 4 0"), t: "Land and cattle", d: "Cotton and cattle still matter. Ranches and farms connect today’s economy with the older picture of Texas." }
+            { icon: icon("M4 20V10l8-6 8 6v10M9 20v-6h6v6"), t: "Cities of ideas", d: "Austin builds technology. Houston runs a great port and the Johnson Space Center." },
+            { icon: icon("M4 16c2-6 4-6 6 0s4 6 6 0 4-6 4 0"), t: "Land and cattle", d: "Cotton and cattle still matter. Ranches keep an older picture of Texas alive." }
         ]
     },
     {
         theme: "texas", template: "single-block", dropcap: true, tag: "Demographics and society",
-        title: "Cities, countryside, and new neighbors",
-        heading: "A large state that keeps growing",
-        body: `Texas is home to ${underline("more than 30 million")} people. Houston, Dallas, San Antonio, and Austin are huge cities, while long stretches of the state are still ranches and small towns. About two in five residents are Hispanic or Latino. Many others are White, Black, or Asian. People move here for work, so neighborhoods, schools, and languages keep changing.`
+        title: "A state that keeps growing",
+        heading: "Cities and open country",
+        credit: "David Daniel Turner · CC BY 4.0 · Wikimedia Commons",
+        body: `Texas is home to ${underline("more than 30 million")} people. Houston, Dallas, San Antonio, and Austin are huge, while much of the land is still ranches and small towns. About two in five residents are Hispanic or Latino. People move here for work, so schools and languages keep changing.`
     },
     {
         theme: "texas", template: "grid-2", tag: "A current challenge",
-        title: "When a winter storm stopped the power",
+        title: "The week the power stopped",
+        credit: "Jno.skinner · CC BY-SA 4.0 · Wikimedia Commons",
         boxes: [
-            { icon: icon("M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"), t: "What happened", d: "In February 2021, extreme cold froze equipment across Texas. Millions of homes lost electricity and heat. Most of the state’s power is run by its own grid, ERCOT, not by the national networks." },
-            { icon: icon("M12 3 4 7v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V7l-8-4z"), t: "A fair next step", d: "Some people want Texas to keep an independent grid. Others want stronger links to neighboring states. A practical step, supported by later reviews, is to prepare plants and fuel lines for freezing weather." }
+            { icon: icon("M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"), t: "What happened", d: "In February 2021, extreme cold froze equipment. Millions of homes lost heat. Most of the grid is run by ERCOT, not by the national networks." },
+            { icon: icon("M12 3 4 7v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V7l-8-4z"), t: "A fair next step", d: "Some want Texas to stay independent. Others want links to neighboring states. One practical step is to prepare plants and fuel lines for freezing weather." }
         ]
     },
     {
         theme: "texas", template: "checklist", tag: "Evidence",
         title: "Where these facts come from",
+        credit: "Montysayshello · CC BY-SA 4.0 · Wikimedia Commons",
         pills: ["Geography", "History", "Economy", "Society"],
         items: [
-            "U.S. Census Bureau — population size and the mix of communities",
-            "Texas State Historical Association — the republic, statehood in 1845, and Spindletop",
-            "National Weather Service — climate regions and the February 2021 winter storm",
-            "ERCOT public reports — how most of the Texas electricity grid is organized"
+            "U.S. Census Bureau — population and communities",
+            "Texas State Historical Association — the republic, 1845, and Spindletop",
+            "National Weather Service — climate and the February 2021 storm",
+            "ERCOT public reports — how most of the Texas grid is organized"
         ]
     },
     {
         theme: "texas", template: "hero",
         title: "Thank you",
         subtitle: "Ask me one question: a place, a date, or the winter storm.",
-        author: "Maxim Hrehor<br>Lutheran Grammar School of J.A. Comenius · Kvinta"
+        author: "Maxim Hrehor<br>Lutheran Grammar School of J.A. Comenius · Kvinta",
+        credit: "Carol M. Highsmith · public domain · Wikimedia Commons"
     }
 ];
 
@@ -193,11 +220,11 @@ const renderers = {
     "checklist": s => `<div class="content"><div class="pill-row">${s.pills.map(p => `<span class="pill">${p}</span>`).join("")}</div><div class="check-list">${s.items.map(t => `<div class="check-item">${checkIcon}<span class="check-text">${t}</span></div>`).join("")}</div></div>`
 };
 
-function photoCard(i) {
+function photoCard(i, credit) {
     const n = String(i + 1).padStart(2, "0");
-    const skies = ["#1d6aa5", "#0e7490", "#b45309", "#7c2d12", "#1e3a5f", "#0369a1", "#9a3412", "#1e40af", "#115e59", "#123a63"];
-    const grounds = ["#e8b84a", "#86efac", "#fdba74", "#fcd34d", "#93c5fd", "#fde68a", "#fb923c", "#7dd3fc", "#5eead4", "#fbbf24"];
-    return `<div class="pcard photo"><span class="pip">T ★</span><svg class="scene" viewBox="0 0 200 320" preserveAspectRatio="xMidYMid slice"><rect width="200" height="320" fill="${skies[i]}"/><circle cx="150" cy="54" r="28" fill="#ffe08a"/><path d="M0 190 C40 160 70 210 110 180 C150 150 170 200 200 170 V320 H0 Z" fill="${grounds[i]}"/><path d="M0 230 C50 210 90 250 140 220 C170 200 180 240 200 230 V320 H0 Z" fill="#123a63" opacity=".28"/></svg><img src="../Texas/slides/${n}.jpg" alt="" onerror="this.style.display='none'"><span class="pip bottom">T ★</span></div>`;
+    const skies = ["#1d6aa5", "#0e7490", "#14532d", "#b45309", "#9a3412", "#1e3a5f", "#7c2d12", "#0369a1", "#3f6212", "#1e40af", "#0f766e", "#123a63", "#166534"];
+    const grounds = ["#e8b84a", "#d6d3d1", "#86efac", "#fdba74", "#fcd34d", "#fde68a", "#fdba74", "#93c5fd", "#fbbf24", "#7dd3fc", "#bae6fd", "#e8b84a", "#86efac"];
+    return `<div class="pcard photo"><span class="pip">T ★</span><svg class="scene" viewBox="0 0 200 320" preserveAspectRatio="xMidYMid slice"><rect width="200" height="320" fill="${skies[i]}"/><circle cx="150" cy="54" r="28" fill="#ffe08a"/><path d="M0 190 C40 160 70 210 110 180 C150 150 170 200 200 170 V320 H0 Z" fill="${grounds[i]}"/></svg><img src="../Texas/slides/${n}.jpg" alt="" onerror="this.style.display='none'"><div class="credit">${credit}</div></div>`;
 }
 function nameCard(inner) {
     return `<div class="pcard textcard"><div class="spine">Texas</div><div class="sheet">${inner}</div></div>`;
@@ -208,7 +235,7 @@ function buildSlide(s, index, total) {
     const inner = s.template === "hero"
         ? `<div class="hero-sheet">${star}<h1 class="hero-title">${s.title}</h1><p class="hero-subtitle">${s.subtitle}</p><div class="hero-author">${s.author}</div></div>`
         : `<div class="header"><div class="header-tag">${s.tag}</div><h1 class="title">${s.title}</h1></div>${renderers[s.template](s)}`;
-    return `<div class="slide ${theme}"><div class="pair">${photoCard(index)}${nameCard(inner)}</div>${foot}</div>`;
+    return `<div class="slide ${theme}"><div class="pair">${photoCard(index, s.credit)}${nameCard(inner)}</div>${foot}</div>`;
 }
 document.getElementById("slides").innerHTML = data.map((s, i) => buildSlide(s, i, data.length)).join("");
 </script>
