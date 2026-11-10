@@ -22,13 +22,15 @@ body { margin: 0; background: #e7eef6; font-family: "Segoe UI", sans-serif; colo
 }
 .side, .sheet { min-width: 0; min-height: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; }
 .frame {
-    height: 98mm; flex: none; background: #fffdf8; border-radius: 12px;
+    height: 124mm; flex: none; background: #fffdf8; border-radius: 12px;
     box-shadow: 0 10px 22px rgba(18,58,99,.12);
-    display: flex; align-items: center; justify-content: center; overflow: hidden;
+    display: flex; flex-direction: column; align-items: stretch; gap: 2mm;
+    padding: 3.5mm 4mm 3mm; overflow: hidden;
 }
+.frame .photo { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
 .frame img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; }
-.place { margin: 3mm 2px 0; font-size: 16px; font-weight: 800; color: #123a63; line-height: 1.15; }
-.credit { margin: 2px 2px 0; font-size: 11px; font-weight: 700; color: #6b5840; line-height: 1.25; }
+.place { margin: 0; flex: none; font-size: 16px; font-weight: 800; color: #123a63; line-height: 1.15; }
+.credit { margin: 0; flex: none; font-size: 11px; font-weight: 700; color: #6b5840; line-height: 1.25; }
 .fact {
     margin: 5mm 0 0; padding: 1mm 1mm 1mm 4mm; border-left: 4px solid #e8b84a;
     font-size: 18px; font-weight: 750; line-height: 1.28; color: #123a63;
@@ -151,7 +153,7 @@ const renderers = {
 function buildSlide(s, index, total) {
     const n = String(index + 1).padStart(2, "0");
     const foot = `<div class="footer"><span>${AUTHOR}</span><span>Slide ${index + 1}/${total}</span></div>`;
-    const side = `<div class="side"><div class="frame"><img src="../../Texas/slides/${n}.jpg" alt="${s.place}"></div><div class="place">${s.place}</div><div class="credit">${s.credit} · Wikimedia Commons</div><p class="fact">${s.fact}</p></div>`;
+    const side = `<div class="side"><div class="frame"><div class="place">${s.place}</div><div class="photo"><img src="../../Texas/slides/${n}.jpg" alt="${s.place}"></div><div class="credit">${s.credit} · Wikimedia Commons</div></div><p class="fact">${s.fact}</p></div>`;
     const inner = s.template === "hero"
         ? `<div class="sheet">${star}<p class="hero-kicker">Lutheran Grammar School</p><h1 class="hero-title">${s.title}</h1><p class="hero-subtitle">${s.subtitle}</p><div class="hero-author">${s.author}</div></div>`
         : `<div class="sheet"><div class="header"><p class="header-tag">${s.tag}</p><h1 class="title">${s.title}</h1></div>${renderers[s.template](s)}</div>`;

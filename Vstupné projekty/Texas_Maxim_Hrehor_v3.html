@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Texas — Maxim Hrehor, Kvinta, version 3</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+@page { size: A4 landscape; margin: 0; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #e7eef6; font-family: "Segoe UI", sans-serif; color: #14202c; }
+.slide {
+    width: 297mm; height: 210mm; margin: 0 auto 16px; position: relative; overflow: hidden;
+    background: #f6efe2; page-break-after: always; break-after: page;
+    display: grid; grid-template-columns: 13mm 112mm minmax(0, 1fr); gap: 7mm;
+    padding: 14mm 12mm 16mm 10mm;
+}
+.rail {
+    background: #123a63; color: #ffe08a; border-radius: 10px;
+    writing-mode: vertical-rl; text-orientation: upright;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 18px; letter-spacing: .28em;
+}
+.side, .sheet { min-width: 0; min-height: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; }
+.frame {
+    height: 124mm; flex: none; background: #fffdf8; border-radius: 12px;
+    box-shadow: 0 10px 22px rgba(18,58,99,.12);
+    display: flex; flex-direction: column; align-items: stretch; gap: 2mm;
+    padding: 3.5mm 4mm 3mm; overflow: hidden;
+}
+.frame .photo { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
+.frame img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; }
+.place { margin: 0; flex: none; font-size: 16px; font-weight: 800; color: #123a63; line-height: 1.15; }
+.credit { margin: 0; flex: none; font-size: 11px; font-weight: 700; color: #6b5840; line-height: 1.25; }
+.ref-list { display: flex; flex-direction: column; gap: 7px; }
+.ref { margin: 0; font-size: 13px; font-weight: 650; line-height: 1.28; }
+.ref-list.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 7px 12px; }
+.ref-list.cols .ref { font-size: 11.5px; }
+.fact {
+    margin: 5mm 0 0; padding: 1mm 1mm 1mm 4mm; border-left: 4px solid #e8b84a;
+    font-size: 18px; font-weight: 750; line-height: 1.28; color: #123a63;
+}
+.header { flex: none; border-bottom: 3px solid #e8b84a; padding-bottom: 6px; margin-bottom: 10px; }
+.header-tag { margin: 0 0 3px; font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #b5812e; }
+.title { margin: 0; font-size: 32px; line-height: 1.08; font-weight: 800; color: #123a63; }
+.content { flex: none; display: flex; flex-direction: column; }
+.footer { position: absolute; left: 10mm; right: 12mm; bottom: 4mm; display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: #5c4b32; }
+.box-title { display: block; font-weight: 800; color: #123a63; font-size: 20px; line-height: 1.15; }
+.text-content { margin: 0; font-size: 17px; font-weight: 650; line-height: 1.32; color: #14202c; }
+.card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.card-icon { width: 26px; height: 26px; color: #c4922e; flex: none; }
+.card-icon svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 2; }
+.grid-cards-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-content: center; }
+.card, .single-card, .bignum-card, .check-item {
+    background: #fffdf8; border-radius: 14px; box-shadow: 0 4px 12px rgba(18,58,99,.06);
+}
+.card { padding: 14px 14px 16px; border-top: 6px solid #e8b84a; }
+.single-block { justify-content: center; }
+.single-card { padding: 18px 22px 20px; border-top: 6px solid #e8b84a; }
+.single-card .box-title { font-size: 26px; margin-bottom: 8px; }
+.single-card .text-content { font-size: 21px; line-height: 1.35; }
+.single-card.dropcap .text-content::first-letter { font-size: 52px; font-weight: 800; color: #e8b84a; float: left; line-height: .8; padding-right: 8px; }
+.underline-word { position: relative; font-weight: 800; color: #123a63; white-space: nowrap; }
+.underline-word svg { position: absolute; left: 0; bottom: -5px; width: 100%; height: 8px; }
+.hero-kicker { margin: 8px 0 0; font-size: 13px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #b5812e; }
+.hero-title { margin: 8px 0 0; font-size: 54px; line-height: .92; font-weight: 800; color: #123a63; }
+.hero-subtitle { margin: 12px 0 0; font-size: 24px; font-weight: 650; line-height: 1.28; color: #14202c; }
+.hero-author { margin-top: 16px; font-size: 18px; font-weight: 750; line-height: 1.4; color: #123a63; }
+.bignum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; align-content: center; }
+.bignum-card { padding: 16px 10px; text-align: center; border-top: 6px solid #e8b84a; }
+.bignum-value { font-size: 40px; font-weight: 800; color: #123a63; line-height: 1; }
+.bignum-unit { font-size: 15px; font-weight: 800; color: #c4922e; margin-left: 3px; }
+.bignum-label { margin-top: 8px; font-size: 16px; font-weight: 700; line-height: 1.25; }
+.timeline-wrap { justify-content: center; }
+.timeline-track { display: flex; width: 100%; position: relative; }
+.timeline-track::before { content: ""; position: absolute; left: 16px; right: 16px; top: 11px; height: 4px; border-radius: 4px; background: #e8b84a; }
+.t-step { flex: 1; text-align: center; padding: 0 5px; position: relative; }
+.t-dot { width: 22px; height: 22px; margin: 0 auto 10px; border-radius: 50%; background: #e8b84a; border: 4px solid #f6efe2; box-shadow: 0 0 0 2px #e8b84a; position: relative; z-index: 1; }
+.t-step:nth-child(even) .t-dot { background: #c2410c; box-shadow: 0 0 0 2px #c2410c; }
+.t-label { font-size: 15px; font-weight: 800; color: #123a63; }
+.t-text { margin: 5px 0 0; font-size: 14px; font-weight: 650; line-height: 1.28; }
+.pill-row { display: flex; gap: 6px; margin-bottom: 8px; }
+.pill { padding: 5px 10px; border-radius: 999px; background: #fff4dc; color: #123a63; font-size: 13px; font-weight: 800; }
+.check-list { display: flex; flex-direction: column; gap: 8px; }
+.check-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; }
+.check-icon { width: 22px; height: 22px; color: #15803d; flex: none; }
+.check-text { font-size: 16px; font-weight: 650; line-height: 1.28; }
+@media print {
+    body { background: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .slide { margin: 0; }
+}
+body.present { margin: 0; height: 100vh; overflow: hidden; background: #0c1422; }
+body.present #slides { width: 100vw; height: 100vh; }
+body.present .slide { display: none; margin: 0; }
+body.present .slide.active { display: grid; position: fixed; left: 50%; top: 50%; margin: 0; transform: translate(-50%, -50%) scale(var(--fit, 1)); transform-origin: center center; }
+.present-bar { position: fixed; z-index: 20; left: 50%; bottom: 16px; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 999px; background: rgba(12, 20, 34, .82); color: #fff; }
+.present-bar button { border: 0; border-radius: 999px; background: #e8b84a; color: #123a63; font: inherit; font-weight: 800; padding: 8px 14px; cursor: pointer; }
+.present-bar span { min-width: 72px; text-align: center; font-weight: 700; }
+</style>
+</head>
+<body>
+<div id="slides"></div>
+<script>
+const AUTHOR = "Maxim Hrehor  ·  Kvinta  ·  Lutheran Grammar School of J.A. Comenius";
+const star = `<svg width="42" height="42" viewBox="0 0 24 24" aria-hidden="true"><path fill="#e8b84a" d="M12 2.2 14.7 8.6 21.6 9.2 16.4 13.6 18 20.4 12 16.8 6 20.4 7.6 13.6 2.4 9.2 9.3 8.6Z"/></svg>`;
+const underline = (words) => `<span class="underline-word">${words}<svg viewBox="0 0 200 8" preserveAspectRatio="none"><path d="M2 5 Q50 1 100 5 T198 4" fill="none" stroke="#c2410c" stroke-width="3" stroke-linecap="round"/></svg></span>`;
+const icon = (path) => `<svg viewBox="0 0 24 24"><path d="${path}"/></svg>`;
+const data = [
+    { template: "hero", title: "Texas", subtitle: "The Lone Star State. A place, its people, and one hard question.", author: "Maxim Hrehor<br>Lutheran Grammar School of J.A. Comenius · Kvinta", place: "Texas State Capitol, Austin", credit: "Carol M. Highsmith · public domain · loc.gov", fact: "One star on the flag. Many stories behind it." },
+    { template: "bignum", tag: "Geographic orientation", title: "Texas at a glance", place: "Shackelford County Courthouse, Albany", credit: "Carol M. Highsmith · public domain · loc.gov", fact: "Only Alaska covers more ground.", boxes: [
+        { value: "2nd", label: "largest state, after Alaska" },
+        { value: "Austin", label: "the capital" },
+        { value: "30", unit: "million+", label: "people, and still growing" }
+    ]},
+    { template: "single-block", tag: "Physical geography", title: "Rain, pines, and the Gulf", heading: "The wet east", place: "Big Thicket National Preserve", credit: "National Park Service · public domain · nps.gov", fact: "The east gets the rain the west never sees.", body: "Pine woods and the Gulf coast get the most rain. Summers are hot and humid. Hurricanes can reach the shore." },
+    { template: "single-block", tag: "Physical geography", title: "Rivers and rolling land", heading: "Hills and plains", place: "Texas Hill Country, near Burnet", credit: "Carol M. Highsmith · public domain · loc.gov", fact: "The Hill Country rolls. It does not lie flat.", body: "The Hill Country sits between rivers and open plains. Winters are usually mild. Storms and a sudden cold can still arrive." },
+    { template: "single-block", tag: "Physical geography", title: "Desert, canyons, little water", heading: "The dry west", place: "Santa Elena Canyon, Big Bend National Park", credit: "National Park Service · public domain · nps.gov", fact: "Out here, water is the real border.", body: "Big Bend holds desert, canyons, and mountains. Days are very hot. Nights can be cold, and water is scarce." },
+    { template: "timeline", tag: "History", title: "How Texas became Texas", place: "The Alamo, San Antonio", credit: "Carol M. Highsmith · public domain · loc.gov", fact: "A republic in 1836. A state in 1845.", items: [
+        { step: "First nations", text: "Caddo, Comanche, and Apache peoples lived here for centuries." },
+        { step: "Spain and Mexico", text: "Missions came first. Later, Texas was part of Mexico." },
+        { step: "1836", text: "Texas became an independent republic." },
+        { step: "1845", text: "It joined the United States as the 28th state." },
+        { step: "1901", text: "Oil at Spindletop changed the towns and the jobs." }
+    ]},
+    { template: "single-block", dropcap: true, tag: "Cultural identity", title: "Many stories, one star", heading: "More than one people", place: "Mission San José, San Antonio", credit: "Carol M. Highsmith · public domain · loc.gov", fact: "The Lone Star is a symbol, not the whole people.", body: `Many nations knew this land before any flag. Spanish and Mexican families built towns and a Tejano culture that is still here. Later came Anglo settlers, African Americans, Czechs, and Germans. The ${underline("Lone Star")} is one symbol, not the whole story.` },
+    { template: "single-block", tag: "Economy", title: "Oil, gas, and the wind", heading: "Energy", place: "Pantex Wind Farm, Amarillo", credit: "U.S. Department of Energy · public domain · energy.gov", fact: "Oil under the ground. Wind above it.", body: "Texas produces oil and natural gas. It also leads the United States in wind power. That strength comes with a duty to use it carefully." },
+    { template: "grid-2", tag: "Economy", title: "Cities, ports, and ranches", place: "Lyndon B. Johnson National Historical Park", credit: "National Park Service · public domain · nps.gov", fact: "A ranch and a space center share one state.", boxes: [
+        { icon: icon("M4 20V10l8-6 8 6v10M9 20v-6h6v6"), t: "Cities of ideas", d: "Austin builds technology. Houston runs a great port and the Johnson Space Center." },
+        { icon: icon("M4 16c2-6 4-6 6 0s4 6 6 0 4-6 4 0"), t: "Land and cattle", d: "Cotton and cattle still matter. Ranches keep an older picture of Texas alive." }
+    ]},
+    { template: "single-block", dropcap: true, tag: "Demographics and society", title: "A state that keeps growing", heading: "Cities and open country", place: "Houston", credit: "Carol M. Highsmith · public domain · loc.gov", fact: "About two in five Texans are Hispanic or Latino.", body: `Texas is home to ${underline("more than 30 million")} people. Houston, Dallas, San Antonio, and Austin are huge, while much of the land is still ranches and small towns. About two in five residents are Hispanic or Latino. People move here for work, so schools and languages keep changing.` },
+    { template: "grid-2", tag: "A current challenge", title: "The week the power stopped", place: "Dallas–Fort Worth", credit: "National Weather Service · public domain · noaa.gov", fact: "In 2021, cold stopped the power.", boxes: [
+        { icon: icon("M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"), t: "What happened", d: "In February 2021, extreme cold froze equipment. Millions of homes lost heat. Most of the grid is run by ERCOT, not by the national networks." },
+        { icon: icon("M12 3 4 7v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V7l-8-4z"), t: "A fair next step", d: "Some want Texas to stay independent. Others want links to neighboring states. One practical step is to prepare plants and fuel lines for freezing weather." }
+    ]},
+    { template: "checklist", tag: "Evidence", title: "Where these facts come from", place: "Texas State Capitol rotunda, Austin", credit: "Carol M. Highsmith · public domain · loc.gov", fact: "If it has no source, it is not a fact yet.", pills: ["Geography", "History", "Economy", "Society"], items: [
+        "U.S. Census Bureau — population and communities",
+        "Texas State Historical Association — the republic, 1845, and Spindletop",
+        "National Weather Service — climate and the February 2021 storm",
+        "ERCOT public reports — how most of the Texas grid is organized"
+    ]},
+    { template: "hero", title: "Thank you", subtitle: "Ask me one question: a place, a date, or the winter storm.", author: "Maxim Hrehor<br>Lutheran Grammar School of J.A. Comenius · Kvinta", place: "Marble Falls, Texas Hill Country", credit: "Carol M. Highsmith · public domain · loc.gov", fact: "Leave me one question." },
+    { template: "refs", tag: "References", title: "Works cited", place: "Texas Capitol rotunda, Austin", credit: "Carol M. Highsmith · public domain · loc.gov", fact: "A fact needs a record someone else can open.", image: "../Texas/gov/12.jpg", items: [
+        "1. UNITED STATES. Census Bureau. QuickFacts: Texas [online]. Washington, D.C.: U.S. Census Bureau, 2025 [cit. 2026-11-10]. Available from: https://www.census.gov/quickfacts/Texas",
+        "2. NANCE, Joseph M. Republic of Texas. In: Handbook of Texas Online [online]. Austin: Texas State Historical Association [cit. 2026-11-10]. Available from: https://www.tshaonline.org/handbook/entries/republic-of-texas",
+        "3. WOOSTER, Robert and SANDERS, Christine Moor. Spindletop Oilfield. In: Handbook of Texas Online [online]. Austin: Texas State Historical Association [cit. 2026-11-10]. Available from: https://www.tshaonline.org/handbook/entries/spindletop-oilfield",
+        "4. NATIONAL WEATHER SERVICE. February 2021: Historic Winter Storm and Arctic Outbreak [online]. Fort Worth: National Weather Service, 2021 [cit. 2026-11-10]. Available from: https://www.weather.gov/fwd/Feb-2021-WinterEvent",
+        "5. ELECTRIC RELIABILITY COUNCIL OF TEXAS. February 2021 Extreme Weather Event [online]. Austin: ERCOT, 2021 [cit. 2026-11-10]. Available from: https://www.ercot.com/news/february2021"
+    ]},
+    { template: "photos", tag: "References", title: "Photographs", place: "Marble Falls, Texas Hill Country", credit: "Carol M. Highsmith · public domain · loc.gov", fact: "Every picture names its place and its source.", image: "../Texas/gov/13.jpg", items: [
+        "1. HIGHSMITH, Carol M. Texas State Capitol, Austin [photograph]. Library of Congress, 2014 [cit. 2026-11-10]. loc.gov/item/2014632686. Public domain.",
+        "2. HIGHSMITH, Carol M. Shackelford County Courthouse, Albany [photograph]. Library of Congress, 2014 [cit. 2026-11-10]. loc.gov/item/2014631724. Public domain.",
+        "3. NATIONAL PARK SERVICE. Big Thicket National Preserve [photograph]. 2015 [cit. 2026-11-10]. npgallery.nps.gov. Public domain.",
+        "4. HIGHSMITH, Carol M. Texas Hill Country near Burnet [photograph]. Library of Congress, 2014 [cit. 2026-11-10]. loc.gov/item/2014633069. Public domain.",
+        "5. NATIONAL PARK SERVICE. Santa Elena Canyon, Big Bend [photograph]. 2012 [cit. 2026-11-10]. npgallery.nps.gov. Public domain.",
+        "6. HIGHSMITH, Carol M. The Alamo, San Antonio [photograph]. Library of Congress [cit. 2026-11-10]. loc.gov/item/2011630482. Public domain.",
+        "7. HIGHSMITH, Carol M. Mission San José, San Antonio [photograph]. Library of Congress [cit. 2026-11-10]. loc.gov/item/2011631194. Public domain.",
+        "8. UNITED STATES. Department of Energy. Pantex Wind Farm, Amarillo [photograph]. 2022 [cit. 2026-11-10]. energy.gov. Public domain.",
+        "9. NATIONAL PARK SERVICE. Lyndon B. Johnson National Historical Park [photograph]. [cit. 2026-11-10]. npgallery.nps.gov. Public domain.",
+        "10. HIGHSMITH, Carol M. Houston [photograph]. Library of Congress, 2014 [cit. 2026-11-10]. loc.gov/item/2014632226. Public domain.",
+        "11. NATIONAL WEATHER SERVICE. Dallas–Fort Worth, February 2021 [photograph]. NOAA, 2021 [cit. 2026-11-10]. noaa.gov. Public domain.",
+        "12. HIGHSMITH, Carol M. Texas Capitol rotunda, Austin [photograph]. Library of Congress, 2014 [cit. 2026-11-10]. loc.gov/item/2014632081. Public domain.",
+        "13. HIGHSMITH, Carol M. Marble Falls, Texas Hill Country [photograph]. Library of Congress, 2014 [cit. 2026-11-10]. loc.gov/item/2014633113. Public domain."
+    ]}
+];
+function card(b) {
+    const head = b.icon
+        ? `<div class="card-header"><div class="card-icon">${b.icon}</div><span class="box-title">${b.t}</span></div>`
+        : `<span class="box-title">${b.t}</span>`;
+    return `<div class="card">${head}<div class="text-content">${b.d}</div></div>`;
+}
+const checkIcon = `<svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>`;
+const renderers = {
+    "grid-2": s => `<div class="content grid-cards-2">${s.boxes.map(card).join("")}</div>`,
+    "bignum": s => `<div class="content bignum">${s.boxes.map(b => `<div class="bignum-card"><div class="bignum-value">${b.value}${b.unit ? `<span class="bignum-unit">${b.unit}</span>` : ""}</div><div class="bignum-label">${b.label}</div></div>`).join("")}</div>`,
+    "timeline": s => `<div class="content timeline-wrap"><div class="timeline-track">${s.items.map(it => `<div class="t-step"><div class="t-dot"></div><div class="t-label">${it.step}</div><div class="t-text">${it.text}</div></div>`).join("")}</div></div>`,
+    "single-block": s => `<div class="content single-block"><div class="single-card${s.dropcap ? " dropcap" : ""}"><span class="box-title">${s.heading}</span><div class="text-content">${s.body}</div></div></div>`,
+    "checklist": s => `<div class="content"><div class="pill-row">${s.pills.map(p => `<span class="pill">${p}</span>`).join("")}</div><div class="check-list">${s.items.map(t => `<div class="check-item">${checkIcon}<span class="check-text">${t}</span></div>`).join("")}</div></div>`,
+    "refs": s => `<div class="content ref-list">${s.items.map(t => `<p class="ref">${t}</p>`).join("")}</div>`,
+    "photos": s => `<div class="content ref-list cols">${s.items.map(t => `<p class="ref">${t}</p>`).join("")}</div>`
+};
+function buildSlide(s, index, total) {
+    const n = String(index + 1).padStart(2, "0");
+    const foot = `<div class="footer"><span>${AUTHOR}</span><span>Slide ${index + 1}/${total}</span></div>`;
+    const src = s.image || `../Texas/gov/${n}.jpg`;
+    const side = `<div class="side"><div class="frame"><div class="place">${s.place}</div><div class="photo"><img src="${src}" alt="${s.place}"></div><div class="credit">${s.credit}</div></div><p class="fact">${s.fact}</p></div>`;
+    const inner = s.template === "hero"
+        ? `<div class="sheet">${star}<p class="hero-kicker">Lutheran Grammar School</p><h1 class="hero-title">${s.title}</h1><p class="hero-subtitle">${s.subtitle}</p><div class="hero-author">${s.author}</div></div>`
+        : `<div class="sheet"><div class="header"><p class="header-tag">${s.tag}</p><h1 class="title">${s.title}</h1></div>${renderers[s.template](s)}</div>`;
+    return `<div class="slide"><div class="rail">Texas</div>${side}${inner}${foot}</div>`;
+}
+document.getElementById("slides").innerHTML = data.map((s, i) => buildSlide(s, i, data.length)).join("");
+if (new URLSearchParams(location.search).has("present")) {
+    document.body.classList.add("present");
+    const slides = [...document.querySelectorAll(".slide")];
+    let index = 0;
+    const bar = document.createElement("nav");
+    bar.className = "present-bar";
+    bar.innerHTML = `<button type="button" id="present-prev">←</button><span id="present-count"></span><button type="button" id="present-next">→</button>`;
+    document.body.appendChild(bar);
+    const count = document.getElementById("present-count");
+    const fit = () => {
+        const slide = slides[index];
+        const scale = Math.min(window.innerWidth / slide.offsetWidth, (window.innerHeight - 72) / slide.offsetHeight);
+        document.documentElement.style.setProperty("--fit", String(scale));
+    };
+    const show = (next) => {
+        index = (next + slides.length) % slides.length;
+        slides.forEach((slide, i) => slide.classList.toggle("active", i === index));
+        count.textContent = `${index + 1} / ${slides.length}`;
+        fit();
+    };
+    document.getElementById("present-prev").onclick = () => show(index - 1);
+    document.getElementById("present-next").onclick = () => show(index + 1);
+    document.addEventListener("keydown", (event) => {
+        if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(event.key)) { event.preventDefault(); show(index + 1); }
+        if (["ArrowLeft", "ArrowUp", "PageUp", "Backspace"].includes(event.key)) { event.preventDefault(); show(index - 1); }
+    });
+    window.addEventListener("resize", fit);
+    show(0);
+}
+</script>
+</body>
+</html>

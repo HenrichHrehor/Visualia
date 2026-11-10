@@ -27,9 +27,12 @@ jobs:
       - name: Stage site
         shell: bash
         run: |
-          mkdir -p "_site/export" "_site/Texas/slides"
+          mkdir -p "_site/export" "_site/Texas/slides" "_site/Texas/gov"
           if compgen -G "Texas/slides/*" > /dev/null; then
             cp Texas/slides/* "_site/Texas/slides/"
+          fi
+          if compgen -G "Texas/gov/*.jpg" > /dev/null; then
+            cp Texas/gov/*.jpg "_site/Texas/gov/"
           fi
           cp index.html favicon.svg .nojekyll _site/
           cp -a export/texas export/sosa export/pohyb export/vizualne-prvky "_site/export/"

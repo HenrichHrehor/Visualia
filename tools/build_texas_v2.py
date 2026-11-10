@@ -116,25 +116,25 @@ def chrome(slide, index, total, fact, credit, place):
         pass
     letters = textbox(slide, 10, 48, 13, 110, "Texas title", "ctr")
     write(letters, [P(R(ch, 15, True, GOLD), align=PP_ALIGN.CENTER, before=0, after=0) for ch in "Texas"], align=PP_ALIGN.CENTER, anchor="ctr")
-    frame = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Mm(30), Mm(30), Mm(108), Mm(98))
+    frame = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Mm(30), Mm(20), Mm(108), Mm(134))
     frame.name = f"Photo mat {index + 1}"
     fill(frame, WHITE)
     try:
         frame.adjustments[0] = 0.08
     except Exception:
         pass
-    path = PHOTOS / f"{index + 1:02d}.jpg"
-    pw, ph = photo_box(path, 100, 90)
-    picture = slide.shapes.add_picture(str(path), Mm(30 + (108 - pw) / 2), Mm(30 + (98 - ph) / 2), Mm(pw), Mm(ph))
-    picture.name = f"Photo {index + 1:02d}"
-    where = textbox(slide, 30, 129, 108, 8, f"Place {index + 1}")
+    where = textbox(slide, 34, 23, 100, 16, f"Place {index + 1}")
     plain(where, place, 13, NAVY, True)
-    cap = textbox(slide, 30, 137, 108, 8, f"Credit {index + 1}")
-    plain(cap, credit, 10, FOOT, True)
-    bar = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, Mm(30), Mm(148), Mm(1.6), Mm(26))
+    path = PHOTOS / f"{index + 1:02d}.jpg"
+    pw, ph = photo_box(path, 100, 72)
+    picture = slide.shapes.add_picture(str(path), Mm(34 + (100 - pw) / 2), Mm(40 + (72 - ph) / 2), Mm(pw), Mm(ph))
+    picture.name = f"Photo {index + 1:02d}"
+    cap = textbox(slide, 34, 114, 100, 34, f"Credit {index + 1}")
+    plain(cap, credit, 11, FOOT, True)
+    bar = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, Mm(30), Mm(158), Mm(1.6), Mm(22))
     bar.name = f"Fact rule {index + 1}"
     fill(bar, GOLD)
-    quote = textbox(slide, 33, 146, 105, 30, "Fact")
+    quote = textbox(slide, 33, 156, 105, 26, "Fact")
     plain(quote, fact, 16, NAVY, True)
     left = textbox(slide, 30, 198, 180, 8, "Footer")
     plain(left, AUTHOR, 11, FOOT, True, anchor="ctr")
