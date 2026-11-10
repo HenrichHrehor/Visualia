@@ -10,23 +10,32 @@
 body { margin: 0; padding: 0; background: #e7eef6; font-family: 'Segoe UI', sans-serif; }
 .deck-container { width: 100%; }
 .slide {
-    width: 297mm; height: 210mm; margin: 0 auto 16px; padding: 16mm 18mm 18mm;
-    display: flex; flex-direction: column; background: var(--bg);
+    width: 297mm; height: 210mm; margin: 0 auto 16px; padding: 8mm 8mm 12mm;
+    display: flex; flex-direction: column; background: #e7d7b1;
     page-break-after: always; break-after: page; position: relative; overflow: hidden;
     box-shadow: 0 10px 30px rgba(0,0,0,.1);
 }
+.pair { flex: 1; min-height: 0; display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 7mm; }
+.pcard { position: relative; border-radius: 16px; border: 2px solid #123a63; background: #fffdf8; box-shadow: 0 7px 0 rgba(18,58,99,.16); overflow: hidden; min-height: 0; }
+.pcard.photo { background: #123a63; }
+.scene, .pcard.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pip { position: absolute; z-index: 3; top: 8px; left: 10px; color: #fff; font-weight: 800; font-size: 16px; letter-spacing: .04em; text-shadow: 0 1px 2px rgba(0,0,0,.35); }
+.pip.bottom { top: auto; bottom: 8px; left: auto; right: 10px; transform: rotate(180deg); }
+.textcard { display: flex; }
+.spine { width: 58px; flex-shrink: 0; background: #123a63; color: #ffe08a; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; text-orientation: upright; font-weight: 800; font-size: 26px; letter-spacing: .42em; }
+.sheet { flex: 1; min-width: 0; min-height: 0; padding: 14px 16px 10px; display: flex; flex-direction: column; }
 @media print {
     body { background: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .slide { box-shadow: none; margin: 0; }
 }
 .header { flex-shrink: 0; border-bottom: 3px solid var(--secondary); padding-bottom: 8px; margin-bottom: 12px; }
 .header-tag { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--secondary); margin-bottom: 4px; }
-.title { font-size: 28px; font-weight: 800; margin: 0; color: var(--primary); }
+.title { font-size: 32px; font-weight: 800; margin: 0; color: var(--primary); line-height: 1.12; }
 .content { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-.footer { position: absolute; bottom: 8px; left: 18mm; right: 18mm; padding-top: 6px; border-top: 1px solid #d5deea; font-size: 12px; font-weight: 600; color: #64748b; display: flex; justify-content: space-between; }
+.footer { position: absolute; bottom: 4px; left: 8mm; right: 8mm; border-top: 0; font-size: 12px; font-weight: 700; color: #5c4b32; display: flex; justify-content: space-between; }
 strong { color: var(--gold-color); }
-.box-title { display: block; font-weight: 800; color: var(--primary); font-size: 18px; line-height: 1.25; }
-.text-content { font-size: 15px; line-height: 1.45; color: var(--text); margin: 0; }
+.box-title { display: block; font-weight: 800; color: var(--primary); font-size: 20px; line-height: 1.2; }
+.text-content { font-size: 17px; line-height: 1.4; color: var(--text); margin: 0; }
 
 .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .card-icon { width: 28px; height: 28px; flex-shrink: 0; color: var(--secondary); }
@@ -36,25 +45,23 @@ strong { color: var(--gold-color); }
 .card { background: var(--card); padding: 18px 18px; border-radius: var(--radius); border-top: var(--accent-w) solid var(--secondary); box-shadow: 0 4px 10px rgba(18,58,99,.06); display: flex; flex-direction: column; }
 .single-block { align-items: center; justify-content: center; }
 .single-card { width: 100%; margin: auto 0; padding: 22px 40px 26px; text-align: left; background: var(--card); border-radius: var(--radius); box-shadow: 0 4px 10px rgba(18,58,99,.06); border-top: var(--accent-w) solid var(--secondary); }
-.single-card .box-title { font-size: 24px; margin-bottom: 10px; }
-.single-card .text-content { font-size: 18px; line-height: 1.55; text-align: left; }
+.single-card .box-title { font-size: 26px; margin-bottom: 8px; }
+.single-card .text-content { font-size: 20px; line-height: 1.45; text-align: left; }
 .single-card.dropcap .text-content::first-letter { font-size: 58px; font-weight: 800; color: var(--secondary); float: left; line-height: .82; padding-right: 10px; }
 .underline-word { position: relative; font-weight: 800; color: var(--primary); white-space: nowrap; }
 .underline-word svg { position: absolute; left: 0; bottom: -6px; width: 100%; height: 8px; }
 
-.hero { justify-content: center; align-items: center; text-align: center; color: #fff; background: linear-gradient(145deg, #123a63 0%, #1d6aa5 58%, #e8b84a 160%); padding: 20mm; }
-.lone-star { width: 58px; height: 58px; margin-bottom: 8px; }
-.hero-title { font-size: 64px; color: white; margin: 0; font-weight: 800; letter-spacing: -1px; }
-.hero-subtitle { font-size: 22px; margin: 14px auto 0; color: #f8fafc; font-weight: 400; max-width: 860px; line-height: 1.4; }
-.hero-author { margin-top: 32px; font-size: 18px; line-height: 1.55; color: #e8eef6; }
-.hero strong { color: #ffe08a; }
-.hero .footer { color: #e8eef6; border-top-color: rgba(255,255,255,.28); }
+.hero-sheet { justify-content: center; }
+.lone-star { width: 54px; height: 54px; margin-bottom: 10px; }
+.hero-title { font-size: 54px; color: var(--primary); margin: 0; font-weight: 800; letter-spacing: -1px; line-height: .95; }
+.hero-subtitle { font-size: 26px; margin: 16px 0 0; color: var(--text); font-weight: 500; line-height: 1.35; }
+.hero-author { margin-top: 22px; font-size: 20px; line-height: 1.45; color: var(--primary); }
 
 .content.bignum { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .bignum-card { background: var(--card); border-radius: var(--radius); padding: 22px 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; box-shadow: 0 4px 10px rgba(18,58,99,.06); border-top: 6px solid var(--secondary); }
-.bignum-value { font-size: 48px; font-weight: 800; color: var(--primary); line-height: 1; }
-.bignum-unit { font-size: 18px; font-weight: 700; color: var(--secondary); margin-left: 4px; }
-.bignum-label { font-size: 15px; color: var(--text); margin-top: 12px; line-height: 1.35; }
+.bignum-value { font-size: 42px; font-weight: 800; color: var(--primary); line-height: 1; }
+.bignum-unit { font-size: 16px; font-weight: 700; color: var(--secondary); margin-left: 4px; }
+.bignum-label { font-size: 16px; color: var(--text); margin-top: 10px; line-height: 1.3; }
 
 .content.timeline-wrap { position: relative; height: 100%; display: flex; align-items: center; padding: 0 6px; }
 .timeline-track { display: flex; justify-content: space-between; width: 100%; position: relative; }
@@ -62,15 +69,15 @@ strong { color: var(--gold-color); }
 .t-step { flex: 1; text-align: center; position: relative; padding: 0 8px; }
 .t-dot { width: 26px; height: 26px; border-radius: 50%; background: var(--secondary); border: 5px solid var(--bg); box-shadow: 0 0 0 2px var(--secondary); margin: 0 auto 14px; position: relative; z-index: 2; }
 .t-step:nth-child(even) .t-dot { background: var(--gold-color); box-shadow: 0 0 0 2px var(--gold-color); }
-.t-label { font-weight: 800; color: var(--primary); font-size: 15px; }
-.t-text { font-size: 13px; color: var(--text); line-height: 1.35; margin: 6px auto 0; }
+.t-label { font-weight: 800; color: var(--primary); font-size: 16px; }
+.t-text { font-size: 14px; color: var(--text); line-height: 1.3; margin: 6px auto 0; }
 
 .pill-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
 .pill { padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 700; color: var(--primary); background: #fff4dc; }
 .check-list { display: flex; flex-direction: column; gap: 10px; }
 .check-item { display: flex; align-items: center; gap: 12px; background: var(--card); border-radius: 12px; padding: 12px 16px; box-shadow: 0 2px 6px rgba(18,58,99,.05); }
 .check-icon { width: 24px; height: 24px; flex-shrink: 0; color: #15803d; }
-.check-text { font-size: 16px; color: var(--text); line-height: 1.35; }
+.check-text { font-size: 17px; color: var(--text); line-height: 1.3; }
 
 .theme-texas {
     --primary: #123a63; --primary-dark: #0c2744; --secondary: #e8b84a; --bg: #fff8ef;
@@ -186,13 +193,22 @@ const renderers = {
     "checklist": s => `<div class="content"><div class="pill-row">${s.pills.map(p => `<span class="pill">${p}</span>`).join("")}</div><div class="check-list">${s.items.map(t => `<div class="check-item">${checkIcon}<span class="check-text">${t}</span></div>`).join("")}</div></div>`
 };
 
+function photoCard(i) {
+    const n = String(i + 1).padStart(2, "0");
+    const skies = ["#1d6aa5", "#0e7490", "#b45309", "#7c2d12", "#1e3a5f", "#0369a1", "#9a3412", "#1e40af", "#115e59", "#123a63"];
+    const grounds = ["#e8b84a", "#86efac", "#fdba74", "#fcd34d", "#93c5fd", "#fde68a", "#fb923c", "#7dd3fc", "#5eead4", "#fbbf24"];
+    return `<div class="pcard photo"><span class="pip">T ★</span><svg class="scene" viewBox="0 0 200 320" preserveAspectRatio="xMidYMid slice"><rect width="200" height="320" fill="${skies[i]}"/><circle cx="150" cy="54" r="28" fill="#ffe08a"/><path d="M0 190 C40 160 70 210 110 180 C150 150 170 200 200 170 V320 H0 Z" fill="${grounds[i]}"/><path d="M0 230 C50 210 90 250 140 220 C170 200 180 240 200 230 V320 H0 Z" fill="#123a63" opacity=".28"/></svg><img src="../Texas/slides/${n}.jpg" alt="" onerror="this.style.display='none'"><span class="pip bottom">T ★</span></div>`;
+}
+function nameCard(inner) {
+    return `<div class="pcard textcard"><div class="spine">Texas</div><div class="sheet">${inner}</div></div>`;
+}
 function buildSlide(s, index, total) {
     const theme = `theme-${s.theme}`;
     const foot = `<div class="footer"><span>${AUTHOR}</span><span>Slide ${index + 1}/${total}</span></div>`;
-    if (s.template === "hero") {
-        return `<div class="slide ${theme} hero">${star}<h1 class="hero-title">${s.title}</h1><p class="hero-subtitle">${s.subtitle}</p><div class="hero-author"><strong>${s.author}</strong></div>${foot}</div>`;
-    }
-    return `<div class="slide ${theme}"><div class="header"><div class="header-tag">${s.tag}</div><h1 class="title">${s.title}</h1></div>${renderers[s.template](s)}${foot}</div>`;
+    const inner = s.template === "hero"
+        ? `<div class="hero-sheet">${star}<h1 class="hero-title">${s.title}</h1><p class="hero-subtitle">${s.subtitle}</p><div class="hero-author">${s.author}</div></div>`
+        : `<div class="header"><div class="header-tag">${s.tag}</div><h1 class="title">${s.title}</h1></div>${renderers[s.template](s)}`;
+    return `<div class="slide ${theme}"><div class="pair">${photoCard(index)}${nameCard(inner)}</div>${foot}</div>`;
 }
 document.getElementById("slides").innerHTML = data.map((s, i) => buildSlide(s, i, data.length)).join("");
 </script>

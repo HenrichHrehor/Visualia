@@ -27,7 +27,10 @@ jobs:
       - name: Stage site
         shell: bash
         run: |
-          mkdir -p "_site/export" "_site/Vstupné projekty"
+          mkdir -p "_site/export" "_site/Vstupné projekty" "_site/Texas/slides"
+          if compgen -G "Texas/slides/*" > /dev/null; then
+            cp Texas/slides/* "_site/Texas/slides/"
+          fi
           cp index.html favicon.svg .nojekyll _site/
           cp export/sosa-skolsky-zakon.pdf export/sosa-skolsky-zakon.pptx \
              export/sosa-tier1.pdf export/sosa-tier1.pptx \

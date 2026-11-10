@@ -2,3 +2,4 @@ __pycache__/
 *.pyc
 .DS_Store
 export/_preview/
+export/pptx_preview/
